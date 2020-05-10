@@ -20,6 +20,11 @@ def serve_assets(path):
     return send_from_directory('assets', path)
 
 
+@app.route('favicon.ico')
+def serve_assets(path):
+    return send_from_directory('assets', 'favicon.ico')
+
+
 @app.route('/api/v1/names/<name>')
 def hello_name(name):
     return "Hello %s!" % name
