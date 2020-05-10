@@ -5,7 +5,6 @@
     "main": "js/index.js",
     "scripts": {
         "clean": "rm -rf ./dist",
-        "heroku-postbuild": "npm run build:prod",
         "build:prod": "npm run clean && webpack --mode production",
         "build": "npm run clean && webpack --mode development --progress"
     },
@@ -23,7 +22,6 @@
         "@babel/core": "^7.9.6",
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-react": "^7.9.4",
-        "@babel/preset-typescript": "^7.9.0",
         "autoprefixer": "^9.7.6",
         "babel-loader": "^8.1.0",
         "css-loader": "^3.5.3",
