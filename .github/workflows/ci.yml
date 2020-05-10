@@ -1,0 +1,46 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+    frontend:
+        runs-on: ubuntu-18.04
+        steps:
+          - name: Checkout this repo
+            uses: actions/checkout@v1
+
+          - name: Install nodejs
+            uses: actions/setup-node@v1
+            with:
+                node-version: 14.x
+
+          - name: Build
+            run: ./src/client/build.sh
+
+    backend:
+        runs-on: ubuntu-18.04
+        steps:
+          - name: Checkout this repo
+            uses: actions/checkout@v1
+
+          - name: Set up Python
+            uses: actions/setup-python@v1
+            with:
+              python-version: 3.6
+
+          - name: Build
+            run: ./src/server/build.sh
+    
+    deploy:
+        runs-on: ubuntu-18.04
+        needs: [frontend, backend]
+        if: github.ref == 'refs/heads/master'
+        steps:
+          - name: Checkout this repo
+            uses: actions/checkout@v1
+
+          - name: Deploy to Heroku
+            env:
+                HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+                HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+            run: git push -f https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git refs/remotes/origin/master:refs/heads/master
