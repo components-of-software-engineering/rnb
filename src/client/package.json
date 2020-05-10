@@ -1,0 +1,48 @@
+{
+    "name": "rnb_client",
+    "version": "1.0.0",
+    "description": "client part of register of special forms for notarial documents",
+    "main": "js/index.js",
+    "scripts": {
+        "clean": "rm -rf ./dist",
+        "heroku-postbuild": "npm run build:prod",
+        "build:prod": "npm run clean && webpack --mode production",
+        "build": "npm run clean && webpack --mode development --progress"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/components-of-software-engineering/rnb.git"
+    },
+    "author": "akrava",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/components-of-software-engineering/rnb/issues"
+    },
+    "homepage": "https://github.com/components-of-software-engineering/rnb#readme",
+    "devDependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
+        "@babel/preset-react": "^7.9.4",
+        "@babel/preset-typescript": "^7.9.0",
+        "autoprefixer": "^9.7.6",
+        "babel-loader": "^8.1.0",
+        "css-loader": "^3.5.3",
+        "eslint": "^6.0.0",
+        "eslint-plugin-react": "^7.19.0",
+        "html-loader": "^1.1.0",
+        "html-webpack-plugin": "^4.3.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "postcss-loader": "^3.0.0",
+        "precss": "^4.0.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "sass": "^1.26.5",
+        "sass-loader": "^8.0.2",
+        "style-loader": "^1.2.1",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11"
+    },
+    "dependencies": {
+        "core-js": "^3.6.5"
+    }
+}
