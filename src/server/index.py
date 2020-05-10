@@ -20,7 +20,7 @@ def serve_assets(path):
     return send_from_directory('assets', path)
 
 
-@app.route('favicon.ico')
+@app.route('/favicon.ico')
 def serve_assets(path):
     return send_from_directory('assets', 'favicon.ico')
 
