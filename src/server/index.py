@@ -21,7 +21,7 @@ def serve_assets(path):
 
 
 @app.route('/favicon.ico')
-def serve_assets(path):
+def serve_favicon():
     return send_from_directory('assets', 'favicon.ico')
 
 
