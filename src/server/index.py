@@ -10,7 +10,7 @@ app = Flask(__name__)
 PORT = os.getenv("PORT")
 
 
-@app.route('/<path:path>')
+@app.route('/dist/<path:path>')
 def serve_dist(path):
     return send_from_directory('dist', path)
 
@@ -30,15 +30,16 @@ def hello_name(name):
     return "Hello %s!" % name
 
 
-@app.route('/')
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
     return send_from_directory('dist', 'index.html')
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         if sys.argv[1] == "--dev":
-            app.run(host='127.0.0.1', port=PORT)
+            app.run(debug=True, host='0.0.0.0', port=PORT)
         elif sys.argv[1] == "--prod":
             serve(app, host='0.0.0.0', port=PORT)
         else:

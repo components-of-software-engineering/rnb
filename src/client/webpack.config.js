@@ -10,13 +10,16 @@ module.exports = {
         ]
     },
     output: {
-        publicPath: '/',
+        publicPath: '/dist/',
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
     },
     devtool: "sourcemap",
     module: {
         rules: [
             {
-                test: /\.js|.jsx$/,
+                test: /\.jsx?$/,
                 include: path.join(__dirname, './js'),
                 exclude: /node_modules/,
                 use: {
@@ -40,9 +43,6 @@ module.exports = {
                         loader: 'css-loader',
                     }, 
                     {
-                        loader: 'sass-loader'
-                    },
-                    {
                         loader: 'postcss-loader',
                         options: {
                             plugins: function () {
@@ -52,6 +52,9 @@ module.exports = {
                                 ];
                             }
                         }
+                    },
+                    {
+                        loader: 'sass-loader'
                     }
                 ]
             }
