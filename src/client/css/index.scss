@@ -5,6 +5,15 @@ body {
     color: #0c0b0a;
 }
 
+.container {
+    display: block !important;
+}
+
+button.navbar-toggler {
+    margin-left: -56px;
+    width: 56px !important;
+}
+
 a.link-style {
     color: #2821ff;
     text-decoration: none;
