@@ -4,8 +4,8 @@ PWD=$(pwd)
 
 cd "$(dirname "$0")" && \
 
-npm install && \
-npm run build:prod && \
+npm ci && \
+npm run `([ "$#" -eq 1 ] && [ $1 = "--prod" ] && echo "build:prod") || echo "build"` && \
 npm prune --production && \
 
 cd $PWD
