@@ -208,3 +208,6 @@ typings/
 
 # webpack dist
 dist/
+
+# etc
+src/server/assets
