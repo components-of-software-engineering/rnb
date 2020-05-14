@@ -12,4 +12,5 @@ COPY --from=client /usr/src/frontend/assets assets
 COPY src/server .
 COPY .env .
 RUN ./build.sh
+EXPOSE $PORT
 ENTRYPOINT ["./run.sh", "--dev"]
