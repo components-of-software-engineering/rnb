@@ -30,10 +30,10 @@ class BaseModel(ABC):
     def primary_key_names(self):
         return self._primary_key_names
 
-    def read(self, primary_keys: dict):
-        self._cursor.execute(self.__select_query, primary_keys)
+    def read(self, keys: dict):
+        self._cursor.execute(self.__select_query, keys)
         row = self._cursor.fetchone()
-        return row
+        return dict(row)
 
     def create(self, item: dict):
         self._cursor.execute(self.__insert_query, item)

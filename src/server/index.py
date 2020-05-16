@@ -1,16 +1,27 @@
+import sys
+import os
 from flask import Flask, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 from waitress import serve
 from controller import Controller
 
-import psycopg2
-import sys
-import os
+from blueprints.auth import auth
+from config import config_jwt
+
+from extensions import jwt
+
 
 load_dotenv(find_dotenv())
+PORT = os.getenv("PORT")
 
 app = Flask(__name__)
-PORT = os.getenv("PORT")
+app.config['JWT_TOKEN_LOCATION'] = config_jwt['JWT_TOKEN_LOCATION']
+app.config['JWT_REFRESH_COOKIE_PATH'] = config_jwt['JWT_REFRESH_COOKIE_PATH']
+app.config['JWT_SECRET_KEY'] = config_jwt['JWT_SECRET_KEY']
+
+jwt.init_app(app)
+
+app.register_blueprint(auth, url_prefix='/auth')
 
 
 @app.route('/dist/<path:path>')
