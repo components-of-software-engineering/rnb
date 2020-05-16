@@ -3,7 +3,7 @@ from psycopg2.extras import DictCursor
 
 
 class BaseModel(ABC):
-    def __init__(self, connection, primary_key_names: list, insert_query, select_query,
+    def __init__(self, connection, columns: list, primary_key_names: list, insert_query, select_query,
                  update_query, delete_query, select_all_query, count_query):
         self._connection = connection
         self._cursor = connection.cursor(cursor_factory=DictCursor)
@@ -15,7 +15,10 @@ class BaseModel(ABC):
         self.__select_all_query = select_all_query
         self.__count_query = count_query
 
-        self.__primary_key_names = primary_key_names
+        self._columns = columns
+        self._primary_key_names = primary_key_names
+        if not all([key in self._columns for key in self._primary_key_names]):
+            raise Exception("Parameters columns or primary_key_names are not valid")
 
     def __del__(self):
         self._cursor.close()
@@ -25,27 +28,31 @@ class BaseModel(ABC):
 
     @property
     def primary_key_names(self):
-        return self.__primary_key_names
+        return self._primary_key_names
 
-    def read(self, pk):
-        self._cursor.execute(self.__select_query, [pk])
+    def read(self, primary_keys: dict):
+        self._cursor.execute(self.__select_query, primary_keys)
         row = self._cursor.fetchone()
         return row
 
     def create(self, item: dict):
-        self._cursor.execute(self.__insert_query, **item)
+        self._cursor.execute(self.__insert_query, item)
         self._connection.commit()
 
-    def update(self, item: dict):
-        if not self._is_valid_parameters(item):
+    def update(self, arguments_to_update: dict, primary_keys: dict):
+        if not self._is_valid_parameters(arguments_to_update):
             raise Exception("Item is not valid")
-        self._cursor.execute(self.__update_query, item)
+        self._cursor.execute(self.__update_query.format(self._arguments_to_str(arguments_to_update)),
+                             primary_keys)
         self._connection.commit()
 
-    def delete(self, pk):
-        self._cursor.execute(self.__delete_query, [pk])
+    def delete(self, primary_keys: dict):
+        self._cursor.execute(self.__delete_query, primary_keys)
         self._connection.commit()
 
-    @abstractmethod
-    def _is_valid_parameters(self, item: dict):
-        pass
+    def _is_valid_parameters(self, item: dict) -> bool:
+        return all([column in self._columns for column in item])
+
+    def _arguments_to_str(self, item: dict):
+        return ", ".join("%s = %s" % (key, "\'" + value + "\'" if isinstance(value, str) else value)
+                         for (key, value) in item.items())

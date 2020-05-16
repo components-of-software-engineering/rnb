@@ -26,16 +26,21 @@ class Notarius(object):
 class NotariusModel(BaseModel):
     def __init__(self, connection):
         queries = {
-            "insert_query": "",
-            "select_query": "",
-            "update_query": "",
-            "delete_query": "",
-            "select_all_query": "",
-            "count_query": "",
+            "insert_query": "INSERT INTO notarius (type, status, date_status_update, num_certificate, num_card, name,"
+                            "name_organization, region, contacts, notarius_region, additional_info, date_issue_certificate,"
+                            "date_issue_card, date_reg_region, location) VALUES (%(type)s, %(status)s, %(date_status_update)s,"
+                            "%(num_certificate)s, %(num_card)s, %(name)s, %(name_organization)s, %(region)s, %(contacts)s,"
+                            "%(notarius_region)s, %(additional_info)s, %(date_issue_certificate)s, %(date_issue_card)s,"
+                            "%(date_reg_region)s, %(location)s) RETURNING id",
+            "select_query": "SELECT * FROM notarius WHERE id = %(id)s",
+            "update_query": "UPDATE notarius SET {} WHERE id = %(id)s",
+            "delete_query": "DELETE FROM notarius WHERE id = %(id)s",
+            "select_all_query": "SELECT * FROM notarius ORDER BY id",
+            "count_query": "SELECT COUNT(*) FROM notarius",
         }
-        primary_key_name = "id"
-        super().__init__(connection, primary_key_name, **queries)
+        columns = ["id", "type", "status", "date_status_update", "num_certificate", "num_card", "name",
+                 "name_organization", "region", "contacts", "notarius_region", "additional_info",
+                 "date_issue_certificate", "date_issue_card", "date_reg_region", "location"]
+        primary_key_name = ["id"]
+        super().__init__(connection, columns, primary_key_name, **queries)
 
-    @staticmethod
-    def _get_item_from_row(row: dict):
-        return Notarius(**row)

@@ -25,7 +25,7 @@ class HomePage extends Component {
                     </ul> 
                 </div> */}
                 <p>
-                    Компанія <b>&quot;RNB&quot;</b> – ...
+                    Веб-сайт <b>&quot;RNB&quot;</b> – ...
                 </p>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis varius 
