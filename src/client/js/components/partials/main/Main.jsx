@@ -22,6 +22,7 @@ import InvoicePage from '../../../containers/invoice/InvoicePage';
 import NewInvoice from '../../../containers/invoice/NewInvoice';
 import EditInvoice from '../../../containers/invoice/EditInvoice';
 import DeveloperPage from '../../developer/DeveloperPage';
+import CheckFormPage from '../../../containers/checkForm/CheckFormPage';
 
 class Main extends Component {
   render() {
@@ -45,8 +46,8 @@ class Main extends Component {
                                 <Route path='/invoices/:number(\d{6})/edit' component={AuthenticatedComponent(EditInvoice, [isAdministrator, isRegister])}/>
                             <Route path='/invoices/new' component={AuthenticatedComponent(NewInvoice, [isAdministrator, isRegister])}/>
                         <Route path='/login' component={LoginPage} />
-                        <Route path='/register' component={RegisterPage}/>
-                        <Route path='/developer/v1' component={DeveloperPage} />
+                        <Route path='/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
+                        <Route path='/check' component={CheckFormPage} />
                         <Route component={PageNotFound}/>
                 </Switch>
             </ErrorBoundary>

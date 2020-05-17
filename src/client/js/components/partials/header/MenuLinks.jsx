@@ -22,7 +22,12 @@ class MenuLinks extends Component {
                 </React.Fragment>
             );
         };
-        const linkPanel = (
+        const linkPanelAdmin = (
+            <li className="nav-item">
+                <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/signup'>Зареєстувати реєстратора</NavLink>
+            </li>
+        );
+        const linkPanelRregitser = (
             <li className="nav-item">
                 <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/hmm'>Hmmm</NavLink>
             </li>
@@ -30,8 +35,8 @@ class MenuLinks extends Component {
         if (role < 0) return null;
         return ( 
             <React.Fragment>
-                { isAdministrator(role) && linkUsers }
-                { isRegister(role) ? linkPanel : linkEntities(isAdministrator(role)) }
+                {/* { isAdministrator(role) && linkUsers } */}
+                { isAdministrator(role) ? linkPanelAdmin : linkPanelRregitser }
             </React.Fragment>
         );
     }

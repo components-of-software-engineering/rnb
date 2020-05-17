@@ -38,7 +38,7 @@ def register():
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"msg": "Registration success"}), 200
+    return jsonify({"msg": "Registration success"}), 201
 
 
 @auth.route('/login', methods=['POST'])
@@ -58,11 +58,11 @@ def login():
     password_with_salt = password + row["pwd_salt"] 
     if row["pwd_hash"] == hashlib.sha512(password_with_salt.encode('utf-8')).hexdigest():
 
-        access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
+        access_token = create_access_token(identity=row)
+        refresh_token = create_refresh_token(identity=row)
         resp = jsonify({
             'token': access_token,
-            'uset': row
+            'user': row
         })
         set_access_cookies(resp, access_token)
         set_refresh_cookies(resp, refresh_token)
@@ -94,3 +94,9 @@ def logout():
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
+
+@auth.route('/me', methods=['GET'])
+@jwt_required
+def user_info():
+    current_user = get_jwt_identity()
+    return jsonify({ 'user': current_user }), 200

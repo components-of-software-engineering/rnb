@@ -31,7 +31,7 @@ class User {
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch("/api/v1/me", reqOptions);
+            response = await fetch("/auth/me", reqOptions);
             statusCode = response.status;
             if (!response.ok) throw new Error(`Сталася помилка під час авторизації`);
             respBody = await response.json();
@@ -45,7 +45,7 @@ class User {
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch("/api/v1/users", { 
+            response = await fetch("/auth/register", { 
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: formDataToJson(formData)
