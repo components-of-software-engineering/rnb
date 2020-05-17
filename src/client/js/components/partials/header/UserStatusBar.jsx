@@ -15,7 +15,7 @@ class UserStatusBar extends Component {
                 <div className="row">
                     <div className="col d-md-inline-flex">
                         <Link role="button" to="/login" className="btn btn-primary btn-sm">Увійти</Link>
-                        <Link role="button" to="/register" className="btn btn-outline-primary ml-3 btn-sm">Зареєструватися</Link>
+                        {/* <Link role="button" to="/register" className="btn btn-outline-primary ml-3 btn-sm">Зареєструватися</Link> */}
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import hashlib
+import hashlib, uuid
 import psycopg2
 
 from datetime import date
@@ -26,13 +26,14 @@ def register():
     name = request.json.get('name', None)
     role = request.json.get('role', None) #redo
     date_registration = date.today()
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
+    username = request.json.get('username', "")
+    password = request.json.get('password', "")
     date_last_update = date_registration
+    salt = uuid.uuid4().hex
 
     try:
         user.create({"name": name, "role": role, "date_registration": date_registration, "username": username,
-                     "pwd_hash": password, "pwd_salt": other_configs['pwd_salt'], "date_last_update": date_last_update,
+                     "pwd_hash": password, "pwd_salt": salt, "date_last_update": date_last_update,
                      "status": True})
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
@@ -54,8 +55,8 @@ def login():
         return jsonify({"msg": "Missing password parameter"}), 400
 
     row = user.read({"username": username})
-    password_with_salt = row["pwd_salt"] + password
-    if row["pwd_hash"] == hashlib.md5(password_with_salt.encode('utf-8')).hexdigest():
+    password_with_salt = password + row["pwd_salt"] 
+    if row["pwd_hash"] == hashlib.sha512(password_with_salt.encode('utf-8')).hexdigest():
 
         access_token = create_access_token(identity=row)
         refresh_token = create_refresh_token(identity=row)

@@ -50,7 +50,7 @@ class LoginPage extends Component {
             <React.Fragment>
                 <h1>Вхід</h1>
                 <p>
-                    Якщо у вас ще немає облікового запису, зареєструйтесь, будь ласка, на сторінці <Link to="/register" className="link-style">реєстрації</Link>.
+                    Якщо у Вас ще немає облікового запису, зверніться, будь ласка, до <b>адміністратора</b>, щоби він Вас зареєстрував.
                 </p>
                 <form id="login" className="needs-validation mx-auto form-default mb-4 p-4" action="/auth/login" method="POST" onSubmit={this.formOnSubmit} noValidate>
                     <div className="form-row">
