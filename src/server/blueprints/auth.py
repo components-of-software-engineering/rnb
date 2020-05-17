@@ -13,6 +13,9 @@ from flask import request, Blueprint, jsonify
 from models.users import UsersModel
 from config import other_configs
 from connection import PostgresConnection
+from extensions import jwt
+
+from blueprints.annotations.roles_required import roles_required
 
 user_model = UsersModel(PostgresConnection().get_connection())
 
@@ -43,10 +46,11 @@ def register():
             "date_last_update": date_last_update,
             "status": True
         })
+        print(returned_data)
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"msg": f"Registration success, user with id: {returned_data['id']} was created"}), 201
+    return jsonify({"msg": f"user  was created"}), 201
 
 
 @auth.route('/login', methods=['POST'])
@@ -99,7 +103,11 @@ def logout():
 
 @auth.route('/protected', methods=['GET'])
 @jwt_required
+# @roles_required(["admin"])
 def protected():
+    if roles_required(["admin"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
@@ -109,3 +117,4 @@ def protected():
 def user_info():
     current_user = get_jwt_identity()
     return jsonify({'user': current_user}), 200
+
