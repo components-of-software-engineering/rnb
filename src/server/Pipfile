@@ -10,6 +10,8 @@ flake8 = "*"
 flask = "*"
 waitress = "*"
 python-dotenv = "*"
+psycopg2 = "*"
+flask-jwt-extended = "*"
 
 [requires]
 python_version = "3.6"
