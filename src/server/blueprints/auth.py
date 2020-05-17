@@ -14,8 +14,8 @@ from models.users import UsersModel
 from config import other_configs
 from connection import PostgresConnection
 from extensions import jwt
-
 from blueprints.annotations.roles_required import roles_required
+
 
 user_model = UsersModel(PostgresConnection().get_connection())
 
@@ -117,4 +117,3 @@ def protected():
 def user_info():
     current_user = get_jwt_identity()
     return jsonify({'user': current_user}), 200
-

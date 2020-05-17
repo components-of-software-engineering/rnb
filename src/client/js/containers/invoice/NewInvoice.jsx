@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isAdministrator as checkAdminRights } from '../../utils/service';
-import { createInvoice } from '../../actions/invoice';
+import { createInvoice } from '../../actions/specialForm';
 import { getAllUsers } from '../../actions/users';
 import InvoiceForm from '../../components/invoice/InvoiceForm';
 import { goBack } from '../../actions/redirect';
