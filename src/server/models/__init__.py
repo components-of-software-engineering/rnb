@@ -33,15 +33,32 @@ class BaseModel(ABC):
 
     def read(self, keys: dict):
         self._cursor.execute(self.__select_query, keys)
+        row = dict(self._cursor.fetchone())
+        return row
+
+    def read_all(self):
+        self._cursor.execute(self.__select_all_query)
+        row = dict(self._cursor.fetchone())
+        return row
+
+    def amount(self):
+        self._cursor.execute(self.__count_query)
         row = self._cursor.fetchone()
-        return dict(row)
+        return row
 
     def create(self, item: dict):
+        should_return_id = "returning" in self.__insert_query.lower()
         self._cursor.execute(self.__insert_query, item)
         self._connection.commit()
+        if should_return_id:
+            row = dict(self._cursor.fetchone())
+            if self._is_valid_parameters(row, self._primary_key_names):
+                return row
+            else:
+                raise Exception("No rows received from DB")
 
     def update(self, arguments_to_update: dict, primary_keys: dict):
-        if not self._is_valid_parameters(arguments_to_update):
+        if not self._is_valid_parameters(arguments_to_update, self._columns):
             raise Exception("Item is not valid")
         self._cursor.execute(self.__update_query.format(self._arguments_to_str(arguments_to_update)),
                              primary_keys)
@@ -51,8 +68,8 @@ class BaseModel(ABC):
         self._cursor.execute(self.__delete_query, primary_keys)
         self._connection.commit()
 
-    def _is_valid_parameters(self, item: dict) -> bool:
-        return all([column in self._columns for column in item])
+    def _is_valid_parameters(self, verifiable: dict, compare_with: list) -> bool:
+        return all([column in compare_with for column in verifiable])
 
     def _arguments_to_str(self, item: dict):
         return ", ".join("%s = %s" % (key, "\'" + value + "\'" if isinstance(value, str) else value)
