@@ -125,7 +125,8 @@ export function getUserFromJWT() {
                 payload: { ...defaultPayload, error: { statusCode: response.statusCode } }
             });
         } 
-        const userObject = response.respBody;
+        console.log(response.respBody);
+        const userObject = response.respBody.user;
         dispatch({
             type: USER_AUTHENTICATE_SUCCESS,
             payload: { ...defaultPayload, userObject, isLogined: true },
@@ -155,7 +156,7 @@ export function register(formData) {
             type: CURRENT_PATH_REDIRECT,
             payload: {
                 method: 'push', 
-                path: '/login'
+                path: '/'
             }
         });
         showMessage("Успішно зареєстровано", typesMessages.success)(dispatch);
@@ -203,7 +204,7 @@ export function updateInfoAboutMe() {
                 payload: { ...defaultPayload, error: { statusCode: response.statusCode } }
             });
         }
-        const userObject = response.respBody;
+        const userObject = response.respBody.user;
         dispatch({
             type: USER_UPDATE_SUCCESS,
             payload: { ...defaultPayload, userObject, isLogined: true },

@@ -19,6 +19,8 @@ UserBreadcrumb.propTypes = {
 // define some custom breadcrumbs for certain routes (optional)
 const routes = [
     { path: '/users/:userId', breadcrumb: UserBreadcrumb },
+    { path: '/check', breadcrumb: () => <span>Перевірка бланку</span> },
+    { path: '/signup', breadcrumb: () => <span>Реєстрація реєстратора</span> },
     { path: '/s', breadcrumb: null },
 ];
 /////////////////////////////////////////////////////////////////////////////////

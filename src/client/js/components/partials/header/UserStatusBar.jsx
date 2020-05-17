@@ -23,12 +23,11 @@ class UserStatusBar extends Component {
     }
 
     userView(user) {
-        const { fullname, role, avaUrl } = user;
+        const { name, role } = user;
         return (
             <li className="nav-item dropdown align-middle">
                 <a className="nav-link dropdown-toggle text-nowrap align-middle pointer" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src={ avaUrl } height="22" width="22" className="ava small align-middle mr-1"/>
-                    { fullname }<span>{ isAdministrator(role) && <FontAwesomeIcon icon={faStar} className="ml-1" /> }</span>
+                    { name }<span>{ isAdministrator(role) && <FontAwesomeIcon icon={faStar} className="ml-1" /> }</span>
                     <span>{ isRegister(role) && <FontAwesomeIcon icon={faUserCog} className="ml-1" /> }</span>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">

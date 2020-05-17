@@ -57,6 +57,7 @@ class RegisterPage extends Component {
             e.preventDefault();
             const form = document.getElementById("register");
             const formData = new FormData(form);
+            formData.set("role", "0");
             this.props.registerUser(formData);
         }       
     }
@@ -110,10 +111,7 @@ class RegisterPage extends Component {
     render() {
         return (
             <React.Fragment>
-                <h1>Реєстрація нового користувача</h1>
-                <p>
-                    Якщо у вас вже є обліковий запис, увійдіть, будь ласка, на сторінці <Link to="/login" className="link-style">входу</Link>.
-                </p>
+                <h1>Реєстрація нового Реєстратора</h1>
                 <p>
                     Усі поля форми, наведеної нижче, є необхідними для заповнення:
                 </p>
@@ -121,7 +119,7 @@ class RegisterPage extends Component {
                     <div className="form-group form-inline ">
                         <Input 
                             type="text"
-                            name="fullname"
+                            name="name"
                             label="Повне ім'я"
                             minLength={3}
                             maxLength={30}
@@ -134,34 +132,8 @@ class RegisterPage extends Component {
                     </div>
                     <div className="form-group form-inline">
                         <Input 
-                            type="email"
-                            name="email"
-                            label="E-Mail"
-                            placeholder="Введіть email"
-                            invalidFeedback="Введіть правильний email"
-                            valueOnChage={this.handleFieldChange("email")}
-                            formInline
-                            required
-                        />
-                    </div>
-                    <div className="form-group form-inline">
-                        <Input 
-                            type="tel"
-                            name="phone"
-                            label="Номер телефону"
-                            helpInfo="Формат +380ххххххххх"
-                            invalidFeedback="Введіть правильний номер телефону"
-                            pattern="\+380[0-9]{9}"
-                            valueOnChage={this.handleFieldChange("phone")}
-                            valueOnFocus={this.phoneInputOnFocus}
-                            formInline
-                            required
-                        />
-                    </div>
-                    <div className="form-group form-inline">
-                        <Input 
                             type="text"
-                            name="login"
+                            name="username"
                             label="Логін"
                             minLength={5}
                             maxLength={20}
@@ -178,7 +150,7 @@ class RegisterPage extends Component {
                         <div className="col-md-6 mb-1 form-group">
                             <Input 
                                 type="password"
-                                name="pasw"
+                                name="password"
                                 label="Пароль"
                                 minLength={8}
                                 maxLength={30}
