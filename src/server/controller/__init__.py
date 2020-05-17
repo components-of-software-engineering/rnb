@@ -10,12 +10,12 @@ from models.usages_register import UsagesRegisterModel
 from models.users import UsersModel
 from models.journal_actions import JournalActionsModel
 from models.verifications_register import VerificationsRegisterModel
-from config import config_db
+from connection import PostgresConnection
 
 
 class Controller(object):
     def __init__(self):
-        self._connection = psycopg2.connect(**config_db)
+        self._connection = PostgresConnection().get_connection()
         self._cursor = self._connection.cursor(cursor_factory=DictCursor)
         self._create_tables()
 
