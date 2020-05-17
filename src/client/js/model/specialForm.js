@@ -1,9 +1,29 @@
 // @ts-check
 import url from 'url';
 import Response from './response';
-import { authorizationHeaders } from './../utils/service';
+import { authorizationHeaders } from '../utils/service';
 
-class Invoice {
+class SpecialForm {
+    static async getMinimalInfo(jwt, number) {
+        let response, respBody, statusCode;
+        let error = null;
+        // try {
+        //     response = await fetch(`/api/v1/invoices/${number}`);
+        //     statusCode = response.status;
+        //     if (!response.ok) throw new Error(response.statusText);
+        //     respBody = await response.json();
+        // } catch (e) {
+        //     error = e;
+        // }
+        respBody = {
+            "statusCode": 4,
+            "statusPhrase": "Заповіт",
+            "dateUsing": new Date()
+        };
+        return new Response(statusCode, respBody, error);
+    }
+
+
     static async getAll(jwt, page, query, type, limit) {
         const reqOptions = authorizationHeaders(jwt);
         reqOptions.method = 'GET';
@@ -86,4 +106,4 @@ class Invoice {
     }
 }
 
-export default Invoice;
+export default SpecialForm;

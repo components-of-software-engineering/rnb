@@ -1,18 +1,21 @@
 // @ts-check
-export const INVOICE_GET_REQUEST    = 'INVOICE_GET_REQUEST';
-export const INVOICE_GET_FAILURE    = 'INVOICE_GET_FAILURE';
-export const INVOICE_GET_SUCCESS    = 'INVOICE_GET_SUCCESS';
-export const INVOICE_CREATE_REQUEST = 'INVOICE_CREATE_REQUEST';
-export const INVOICE_CREATE_FAILURE = 'INVOICE_CREATE_FAILURE';
-export const INVOICE_CREATE_SUCCESS = 'INVOICE_CREATE_SUCCESS';
-export const INVOICE_UPDATE_REQUEST = 'INVOICE_UPDATE_REQUEST';
-export const INVOICE_UPDATE_FAILURE = 'INVOICE_UPDATE_FAILURE';
-export const INVOICE_UPDATE_SUCCESS = 'INVOICE_UPDATE_SUCCESS';
-export const INVOICE_DELETE_REQUEST = 'INVOICE_DELETE_REQUEST';
-export const INVOICE_DELETE_FAILURE = 'INVOICE_DELETE_FAILURE';
-export const INVOICE_DELETE_SUCCESS = 'INVOICE_DELETE_SUCCESS';
+export const SPECIAL_FORM_GET_REQUEST      = 'SPECIAL_FORM_GET_REQUEST';
+export const SPECIAL_FORM_GET_FAILURE      = 'SPECIAL_FORM_GET_FAILURE';
+export const SPECIAL_FORM_GET_SUCCESS      = 'SPECIAL_FORM_GET_SUCCESS';
+export const SPECIAL_FORM_GET_MIN_REQUEST  = 'SPECIAL_FORM_GET_MIN_REQUEST';
+export const SPECIAL_FORM_GET_MIN_FAILURE  = 'SPECIAL_FORM_GET_MIN_FAILURE';
+export const SPECIAL_FORM_GET_MIN_SUCCESS  = 'SPECIAL_FORM_GET_MIN_SUCCESS';
+export const SPECIAL_FORM_CREATE_REQUEST   = 'SPECIAL_FORM_CREATE_REQUEST';
+export const SPECIAL_FORM_CREATE_FAILURE   = 'SPECIAL_FORM_CREATE_FAILURE';
+export const SPECIAL_FORM_CREATE_SUCCESS   = 'SPECIAL_FORM_CREATE_SUCCESS';
+export const SPECIAL_FORM_UPDATE_REQUEST   = 'SPECIAL_FORM_UPDATE_REQUEST';
+export const SPECIAL_FORM_UPDATE_FAILURE   = 'SPECIAL_FORM_UPDATE_FAILURE';
+export const SPECIAL_FORM_UPDATE_SUCCESS   = 'SPECIAL_FORM_UPDATE_SUCCESS';
+export const SPECIAL_FORM_DELETE_REQUEST   = 'SPECIAL_FORM_DELETE_REQUEST';
+export const SPECIAL_FORM_DELETE_FAILURE   = 'SPECIAL_FORM_DELETE_FAILURE';
+export const SPECIAL_FORM_DELETE_SUCCESS   = 'SPECIAL_FORM_DELETE_SUCCESS';
 import { showMessage, typesMessages } from './showMessage';
-import Invoice from './../model/invoice';
+import SpecialForm from '../model/specialForm';
 import { CURRENT_PATH_REDIRECT } from './redirect';
 
 export const defaultPayload = {
@@ -21,14 +24,43 @@ export const defaultPayload = {
     error: ''
 };
 
+export function getMinimalInfoAboutSpecialForm(serial, number) {
+    return async function(dispatch) { 
+        dispatch({ 
+            type: SPECIAL_FORM_GET_MIN_REQUEST,
+            payload: { ...defaultPayload, isFetching: true }
+        });
+        const response = await SpecialForm.getMinimalInfo(serial, number);
+        if (response.statusCode === 404) {
+            return dispatch({
+                type: SPECIAL_FORM_GET_MIN_FAILURE,
+                payload: { ...defaultPayload, isFound: false } }
+            );
+        }
+        if (response.error !== null) {
+            showMessage(`Трапилась поимлка ${response.error.message}`, typesMessages.error)(dispatch);
+            return dispatch({
+                type: SPECIAL_FORM_GET_MIN_FAILURE,
+                payload: { ...defaultPayload, error: response.error.message } }
+            );
+        }
+        const specialForm = response.respBody;
+        console.log(specialForm);
+        dispatch({
+            type: SPECIAL_FORM_GET_MIN_SUCCESS,
+            payload: { ...defaultPayload, specialFormObject: specialForm },
+        });
+    };
+}
+
 export function getInvoiceByNum(number) {
     const jwt = localStorage.getItem('jwt');
     return async function(dispatch) { 
         dispatch({ 
-            type: INVOICE_GET_REQUEST,
+            type: SPECIAL_FORM_GET_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await Invoice.getByNumber(jwt, number);
+        const response = await SpecialForm.getByNumber(jwt, number);
         if (response.statusCode === 404) {
             dispatch({
                 type: CURRENT_PATH_REDIRECT,
@@ -38,20 +70,20 @@ export function getInvoiceByNum(number) {
                 }
             });
             return dispatch({
-                type: INVOICE_GET_FAILURE,
+                type: SPECIAL_FORM_GET_FAILURE,
                 payload: { ...defaultPayload, error: response.error.message } }
             );
         }
         if (response.error !== null) {
             showMessage(`Трапилась поимлка ${response.error.message}`, typesMessages.error)(dispatch);
             return dispatch({
-                type: INVOICE_GET_FAILURE,
+                type: SPECIAL_FORM_GET_FAILURE,
                 payload: { ...defaultPayload, error: response.error.message } }
             );
         }
         const invoice = response.respBody;
         dispatch({
-            type: INVOICE_GET_SUCCESS,
+            type: SPECIAL_FORM_GET_SUCCESS,
             payload: { ...defaultPayload, invoiceObject: invoice },
         });
     };
@@ -61,19 +93,19 @@ export function createInvoice(formData) {
     const jwt = localStorage.getItem('jwt');
     return async function(dispatch) { 
         dispatch({ 
-            type: INVOICE_CREATE_REQUEST,
+            type: SPECIAL_FORM_CREATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await Invoice.create(jwt, formData);
+        const response = await SpecialForm.create(jwt, formData);
         if (response.error !== null || response.statusCode !== 201) {
             showMessage("Не вдалося створити. Перевірте правильність даних", typesMessages.error)(dispatch);
             return dispatch({
-                type: INVOICE_CREATE_FAILURE,
+                type: SPECIAL_FORM_CREATE_FAILURE,
                 payload: { ...defaultPayload, error: response.error ? response.error.message: 'error ocurred' }
             });
         }
         dispatch({
-            type: INVOICE_CREATE_SUCCESS,
+            type: SPECIAL_FORM_CREATE_SUCCESS,
             payload: { ...defaultPayload, invoiceObject: response.respBody },
         }); 
         const num = response.respBody.data.number;
@@ -92,19 +124,19 @@ export function updateInvoice(number, formData) {
     const jwt = localStorage.getItem('jwt');
     return async function(dispatch) { 
         dispatch({ 
-            type: INVOICE_UPDATE_REQUEST,
+            type: SPECIAL_FORM_UPDATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await Invoice.update(jwt, number, formData);
+        const response = await SpecialForm.update(jwt, number, formData);
         if (response.error !== null) {
             showMessage("Не вдалося оновити. Перевірте правильність даних", typesMessages.error)(dispatch);
             return dispatch({
-                type: INVOICE_UPDATE_FAILURE,
+                type: SPECIAL_FORM_UPDATE_FAILURE,
                 payload: { ...defaultPayload, error: response.error ? response.error.message: 'error ocurred' }
             });
         }
         dispatch({
-            type: INVOICE_UPDATE_SUCCESS,
+            type: SPECIAL_FORM_UPDATE_SUCCESS,
             payload: { ...defaultPayload, invoiceObject: response.respBody },
         }); 
         const num = response.respBody.data.number;
@@ -123,13 +155,13 @@ export function deleteInvoiceByNum(number) {
     const jwt = localStorage.getItem('jwt');
     return async function(dispatch) { 
         dispatch({ 
-            type: INVOICE_DELETE_REQUEST,
+            type: SPECIAL_FORM_DELETE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await Invoice.deleteByNumber(jwt, number);
+        const response = await SpecialForm.deleteByNumber(jwt, number);
         if (response.statusCode === 204) {
             dispatch({
-                type: INVOICE_DELETE_SUCCESS,
+                type: SPECIAL_FORM_DELETE_SUCCESS,
                 payload: { ...defaultPayload, isFetching: false } }
             ); 
             showMessage(`Накладна #${number} була успішно видалена`, typesMessages.success)(dispatch);
@@ -143,7 +175,7 @@ export function deleteInvoiceByNum(number) {
         }
         showMessage(`Трапилась помилка ${response.error && response.error.message}`, typesMessages.error)(dispatch);
         return dispatch({
-            type: INVOICE_DELETE_FAILURE,
+            type: SPECIAL_FORM_DELETE_FAILURE,
             payload: { ...defaultPayload, error: response.error ? response.error.message : 'error' } }
         );
     };

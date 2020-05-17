@@ -6,7 +6,7 @@ import { isAdministrator as checkAdmin } from '../../utils/service';
 import Forbidden from '../../components/special/Forbidden';
 import { toFormatedString } from '../../utils/dateConversion';
 import ModalDialog from '../../components/partials/modals/ModalDialog';
-import { getInvoiceByNum, deleteInvoiceByNum } from '../../actions/invoice';
+import { getInvoiceByNum, deleteInvoiceByNum } from '../../actions/specialForm';
 
 
 class InvoicePage extends Component {
