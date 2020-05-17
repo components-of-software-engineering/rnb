@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isAdministrator as checkAdminRights } from '../../utils/service';
 import { updateInvoice, getInvoiceByNum } from '../../actions/specialForm';
-import { getAllUsers } from '../../actions/users';
+import { getAllRegisters } from '../../actions/registers';
 import InvoiceForm from '../../components/invoice/InvoiceForm';
 import { goBack } from '../../actions/redirect';
 
@@ -15,7 +15,7 @@ class EditInvoice extends Component {
         const num = props.match.params.number;
         this.registryNum = num;
         this.props.getInvoiceByNum(num);
-        this.props.getAllUsers(1, -1);
+        this.props.getAllRegisters(1, -1);
         this.onFormSubmited = this.onFormSubmited.bind(this);
     }
 
@@ -27,7 +27,7 @@ class EditInvoice extends Component {
         return {
             updateInvoice: (number, formData) => dispatch(updateInvoice(number, formData)),
             getInvoiceByNum: (number) => dispatch(getInvoiceByNum(number)),
-            getAllUsers: (page, limit) => dispatch(getAllUsers(page, limit)),
+            getAllRegisters: (page, limit) => dispatch(getAllRegisters(page, limit)),
             goBack: () => dispatch(goBack())
         };
     }
@@ -98,7 +98,7 @@ EditInvoice.propTypes = {
     invoice: PropTypes.object,
     updateInvoice: PropTypes.func.isRequired,
     getInvoiceByNum: PropTypes.func.isRequired,
-    getAllUsers: PropTypes.func,
+    getAllRegisters: PropTypes.func,
     goBack: PropTypes.func
 };
 

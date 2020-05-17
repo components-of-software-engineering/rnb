@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isAdministrator as checkAdminRights } from '../../utils/service';
 import { createInvoice } from '../../actions/specialForm';
-import { getAllUsers } from '../../actions/users';
+import { getAllRegisters } from '../../actions/registers';
 import InvoiceForm from '../../components/invoice/InvoiceForm';
 import { goBack } from '../../actions/redirect';
 
@@ -12,7 +12,7 @@ import { goBack } from '../../actions/redirect';
 class NewInvoice extends Component {
     constructor(props) {
         super(props);
-        this.props.getAllUsers(1, -1);
+        this.props.getAllRegisters(1, -1);
         this.onFormSubmited = this.onFormSubmited.bind(this);
     }
 
@@ -23,7 +23,7 @@ class NewInvoice extends Component {
     static mapDispatchToProps(dispatch) {
         return {
             createInvoice: (formData) => dispatch(createInvoice(formData)),
-            getAllUsers: (page, limit) => dispatch(getAllUsers(page, limit)),
+            getAllRegisters: (page, limit) => dispatch(getAllRegisters(page, limit)),
             goBack: () => dispatch(goBack())
         };
     }
@@ -92,7 +92,7 @@ NewInvoice.propTypes = {
     registry: PropTypes.object,
     invoice: PropTypes.object,
     createInvoice: PropTypes.func.isRequired,
-    getAllUsers: PropTypes.func,
+    getAllRegisters: PropTypes.func,
     goBack: PropTypes.func
 };
 

@@ -50,7 +50,7 @@ def register():
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"msg": f"user  was created"}), 201
+    return jsonify({"msg": f"Registration success"}), 201
 
 
 @auth.route('/login', methods=['POST'])

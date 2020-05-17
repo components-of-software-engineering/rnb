@@ -42,6 +42,7 @@ function specialFormReducer(state = initialState, action) {
                 ...state, 
                 specialFormObject: data.specialFormObject,
                 isFetching: data.isFetching,
+                isFound: data.isFound,
                 error: data.error
             };
         }

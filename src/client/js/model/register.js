@@ -1,9 +1,9 @@
 // @ts-check
 import url from 'url';
 import Response from './response';
-import { authorizationHeaders, formDataToJson } from './../utils/service';
+import { authorizationHeaders, formDataToJson } from '../utils/service';
 
-class User {
+class Register {
     static async authenticate(username, password) {
         const credentials = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
         const bodyData = new URLSearchParams(credentials);
@@ -109,21 +109,24 @@ class User {
         return new Response(statusCode, respBody, error);
     }
 
-    static async getAll(jwt, page, limit) {
+    static async getAll(jwt) {
         const reqOptions = authorizationHeaders(jwt);
-        reqOptions.method = 'GET';
+        reqOptions.method = 'POST';
+        reqOptions.headers['Content-Type'] = 'application/json';
+        reqOptions.body = JSON.stringify({ });
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch(`/api/v1/users${url.format({query: {page, limit}})}`, reqOptions);
+            response = await fetch(`/users/get_all`, reqOptions);
             statusCode = response.status;
             if (!response.ok) throw new Error(response.statusText);
             respBody = await response.json();
         } catch (e) {
             error = e;
         }
+        console.log(respBody);
         return new Response(statusCode, respBody, error);
     }
 }
 
-export default User;
+export default Register;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { isAdministrator } from '../../utils/service';
 import { createRegistry } from '../../actions/registry';
-import { getAllUsers } from '../../actions/users';
+import { getAllRegisters } from '../../actions/registers';
 import RegistryForm from '../../components/registry/RegistryForm';
 import { goBack } from '../../actions/redirect';
 
@@ -13,7 +13,7 @@ class NewRegistry extends Component {
     constructor(props) {
         super(props);
         if (isAdministrator(this.props.user.userObject && this.props.user.userObject.role)) {
-            this.props.getAllUsers(1, -1);
+            this.props.getAllRegisters(1, -1);
         }
         this.onFormSubmited = this.onFormSubmited.bind(this);
         // this.onDeleteRegistry = this.onDeleteRegistry.bind(this);
@@ -26,7 +26,7 @@ class NewRegistry extends Component {
     static mapDispatchToProps(dispatch) {
         return {
             createRegistry: (formData) => dispatch(createRegistry(formData)),
-            getAllUsers: (page, limit) => dispatch(getAllUsers(page, limit)),
+            getAllRegisters: (page, limit) => dispatch(getAllRegisters(page, limit)),
             goBack: () => dispatch(goBack())
         };
     }
@@ -58,7 +58,7 @@ NewRegistry.propTypes = {
     users: PropTypes.object,
     registry: PropTypes.object,
     createRegistry: PropTypes.func.isRequired,
-    getAllUsers: PropTypes.func,
+    getAllRegisters: PropTypes.func,
     goBack: PropTypes.func
 };
 

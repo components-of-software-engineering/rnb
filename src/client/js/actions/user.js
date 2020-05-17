@@ -22,7 +22,7 @@ export const ANOTHER_USER_CHANGE_ROLE_REQUEST = 'ANOTHER_USER_CHANGE_ROLE_REQUES
 export const ANOTHER_USER_CHANGE_ROLE_SUCCESS = 'ANOTHER_USER_CHANGE_ROLE_SUCCESS';
 export const ANOTHER_USER_CHANGE_ROLE_FAILURE = 'ANOTHER_USER_CHANGE_ROLE_FAILURE';
 
-import User from './../model/user';
+import User from '../model/register';
 import { CURRENT_PATH_REDIRECT } from './redirect';
 import { showMessage, typesMessages } from './showMessage';
 

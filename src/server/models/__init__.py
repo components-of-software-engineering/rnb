@@ -38,8 +38,8 @@ class BaseModel(ABC):
 
     def read_all(self):
         self._cursor.execute(self.__select_all_query)
-        row = dict(self._cursor.fetchone())
-        return row
+        rows = [dict(x) for x in self._cursor.fetchall()]
+        return rows
 
     def amount(self):
         self._cursor.execute(self.__count_query)

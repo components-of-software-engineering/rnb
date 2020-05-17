@@ -8,6 +8,7 @@ from controller import Controller
 from blueprints.auth import auth
 from blueprints.notarius import notarius
 from blueprints.blank import blank
+from blueprints.users import users
 from config import config_jwt
 
 from extensions import jwt
@@ -26,7 +27,7 @@ jwt.init_app(app)
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(notarius, url_prefix='/notarius')
 app.register_blueprint(blank, url_prefix='/blank')
-
+app.register_blueprint(users, url_prefix='/users')
 
 @app.route('/dist/<path:path>')
 def serve_dist(path):
