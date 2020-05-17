@@ -14,7 +14,8 @@ class CheckFormPage extends Component {
             serial: '',
             number: '',
             lastSerial: '',
-            lastNumber: ''
+            lastNumber: '',
+            dateCheck: new Date()
         };
         this.handleSerialChange = this.handleSerialChange.bind(this);
         this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -39,6 +40,7 @@ class CheckFormPage extends Component {
             this.setState({
                 lastSerial: this.state.serial,
                 lastNumber: this.state.number,
+                dateCheck: new Date()
             });
             e.preventDefault();
         }       
@@ -101,9 +103,16 @@ class CheckFormPage extends Component {
                     <div className="content-bottom col-md-8 mx-auto my-3">
                         <h3 className="text-center mb-4">Результат останньої перевірки:</h3>
                         <p><b>Номер та серія бланка</b>: {this.state.lastSerial} {this.state.lastNumber}</p>
-                        <p><b>Код витрачання бланка</b>: {this.props.specialForm.specialFormObject.statusCode} - {this.props.specialForm.specialFormObject.statusPhrase}</p>
-                        <p><b>Дата витрачання бланка</b>: {toFormatedString(this.props.specialForm.specialFormObject.dateUsing)}</p>
-                        <p><b>Дата та час перевірки бланка</b>: {toFormatedString(new Date())}</p>
+                        <p><b>Дата та час перевірки бланка</b>: {toFormatedString(this.state.dateCheck)}</p>
+                        {this.props.specialForm.isFound ?
+                            <>
+                                <p><b>Код витрачання бланка</b>: {this.props.specialForm.specialFormObject.statusCode} - {this.props.specialForm.specialFormObject.statusPhrase}</p>
+                                <p><b>Дата витрачання бланка</b>: {toFormatedString(this.props.specialForm.specialFormObject.dateUsing)}</p>
+                                
+                            </>
+                        :
+                            <p><i>За Вашим запитом не знайдено жодного бланка</i></p>
+                        }
                     </div>
                 }
             </React.Fragment>

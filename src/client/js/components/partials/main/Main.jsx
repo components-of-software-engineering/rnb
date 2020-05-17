@@ -5,7 +5,7 @@ import HomePage from '../../index/HomePage';
 import LoginPage from '../../../containers/login/LoginPage';
 import RegisterPage from '../../../containers/register/RegisterPage';
 import AboutPage from '../../about/AboutPage';
-import UsersPage from '../../users/UsersPage';
+import UsersPage from '../../registers/RegistersPage';
 import PageNotFound from '../../special/PageNotFound';
 import Breadcrumbs from '../../../containers/partials/main/Breadcrumbs';
 import AuthenticatedComponent from '../../../containers/special/AuthenticatedComponent';
@@ -33,7 +33,7 @@ class Main extends Component {
                 <Switch>
                     <Route exact path='/' component={HomePage}/>
                         <Route path='/about' component={AboutPage}/>
-                        <Route exact path='/users' component={AuthenticatedComponent(UsersPage, [isAdministrator])}/>
+                        <Route exact path='/registers' component={AuthenticatedComponent(UsersPage, [isAdministrator])}/>
                             <Route exact path='/users/me' component={AuthenticatedComponent(MyUserPage, false)}/>
                                 <Route path='/users/me/edit' component={AuthenticatedComponent(EditUserPage, false)} />
                             <Route path='/users/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(UserPage, [isAdministrator])}/>
@@ -46,7 +46,7 @@ class Main extends Component {
                                 <Route path='/invoices/:number(\d{6})/edit' component={AuthenticatedComponent(EditInvoice, [isAdministrator, isRegister])}/>
                             <Route path='/invoices/new' component={AuthenticatedComponent(NewInvoice, [isAdministrator, isRegister])}/>
                         <Route path='/login' component={LoginPage} />
-                        <Route path='/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
+                        <Route path='/registers/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
                         <Route path='/check' component={CheckFormPage} />
                         <Route component={PageNotFound}/>
                 </Switch>

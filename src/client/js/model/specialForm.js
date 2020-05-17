@@ -20,6 +20,7 @@ class SpecialForm {
             "statusPhrase": "Заповіт",
             "dateUsing": new Date()
         };
+        //statusCode = 404;
         return new Response(statusCode, respBody, error);
     }
 

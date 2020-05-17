@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isAdministrator } from '../../utils/service';
 import { updateRegistry, getRegistryByNum } from '../../actions/registry';
-import { getAllUsers } from '../../actions/users';
+import { getAllRegisters } from '../../actions/registers';
 import RegistryForm from '../../components/registry/RegistryForm';
 import { goBack } from '../../actions/redirect';
 import Forbidden from '../../components/special/Forbidden';
@@ -17,7 +17,7 @@ class EditRegistry extends Component {
         this.registryNum = num;
         this.props.getRegistryByNum(num);
         if (isAdministrator(this.props.user.userObject && this.props.user.userObject.role)) {
-            this.props.getAllUsers(1, -1);
+            this.props.getAllRegisters(1, -1);
         }
         this.onFormSubmited = this.onFormSubmited.bind(this);
     }
@@ -30,7 +30,7 @@ class EditRegistry extends Component {
         return {
             updateRegistry: (number, formData) => dispatch(updateRegistry(number, formData)),
             getRegistryByNum: (number) => dispatch(getRegistryByNum(number)),
-            getAllUsers: (page, limit) => dispatch(getAllUsers(page, limit)),
+            getAllRegisters: (page, limit) => dispatch(getAllRegisters(page, limit)),
             goBack: () => dispatch(goBack())
         };
     }
@@ -73,7 +73,7 @@ EditRegistry.propTypes = {
     updateRegistry: PropTypes.func.isRequired,
     getRegistryByNum: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    getAllUsers: PropTypes.func,
+    getAllRegisters: PropTypes.func,
     goBack: PropTypes.func
 };
 

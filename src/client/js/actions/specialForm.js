@@ -34,7 +34,7 @@ export function getMinimalInfoAboutSpecialForm(serial, number) {
         if (response.statusCode === 404) {
             return dispatch({
                 type: SPECIAL_FORM_GET_MIN_FAILURE,
-                payload: { ...defaultPayload, isFound: false } }
+                payload: { ...defaultPayload, specialFormObject: {}, isFound: false } }
             );
         }
         if (response.error !== null) {
@@ -48,7 +48,7 @@ export function getMinimalInfoAboutSpecialForm(serial, number) {
         console.log(specialForm);
         dispatch({
             type: SPECIAL_FORM_GET_MIN_SUCCESS,
-            payload: { ...defaultPayload, specialFormObject: specialForm },
+            payload: { ...defaultPayload, isFound: true, specialFormObject: specialForm },
         });
     };
 }

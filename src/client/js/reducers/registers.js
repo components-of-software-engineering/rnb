@@ -1,34 +1,34 @@
 import {
-    USERS_GET_ALL_FAILURE,
-    USERS_GET_ALL_SUCCESS,
-    USERS_GET_ALL_REQUEST,
+    REGISTERS_GET_ALL_FAILURE,
+    REGISTERS_GET_ALL_SUCCESS,
+    REGISTERS_GET_ALL_REQUEST,
     defaultPayload    
-} from './../actions/users';
+} from '../actions/registers';
 
 import {
     USER_LOGOUT,
-} from './../actions/user';
+} from '../actions/user';
 
 const initialState = {
     ...defaultPayload
 };
   
-function usersReducer(state = initialState, action) {
+function registersReducer(state = initialState, action) {
     const data = action.payload;
     switch (action.type) {
-        case USERS_GET_ALL_FAILURE:
-        case USERS_GET_ALL_SUCCESS: {
+        case REGISTERS_GET_ALL_FAILURE:
+        case REGISTERS_GET_ALL_SUCCESS: {
             return {
                 ...state, 
-                usersObject: data.usersObject,
+                registersObject: data.registersObject,
                 isFetching: data.isFetching,
                 error: data.error
             };
         }
-        case USERS_GET_ALL_REQUEST: {
+        case REGISTERS_GET_ALL_REQUEST: {
             return {
                 ...state, 
-                usersObject: state.usersObject,
+                registersObject: state.registersObject,
                 isFetching: data.isFetching
             };
         }
@@ -43,4 +43,4 @@ function usersReducer(state = initialState, action) {
     }
 }
 
-export default usersReducer;
+export default registersReducer;

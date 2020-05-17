@@ -54,6 +54,7 @@ def get_all():
     try:
         returned_data = users_model.read_all()
     except Exception as e:
+        print(str(e))
         return jsonify({"msg": str(e)}), 400
 
     return jsonify({"usages_registers": returned_data}), 200
