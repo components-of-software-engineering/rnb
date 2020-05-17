@@ -11,9 +11,10 @@ from flask_jwt_extended import (
 from flask import request, Blueprint, jsonify
 
 from models.users import UsersModel
-from config import config_db, other_configs
+from config import other_configs
+from connection import PostgresConnection
 
-user = UsersModel(psycopg2.connect(**config_db))
+user = UsersModel(PostgresConnection().get_connection())
 
 auth = Blueprint('auth', __name__)
 
