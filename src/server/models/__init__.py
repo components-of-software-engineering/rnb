@@ -7,6 +7,7 @@ class BaseModel(ABC):
                  update_query, delete_query, select_all_query, count_query):
         self._connection = connection
         self._cursor = connection.cursor(cursor_factory=DictCursor)
+        self._connection.autocommit = True
 
         self.__insert_query = insert_query
         self.__select_query = select_query

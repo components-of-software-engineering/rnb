@@ -21,6 +21,6 @@ class UsersModel(BaseModel):
         super().__init__(connection, columns, primary_key_names, **queries)
 
     def create(self, item: dict): # item["pwd_salt"] passed in func as password argument
-        password_with_salt = item["pwd_salt"] + item["pwd_hash"]
+        password_with_salt = hashlib.sha512((item["pwd_hash"] + item["pwd_salt"]).encode('utf-8')).hexdigest()
         item["pwd_hash"] = hashlib.md5(password_with_salt.encode('utf-8')).hexdigest()
         super().create(item)
