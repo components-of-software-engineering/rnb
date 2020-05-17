@@ -5,8 +5,10 @@
     "main": "js/index.js",
     "scripts": {
         "clean": "rm -rf ./dist",
+        "clean-win": "if exist dist rd /q /s dist",
         "build:prod": "npm run clean && webpack --mode production",
         "build": "npm run clean && webpack --mode development --progress",
+        "build-win": "npm run clean-win && webpack --mode development --progress",
         "watch": "npm run clean && webpack --watch --mode development --progress --output-path ../server/dist"
     },
     "repository": {
