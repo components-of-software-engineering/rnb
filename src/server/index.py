@@ -6,6 +6,8 @@ from waitress import serve
 from controller import Controller
 
 from blueprints.auth import auth
+from blueprints.notarius import notarius
+from blueprints.blank import blank
 from config import config_jwt
 
 from extensions import jwt
@@ -22,6 +24,8 @@ app.config['JWT_SECRET_KEY'] = config_jwt['JWT_SECRET_KEY']
 jwt.init_app(app)
 
 app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(notarius, url_prefix='/notarius')
+app.register_blueprint(blank, url_prefix='/blank')
 
 
 @app.route('/dist/<path:path>')

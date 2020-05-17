@@ -13,5 +13,5 @@ class BlankModel(BaseModel):
             "count_query": "SELECT COUNT(*) FROM blank",
         }
         columns = ["num", "series", "notarius_id", "date_receiving"]
-        primary_key_name = ["num", "series"]
-        super().__init__(connection, columns, primary_key_name, **queries)
+        primary_key_names = ["num", "series"]
+        super().__init__(connection, columns, primary_key_names, **queries)
