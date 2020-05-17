@@ -1,5 +1,6 @@
 import os
 
+
 config_db = {
     'host': os.getenv("DB_HOST"),
     'port': os.getenv("DB_PORT"),
