@@ -56,6 +56,7 @@ def create_db_connection():
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
+        create_db_connection()
         if sys.argv[1] == "--dev":
             app.run(debug=True, host='0.0.0.0', port=PORT)
         elif sys.argv[1] == "--prod":
@@ -63,7 +64,6 @@ if __name__ == '__main__':
         else:
             print("Unknown argument")
             exit(1)
-        create_db_connection()
     else:
         print("Provide --dev or --prod argument")
         exit(1)

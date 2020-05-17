@@ -34,10 +34,9 @@ class JumbotronButtonsBlock extends Component {
             }
         } else {
             return {
-                text: 'Зареєструйтесь, щоб відкрити для себе світ нових можливостей!',
+                text: 'Перевірте бланк вже зараз:',
                 buttons: [
-                    { link: '/register', text: 'Зареєструватися' },
-                    { link: '/login', text: 'Увійти' }
+                    { link: '/check', text: 'Перевірити бланк' },
                 ]
             };
         }

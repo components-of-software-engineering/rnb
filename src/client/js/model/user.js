@@ -5,12 +5,17 @@ import { authorizationHeaders, formDataToJson } from './../utils/service';
 
 class User {
     static async authenticate(username, password) {
-        const credentials = `login=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+        const credentials = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
         const bodyData = new URLSearchParams(credentials);
+        const bodyDataJson = formDataToJson(bodyData);
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch("/auth/login", { method: 'POST', body: bodyData });
+            response = await fetch("/auth/login", { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
+                body: bodyDataJson
+            });
             statusCode = response.status;
             if (!response.ok) throw new Error(`Неправильний логін або пароль`);
             respBody = await response.json();

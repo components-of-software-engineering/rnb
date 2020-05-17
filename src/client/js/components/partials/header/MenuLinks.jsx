@@ -48,9 +48,11 @@ class MenuLinks extends Component {
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/' exact={true}>Головна</NavLink>
                 </li>
                 {this.LoginedUserLinks(role)}
-                <li className="nav-item">
-                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/about'>Про компанію</NavLink>
-                </li>
+                {role < 0 &&
+                    <li className="nav-item">
+                        <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/check'>Перевірити бланк</NavLink>
+                    </li>
+                }
             </ul>
         );
     }
