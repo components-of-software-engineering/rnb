@@ -16,11 +16,13 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        journal_actions_model.create({
-            "num_blank": request_json['num_blank'],
-            "series_blank": request_json['series_blank'],
+        returned_data = journal_actions_model.create({
             "user_id": request_json['user_id'],
-            "date_verification": date.today()
+            "action_date": request_json['action_date'],
+            "action_type": request_json['action_type'],
+            "row_affected": request_json['row_affected'],
+            "old_value": request_json['old_value'],
+            "new_value": request_json['new_value']
         })
     except Exception as e:
         return jsonify({"msg": str(e)}), 400

@@ -22,4 +22,4 @@ class UsersModel(BaseModel):
 
     def create(self, item: dict): # item["pwd_salt"] passed in func as password argument
         item["pwd_hash"] = hashlib.sha512((item["pwd_hash"] + item["pwd_salt"]).encode('utf-8')).hexdigest()
-        super().create(item)
+        return super().create(item)

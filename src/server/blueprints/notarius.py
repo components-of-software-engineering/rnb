@@ -16,7 +16,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        notarius_model.create({
+        returned_data = notarius_model.create({
             "type": request_json['type'],
             "status": request_json['status'],
             "date_status_update": date.today(),

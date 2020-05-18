@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS journal_actions
     old_value    text NOT NULL,   -- старе значення
     new_value    text NOT NULL,   -- нове значення
     CONSTRAINT journal_actions_pkey PRIMARY KEY (id),
-    CONSTRAINT foreign_key_to_user_id FOREIGN KEY (user_id )
+    CONSTRAINT foreign_key_to_user_id FOREIGN KEY (user_id)
         REFERENCES users (id) MATCH FULL
         ON UPDATE RESTRICT
         ON DELETE RESTRICT

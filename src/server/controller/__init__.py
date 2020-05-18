@@ -29,6 +29,14 @@ class Controller(object):
         res = self._code_usages_blank_model.create({"code": 1, "text_representation": "2"})
         print(res)
 
+        res = self._verifications_register_model.create({
+            "num_blank": 1,
+            "series_blank": 'series_blank',
+            "user_id": 4,
+            "date_verification": "2000-01-01"
+        })
+        print(res)
+
     @property
     def connection(self):
         return self._connection

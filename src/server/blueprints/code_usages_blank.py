@@ -14,7 +14,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        code_usages_blank_model.create({
+        returned_data = code_usages_blank_model.create({
             "code": request_json['code'],
             "text_representation": request_json['text_representation']
         })

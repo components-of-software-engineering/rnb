@@ -3,13 +3,14 @@ import os
 from flask import Flask, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 from waitress import serve
-from controller import Controller
 
 from blueprints.auth import auth
 from blueprints.notarius import notarius
 from blueprints.blank import blank
 from blueprints.users import users
+
 from config import config_jwt
+from controller import Controller
 
 from extensions import jwt
 

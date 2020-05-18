@@ -16,7 +16,8 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        verifications_register_model.create({
+        returned_data = verifications_register_model.create({
+
             "num_blank": request_json['num_blank'],
             "series_blank": request_json['series_blank'],
             "user_id": request_json['user_id'],

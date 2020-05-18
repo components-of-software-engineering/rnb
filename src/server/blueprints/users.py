@@ -17,7 +17,8 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        users_model.create({
+        returned_data = users_model.create({
+
             "name": request_json["name"],
             "role": request_json["role"],
             "date_registration": date.today(),
@@ -54,7 +55,6 @@ def get_all():
     try:
         returned_data = users_model.read_all()
     except Exception as e:
-        print(str(e))
         return jsonify({"msg": str(e)}), 400
 
     return jsonify({"usages_registers": returned_data}), 200
