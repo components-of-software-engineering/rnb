@@ -71,15 +71,19 @@ class Register {
         return new Response(statusCode, respBody, error);
     }
 
-    static async getByLogin(jwt, login) {
+    static async getByLogin(jwt, username) {
         const reqOptions = authorizationHeaders(jwt);
-        reqOptions.method = 'GET';
+        reqOptions.method = 'POST';
+        reqOptions.headers['Content-Type'] = 'application/json';
+        reqOptions.body = JSON.stringify({
+            "username": username
+        });
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch(`/api/v1/users/${encodeURIComponent(login)}`, reqOptions);
+            response = await fetch(`/users/get`, reqOptions);
             statusCode = response.status;
-            if (!response.ok) throw new Error(`Сталася помилка під час авторизації`);
+            if (!response.ok) throw new Error(`Сталася помилка`);
             respBody = await response.json();
         } catch (e) {
             error = e;
@@ -89,23 +93,31 @@ class Register {
 
     static async updateByLogin(jwt, login, data, onlyRole = false) {
         const reqOptions = authorizationHeaders(jwt);
-        reqOptions.method = 'PUT';
-        if (onlyRole !== false) {
-            reqOptions.headers['Content-Type'] = 'application/json';
-            reqOptions.body = JSON.stringify({ role: data });
-        } else {
-            reqOptions.body = data;
-        }
+        reqOptions.method = 'POST';
+        reqOptions.headers['Content-Type'] = 'application/json';
+        const object = {};
+        data.forEach((value, key) => {
+            object[key] = value;
+        });
+        reqOptions.body = JSON.stringify({
+            "arguments_to_update": {
+                ...object
+            },
+            "primary_keys": {
+                username: login
+            }
+        });
         let response, respBody, statusCode;
         let error = null;
         try {
-            response = await fetch(`/api/v1/users/${encodeURIComponent(login)}`, reqOptions);
+            response = await fetch(`/users/update`, reqOptions);
             statusCode = response.status;
             if (!response.ok) throw new Error(response.statusText);
             respBody = await response.json();
         } catch (e) {
             error = e;
         }
+        console.log(respBody);
         return new Response(statusCode, respBody, error);
     }
 
@@ -118,6 +130,32 @@ class Register {
         let error = null;
         try {
             response = await fetch(`/users/get_all`, reqOptions);
+            statusCode = response.status;
+            if (!response.ok) throw new Error(response.statusText);
+            respBody = await response.json();
+        } catch (e) {
+            error = e;
+        }
+        console.log(respBody);
+        return new Response(statusCode, respBody, error);
+    }
+
+    static async disactivate(jwt, username, status = false) {
+        const reqOptions = authorizationHeaders(jwt);
+        reqOptions.method = 'POST';
+        reqOptions.headers['Content-Type'] = 'application/json';
+        reqOptions.body = JSON.stringify({
+            "arguments_to_update": {
+                "status": status
+            },
+            "primary_keys": {
+                username
+            }
+        });
+        let response, respBody, statusCode;
+        let error = null;
+        try {
+            response = await fetch(`/users/update`, reqOptions);
             statusCode = response.status;
             if (!response.ok) throw new Error(response.statusText);
             respBody = await response.json();

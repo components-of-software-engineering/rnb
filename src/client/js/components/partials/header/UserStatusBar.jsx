@@ -31,8 +31,8 @@ class UserStatusBar extends Component {
                     <span>{ isRegister(role) && <FontAwesomeIcon icon={faUserCog} className="ml-1" /> }</span>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                    <Link className="dropdown-item" to="/users/me">Мій профіль</Link>
-                    <div className="dropdown-divider"></div>
+                    {/* <Link className="dropdown-item" to="/users/me">Мій профіль</Link>
+                    <div className="dropdown-divider"></div> */}
                     <button onClick={this.props.logout} className="dropdown-item pointer text-danger" type="submit"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1" />Вийти</button>
                 </div>
             </li>

@@ -22,7 +22,7 @@ export const ANOTHER_USER_CHANGE_ROLE_REQUEST = 'ANOTHER_USER_CHANGE_ROLE_REQUES
 export const ANOTHER_USER_CHANGE_ROLE_SUCCESS = 'ANOTHER_USER_CHANGE_ROLE_SUCCESS';
 export const ANOTHER_USER_CHANGE_ROLE_FAILURE = 'ANOTHER_USER_CHANGE_ROLE_FAILURE';
 
-import User from '../model/register';
+import Register from '../model/register';
 import { CURRENT_PATH_REDIRECT } from './redirect';
 import { showMessage, typesMessages } from './showMessage';
 
@@ -47,6 +47,10 @@ export const defaultPayload = {
             error: false,
             success: false
         }
+    },
+    disabling: {
+        isFetching: false,
+        error: false
     }
 };
 
@@ -56,7 +60,7 @@ export function authenticate(login, password) {
             type: USER_AUTHENTICATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await User.authenticate(login, password);
+        const response = await Register.authenticate(login, password);
         if (response.error !== null) {
             showMessage("Неправильний логін або пароль", typesMessages.error)(dispatch);
             return dispatch({
@@ -78,6 +82,9 @@ export function authenticate(login, password) {
                 path: '/'
             }
         });
+        if (userObject && userObject.status === false) {
+            showMessage("Ваш обліковий запис деактивовано", typesMessages.error)(dispatch);
+        }
     };
 }
 
@@ -117,7 +124,7 @@ export function getUserFromJWT() {
             type: USER_AUTHENTICATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         }); 
-        const response = await User.me(jwt);
+        const response = await Register.me(jwt);
         if (response.error !== null) {
             localStorage.removeItem("jwt");
             return dispatch({
@@ -140,7 +147,7 @@ export function register(formData) {
             type: USER_REGISTER_REQUEST,
             payload: { ...defaultPayload, registration: { isFetching: true } }
         });
-        const response = await User.create(formData);
+        const response = await Register.create(formData);
         if (response.error !== null) {
             showMessage("Некоректні данні. Перевірте правильність", typesMessages.error)(dispatch);
             return dispatch({
@@ -163,13 +170,38 @@ export function register(formData) {
     }; 
 }
 
+
+export function disableRegister(username, status = false) {
+    return async function(dispatch) { 
+        dispatch({ 
+            type: ANOTHER_USER_CHANGE_ROLE_REQUEST,
+            payload: { ...defaultPayload, disabling: { isFetching: true } }
+        });
+        const jwt = localStorage.getItem('jwt');
+        const response = await Register.disactivate(jwt, username, status);
+        if (response.error !== null || response.statusCode != 201) {
+            showMessage("Трапилась помилка", typesMessages.error)(dispatch);
+            return dispatch({
+                type: ANOTHER_USER_CHANGE_ROLE_FAILURE,
+                payload: { ...defaultPayload, registration: { error: response.error.message || "error ocurred" } }
+            });
+        }
+        showMessage(`Користувача ${username} ${status ? "": "де"}активовано`, typesMessages.success)(dispatch);
+        dispatch({
+            type: ANOTHER_USER_CHANGE_ROLE_SUCCESS,
+            payload: { ...defaultPayload },
+        }); 
+    }; 
+}
+
+
 export function checkUsername(username) {
     return async function(dispatch) {
         dispatch({ 
             type: USER_REGISTER_USERNAME_REQUEST,
             payload: { ...defaultPayload, registration: { username: {  isFetching: true },  isFetching: false } }
         });
-        const response = await User.isFreeLogin(username);
+        const response = await Register.isFreeLogin(username);
         if (response.error !== null) {
             return dispatch({
                 type: USER_REGISTER_USERNAME_FAILURE,
@@ -196,7 +228,7 @@ export function updateInfoAboutMe() {
             type: USER_UPDATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await User.me(jwt);
+        const response = await Register.me(jwt);
         if (response.error !== null) {
             showMessage("Невдалося отримати інфориацію", typesMessages.error)(dispatch);
             return dispatch({
@@ -225,7 +257,7 @@ export function getInfoAboutUser(username) {
             type: ANOTHER_USER_REQUEST,
             payload: { ...defaultPayload, requestedUserIsFetching: true }
         });
-        const response = await User.getByLogin(jwt, username);
+        const response = await Register.getByLogin(jwt, username);
         if (response.statusCode === 404) {
             return dispatch({
                 type: CURRENT_PATH_REDIRECT,
@@ -242,7 +274,9 @@ export function getInfoAboutUser(username) {
                 payload: { ...defaultPayload, requestedUserIsFetching: false }
             });
         }
-        const userObject = response.respBody.data;
+        const userObject = response.respBody.code_usages_blank;
+        console.log("!!!!!!!!!!!!!!!!!");
+        console.log(userObject);
         dispatch({
             type: ANOTHER_USER_SUCCESS,
             payload: { ...defaultPayload, requestedUserObject: userObject },
@@ -263,7 +297,7 @@ export function changeUserRole(username, role) {
             type: ANOTHER_USER_CHANGE_ROLE_REQUEST,
             payload: { ...defaultPayload, requestedUserIsFetching: true }
         });
-        const response = await User.updateByLogin(jwt, username, role, true);
+        const response = await Register.updateByLogin(jwt, username, role, true);
         if (response.error !== null) {
             showMessage(`Невдалося змінити роль ${response.error.message}`, typesMessages.error)(dispatch);
             return dispatch({
@@ -280,7 +314,7 @@ export function changeUserRole(username, role) {
     };
 }
 
-export function changeMyPersonalInfo(username, formData) {
+export function changeUserPasword(username, formData) {
     const jwt = localStorage.getItem('jwt');
     if (jwt === null) {
         return {
@@ -293,7 +327,7 @@ export function changeMyPersonalInfo(username, formData) {
             type: USER_CHANGE_PROFILE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await User.updateByLogin(jwt, username, formData, false);
+        const response = await Register.updateByLogin(jwt, username, formData, false);
         if (response.statusCode === 406) {
             showMessage(`Пароль введено невірно`, typesMessages.error)(dispatch);
             return dispatch({
@@ -308,17 +342,61 @@ export function changeMyPersonalInfo(username, formData) {
                 payload: { ...defaultPayload, isFetching: false }
             });
         }
-        const userObject = response.respBody.data;
+        //const userObject = response.respBody.data;
         showMessage(`Профіль було успішно онвлено`, typesMessages.success)(dispatch);
         dispatch({
             type: USER_CHANGE_PROFILE_SUCCESS,
-            payload: { ...defaultPayload, userObject: userObject },
+            payload: { ...defaultPayload },
         });
         dispatch({
             type: CURRENT_PATH_REDIRECT,
             payload: {
                 method: 'push', 
-                path: '/users/me'
+                path: '/registers'
+            }
+        });
+    };
+}
+
+export function changeRegisterPersonalInfo(username, formData) {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt === null) {
+        return {
+            type: 'JWT_NOT_FOUND',
+            payload: {}
+        };
+    }
+    return async function(dispatch) {
+        dispatch({ 
+            type: USER_CHANGE_PROFILE_REQUEST,
+            payload: { ...defaultPayload, isFetching: true }
+        });
+        const response = await Register.updateByLogin(jwt, username, formData, false);
+        if (response.statusCode === 406) {
+            showMessage(`Пароль введено невірно`, typesMessages.error)(dispatch);
+            return dispatch({
+                type: USER_CHANGE_PROFILE_FAILURE,
+                payload: { ...defaultPayload, isFetching: false }
+            });
+        }
+        if (response.error !== null) {
+            showMessage(`Перевірте корректність введених даних`, typesMessages.error)(dispatch);
+            return dispatch({
+                type: USER_CHANGE_PROFILE_FAILURE,
+                payload: { ...defaultPayload, isFetching: false }
+            });
+        }
+        //const userObject = response.respBody.data;
+        showMessage(`Профіль було успішно онвлено`, typesMessages.success)(dispatch);
+        dispatch({
+            type: USER_CHANGE_PROFILE_SUCCESS,
+            payload: { ...defaultPayload },
+        });
+        dispatch({
+            type: CURRENT_PATH_REDIRECT,
+            payload: {
+                method: 'push', 
+                path: '/registers'
             }
         });
     };

@@ -18,17 +18,17 @@ class JumbotronButtonsBlock extends Component {
                 };
             } else if (isRegister(role)) {
                 return {
-                    text: 'Панель:',
+                    text: '',
                     buttons: [
-                        { link: '/hmmm', text: 'hmmmmm' }
+                        // { link: '/hmmm', text: 'hmmmmm' }
                     ]
                 };
             } else {
                 return {
-                    text: 'Скористайтесь послугами вже зараз:',
+                    text: '',
                     buttons: [
-                        { link: '/registries/new', text: 'Створити реєстр' },
-                        { link: '/invoices/new', text: 'Створити накладну' }
+                        // { link: '/registries/new', text: 'Створити реєстр' },
+                        // { link: '/invoices/new', text: 'Створити накладну' }
                     ]
                 };
             }

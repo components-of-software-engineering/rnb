@@ -16,7 +16,7 @@ class ModalDialog extends Component {
 
     render() {
         return (
-            <div className="modal fade" id="modalDialog" tabIndex="-1" role="dialog" aria-labelledby="modalDialogLabel" aria-hidden="true">
+            <div className="modal fade" id={`modalDialog-${this.props.keyId}`} tabIndex="-1" role="dialog" aria-labelledby="modalDialogLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -25,7 +25,7 @@ class ModalDialog extends Component {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body text-center text-wrap">
                             {this.props.textModal}
                         </div>
                         <div className="modal-footer">
@@ -40,6 +40,7 @@ class ModalDialog extends Component {
 }
 
 ModalDialog.propTypes = {
+    keyId: PropTypes.string,
     titleModal: PropTypes.string.isRequired,
     textModal: PropTypes.string.isRequired,
     actionModal: PropTypes.string.isRequired,
