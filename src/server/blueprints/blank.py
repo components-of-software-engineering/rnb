@@ -67,7 +67,7 @@ def get_part():
     return jsonify({"blank": returned_data}), 200
 
 
-@blank.route('/get_all', methods=['GET'])
+@blank.route('/get_all', methods=['POST'])
 def get_all():
     try:
         returned_data = blank_model.read_all()
@@ -110,7 +110,7 @@ def update():
     return jsonify({"msg": "Blank was updated"}), 201
 
 
-@blank.route('/amount', methods=['GET'])
+@blank.route('/amount', methods=['POST'])
 def amount():
     try:
         returned_data = blank_model.amount()

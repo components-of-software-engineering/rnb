@@ -46,7 +46,7 @@ def get():
     return jsonify({"journal_actions": returned_data}), 200
 
 
-@journal_actions.route('/get_all', methods=['GET'])
+@journal_actions.route('/get_all', methods=['POST'])
 def get_all():
     try:
         returned_data = journal_actions_model.read_all()
@@ -87,7 +87,7 @@ def update():
     return jsonify({"msg": "journal action was updated"}), 201
 
 
-@journal_actions.route('/amount', methods=['GET'])
+@journal_actions.route('/amount', methods=['POST'])
 def amount():
     try:
         returned_data = journal_actions_model.amount()

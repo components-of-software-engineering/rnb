@@ -44,7 +44,7 @@ def get():
     return jsonify({"verifications_register": returned_data}), 200
 
 
-@verifications_register.route('/get_all', methods=['GET'])
+@verifications_register.route('/get_all', methods=['POST'])
 def get_all():
     try:
         returned_data = verifications_register_model.read_all()
@@ -85,7 +85,7 @@ def update():
     return jsonify({"msg": "verification was updated"}), 201
 
 
-@verifications_register.route('/amount', methods=['GET'])
+@verifications_register.route('/amount', methods=['POST'])
 def amount():
     try:
         returned_data = verifications_register_model.amount()

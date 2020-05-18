@@ -43,7 +43,7 @@ def get():
     return jsonify({"code_usages_blank": returned_data}), 200
 
 
-@usages_register.route('/get_all', methods=['GET'])
+@usages_register.route('/get_all', methods=['POST'])
 def get_all():
     try:
         returned_data = usages_register_model.read_all()
@@ -84,7 +84,7 @@ def update():
     return jsonify({"msg": "usages of register was updated"}), 201
 
 
-@usages_register.route('/amount', methods=['GET'])
+@usages_register.route('/amount', methods=['POST'])
 def amount():
     try:
         returned_data = usages_register_model.amount()

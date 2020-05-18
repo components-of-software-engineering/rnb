@@ -55,7 +55,7 @@ def get():
     return jsonify({"notarius": returned_data}), 200
 
 
-@notarius.route('/get_all', methods=['GET'])
+@notarius.route('/get_all', methods=['POST'])
 def get_all():
     try:
         returned_data = notarius_model.read_all()
@@ -96,7 +96,7 @@ def update():
     return jsonify({"msg": "Blank was updated"}), 201
 
 
-@notarius.route('/amount', methods=['GET'])
+@notarius.route('/amount', methods=['POST'])
 def amount():
     try:
         returned_data = notarius_model.amount()
