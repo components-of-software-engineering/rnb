@@ -1,7 +1,9 @@
 from datetime import date
 
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 
+from blueprints.annotations.roles_required import roles_required
 from models.journal_actions import JournalActionsModel
 from connection import PostgresConnection
 
@@ -9,9 +11,11 @@ journal_actions_model = JournalActionsModel(PostgresConnection().get_connection(
 
 journal_actions = Blueprint('journal_actions', __name__)
 
-
+@jwt_required
 @journal_actions.route('/create', methods=['POST'])
 def create():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
@@ -29,9 +33,11 @@ def create():
 
     return jsonify({"msg": "journal action was added"}), 201
 
-
+@jwt_required
 @journal_actions.route('/get', methods=['POST'])
 def get():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -45,9 +51,11 @@ def get():
 
     return jsonify({"journal_actions": returned_data}), 200
 
-
+@jwt_required
 @journal_actions.route('/get_all', methods=['POST'])
 def get_all():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     try:
         returned_data = journal_actions_model.read_all()
     except Exception as e:
@@ -55,9 +63,13 @@ def get_all():
 
     return jsonify({"journals_actions": returned_data}), 200
 
-
+@jwt_required
 @journal_actions.route('/delete', methods=['POST'])
 def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -71,9 +83,11 @@ def delete():
 
     return jsonify({"msg": "journal action was deleted"}), 201
 
-
+@jwt_required
 @journal_actions.route('/update', methods=['POST'])
 def update():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -86,9 +100,11 @@ def update():
 
     return jsonify({"msg": "journal action was updated"}), 201
 
-
+@jwt_required
 @journal_actions.route('/amount', methods=['POST'])
 def amount():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     try:
         returned_data = journal_actions_model.amount()
     except Exception as e:
