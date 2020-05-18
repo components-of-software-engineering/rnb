@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 
+from blueprints.annotations.roles_required import roles_required
 from models.code_usages_blank import CodeUsagesBlankModel
 from connection import PostgresConnection
 
@@ -7,9 +9,11 @@ code_usages_blank_model = CodeUsagesBlankModel(PostgresConnection().get_connecti
 
 code_usages_blank = Blueprint('code_usages_blank', __name__)
 
-
+@jwt_required
 @code_usages_blank.route('/create', methods=['POST'])
 def create():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
@@ -23,9 +27,11 @@ def create():
 
     return jsonify({"msg": "Code of blank's usages was added"}), 201
 
-
+@jwt_required
 @code_usages_blank.route('/get', methods=['POST'])
 def get():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -39,9 +45,11 @@ def get():
 
     return jsonify({"code_usages_blank": returned_data}), 200
 
-
+@jwt_required
 @code_usages_blank.route('/get_all', methods=['POST'])
 def get_all():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     try:
         returned_data = code_usages_blank_model.read_all()
     except Exception as e:
@@ -49,9 +57,11 @@ def get_all():
 
     return jsonify({"codes_usages_blank": returned_data}), 200
 
-
+@jwt_required
 @code_usages_blank.route('/delete', methods=['POST'])
 def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -65,9 +75,11 @@ def delete():
 
     return jsonify({"msg": "Code of blank's usages was deleted"}), 201
 
-
+@jwt_required
 @code_usages_blank.route('/update', methods=['POST'])
 def update():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -80,9 +92,11 @@ def update():
 
     return jsonify({"msg": "Code of blank's usages was updated"}), 201
 
-
+@jwt_required
 @code_usages_blank.route('/amount', methods=['POST'])
 def amount():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
     try:
         returned_data = code_usages_blank_model.amount()
     except Exception as e:
