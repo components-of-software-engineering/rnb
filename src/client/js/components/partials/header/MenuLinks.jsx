@@ -23,9 +23,11 @@ class MenuLinks extends Component {
             );
         };
         const linkPanelAdmin = (
-            <li className="nav-item">
-                <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/signup'>Зареєстувати реєстратора</NavLink>
-            </li>
+            <>
+                <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/registers'>Реєстратори</NavLink>
+                </li>
+            </>
         );
         const linkPanelRregitser = (
             <li className="nav-item">

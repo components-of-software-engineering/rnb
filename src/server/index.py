@@ -3,12 +3,14 @@ import os
 from flask import Flask, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 from waitress import serve
-from controller import Controller
 
 from blueprints.auth import auth
 from blueprints.notarius import notarius
 from blueprints.blank import blank
+from blueprints.users import users
+
 from config import config_jwt
+from controller import Controller
 
 from extensions import jwt
 
@@ -26,7 +28,7 @@ jwt.init_app(app)
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(notarius, url_prefix='/notarius')
 app.register_blueprint(blank, url_prefix='/blank')
-
+app.register_blueprint(users, url_prefix='/users')
 
 @app.route('/dist/<path:path>')
 def serve_dist(path):
@@ -59,14 +61,15 @@ def create_db_connection():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        if sys.argv[1] == "--dev":
-            app.run(debug=True, host='0.0.0.0', port=PORT)
-        elif sys.argv[1] == "--prod":
-            serve(app, host='0.0.0.0', port=PORT)
-        else:
-            print("Unknown argument")
-            exit(1)
-    else:
-        print("Provide --dev or --prod argument")
-        exit(1)
+    create_db_connection()
+    # if len(sys.argv) == 2:
+    #     if sys.argv[1] == "--dev":
+    #         app.run(debug=True, host='0.0.0.0', port=PORT)
+    #     elif sys.argv[1] == "--prod":
+    #         serve(app, host='0.0.0.0', port=PORT)
+    #     else:
+    #         print("Unknown argument")
+    #         exit(1)
+    # else:
+    #     print("Provide --dev or --prod argument")
+    #     exit(1)

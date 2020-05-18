@@ -14,7 +14,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        code_usages_blank_model.create({
+        returned_data = code_usages_blank_model.create({
             "code": request_json['code'],
             "text_representation": request_json['text_representation']
         })
@@ -40,7 +40,7 @@ def get():
     return jsonify({"code_usages_blank": returned_data}), 200
 
 
-@code_usages_blank.route('/get_all', methods=['POST'])
+@code_usages_blank.route('/get_all', methods=['GET'])
 def get_all():
     try:
         returned_data = code_usages_blank_model.read_all()
@@ -81,7 +81,7 @@ def update():
     return jsonify({"msg": "Code of blank's usages was updated"}), 201
 
 
-@code_usages_blank.route('/amount', methods=['POST'])
+@code_usages_blank.route('/amount', methods=['GET'])
 def amount():
     try:
         returned_data = code_usages_blank_model.amount()

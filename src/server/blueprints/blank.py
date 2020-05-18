@@ -16,7 +16,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        blank_model.create({
+        returned_data = blank_model.create({
             "num": request_json["num"],
             "series": request_json["series"],
             "notarius_id": request_json["notarius_id"],
@@ -67,7 +67,7 @@ def get_part():
     return jsonify({"blank": returned_data}), 200
 
 
-@blank.route('/get_all', methods=['POST'])
+@blank.route('/get_all', methods=['GET'])
 def get_all():
     try:
         returned_data = blank_model.read_all()
@@ -110,7 +110,7 @@ def update():
     return jsonify({"msg": "Blank was updated"}), 201
 
 
-@blank.route('/amount', methods=['POST'])
+@blank.route('/amount', methods=['GET'])
 def amount():
     try:
         returned_data = blank_model.amount()

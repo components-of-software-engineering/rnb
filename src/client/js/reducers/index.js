@@ -1,20 +1,20 @@
 import { combineReducers } from 'redux';
 import userReducer from './user';
 import invoicesReducer from './invoices';
-import invoiceReducer from './invoice';
+import specialFormReducer from './specialForm';
 import messageReducer from './showMessages';
-import usersReducer from './users';
+import registersReducer from './registers';
 import registriesReducer from './registries'; 
 import registryReducer from './registry';
 import notifyReducer from './noyify';
 
 const rootReducer = combineReducers({
     user: userReducer,
-    users: usersReducer,
+    registers: registersReducer,
     registries: registriesReducer,
     registry: registryReducer,
     invoices: invoicesReducer,
-    invoice: invoiceReducer,
+    specialForm: specialFormReducer,
     systemMessages: messageReducer,
     notify: notifyReducer
 });

@@ -16,7 +16,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        notarius_model.create({
+        returned_data = notarius_model.create({
             "type": request_json['type'],
             "status": request_json['status'],
             "date_status_update": date.today(),
@@ -55,7 +55,7 @@ def get():
     return jsonify({"notarius": returned_data}), 200
 
 
-@notarius.route('/get_all', methods=['POST'])
+@notarius.route('/get_all', methods=['GET'])
 def get_all():
     try:
         returned_data = notarius_model.read_all()
@@ -96,7 +96,7 @@ def update():
     return jsonify({"msg": "Blank was updated"}), 201
 
 
-@notarius.route('/amount', methods=['POST'])
+@notarius.route('/amount', methods=['GET'])
 def amount():
     try:
         returned_data = notarius_model.amount()

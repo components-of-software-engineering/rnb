@@ -2,11 +2,11 @@ import os
 
 
 config_db = {
-    'host': os.getenv("DB_HOST"),
-    'port': os.getenv("DB_PORT"),
-    'database': os.getenv("DB_DBNAME"),
-    'user': os.getenv("DB_USER"),
-    'password': os.getenv("DB_PASS")
+    'host': os.getenv("DB_HOST") or "localhost",
+    'port': os.getenv("DB_PORT") or "5432",
+    'database': os.getenv("DB_DBNAME") or "rnb",
+    'user': os.getenv("DB_USER") or "postgres",
+    'password': os.getenv("DB_PASS") or "reRhsybrcs1038"
 }
 
 # config_db = {

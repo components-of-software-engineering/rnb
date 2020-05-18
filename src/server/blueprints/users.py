@@ -17,7 +17,7 @@ def create():
         return jsonify({"msg": "Missing JSON in request"}), 400
     request_json = request.json
     try:
-        users_model.create({
+        returned_data = users_model.create({
             "name": request_json["name"],
             "role": request_json["role"],
             "date_registration": date.today(),
@@ -49,7 +49,7 @@ def get():
     return jsonify({"code_usages_blank": returned_data}), 200
 
 
-@users.route('/get_all', methods=['POST'])
+@users.route('/get_all', methods=['GET'])
 def get_all():
     try:
         returned_data = users_model.read_all()
@@ -90,7 +90,7 @@ def update():
     return jsonify({"msg": "usages of register was updated"}), 201
 
 
-@users.route('/amount', methods=['POST'])
+@users.route('/amount', methods=['GET'])
 def amount():
     try:
         returned_data = users_model.amount()

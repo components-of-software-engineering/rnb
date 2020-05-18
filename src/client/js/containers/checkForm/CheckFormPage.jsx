@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Input from '../../components/partials/form_elements/Input';
-import { authenticate } from '../../actions/user';
+import { getMinimalInfoAboutSpecialForm } from '../../actions/specialForm';
 import { onSubmitFormValidation, onMountedForm } from '../../utils/validtion';
+import { toFormatedString } from '../../utils/dateConversion';
 
 class CheckFormPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             serial: '',
-            number: ''
+            number: '',
+            lastSerial: '',
+            lastNumber: '',
+            dateCheck: new Date()
         };
         this.handleSerialChange = this.handleSerialChange.bind(this);
         this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -19,11 +23,11 @@ class CheckFormPage extends Component {
     }
 
     static mapStateToProps(store) {
-        return { user: store.user };
+        return { specialForm: store.specialForm };
     }
 
     static mapDispatchToProps(dispatch) {
-        return { login: (username, password) => dispatch(authenticate(username, password)) };
+        return { getMinimalInfoAboutSpecialForm: (serial, number) => dispatch(getMinimalInfoAboutSpecialForm(serial, number)) };
     }
 
     componentDidMount() {
@@ -31,8 +35,13 @@ class CheckFormPage extends Component {
     }
 
     formOnSubmit(e) {
-        if (onSubmitFormValidation(e) && !this.props.user.isFetching) {
-            //this.props.login(this.state.username, this.state.password);
+        if (onSubmitFormValidation(e) && !this.props.specialForm.isFetching) {
+            this.props.getMinimalInfoAboutSpecialForm(this.state.serial, this.state.number);
+            this.setState({
+                lastSerial: this.state.serial,
+                lastNumber: this.state.number,
+                dateCheck: new Date()
+            });
             e.preventDefault();
         }       
     }
@@ -52,7 +61,7 @@ class CheckFormPage extends Component {
                 <p>
                     Щоби дізнатися дату та код витрачання бланку, введіть його серію та номер у форму нижче:
                 </p>
-                <form id="checkFormRegular" className="needs-validation mx-auto form-default mb-4 p-4" action="/api/v1/check-regular" method="POST" onSubmit={this.formOnSubmit} style={{maxWidth: "25rem"}} noValidate>
+                <form id="checkFormRegular" className="needs-validation mx-auto form-default mb-4 p-4" method="POST" onSubmit={this.formOnSubmit} style={{maxWidth: "25rem"}} noValidate>
                     <div className="form-row">
                         <div className="col-md-4 mb-1 form-group">
                             <Input
@@ -87,17 +96,32 @@ class CheckFormPage extends Component {
                         </small>
                     </div>
                     <div className="d-flex">
-                        <button className="btn btn-primary mx-auto" disabled={this.props.user.isFetching} type="submit">Перевірити</button>
+                        <button className="btn btn-primary mx-auto" disabled={this.props.specialForm.isFetching} type="submit">Перевірити</button>
                     </div>
                 </form>
+                {this.props.specialForm.specialFormObject &&
+                    <div className="content-bottom col-md-8 mx-auto my-3">
+                        <h3 className="text-center mb-4">Результат останньої перевірки:</h3>
+                        <p><b>Номер та серія бланка</b>: {this.state.lastSerial} {this.state.lastNumber}</p>
+                        <p><b>Дата та час перевірки бланка</b>: {toFormatedString(this.state.dateCheck)}</p>
+                        {this.props.specialForm.isFound ?
+                            <>
+                                <p><b>Код витрачання бланка</b>: {this.props.specialForm.specialFormObject.statusCode} - {this.props.specialForm.specialFormObject.statusPhrase}</p>
+                                <p><b>Дата витрачання бланка</b>: {toFormatedString(this.props.specialForm.specialFormObject.dateUsing)}</p>
+                                
+                            </>
+                        :
+                            <p><i>За Вашим запитом не знайдено жодного бланка</i></p>
+                        }
+                    </div>
+                }
             </React.Fragment>
         );
     }
 }
 
 CheckFormPage.propTypes = {
-    user: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
+    specialForm: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
 };
 

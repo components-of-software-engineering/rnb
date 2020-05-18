@@ -3,7 +3,7 @@ export const INVOICES_GET_ALL_REQUEST = 'INVOICES_GET_ALL_REQUEST';
 export const INVOICES_GET_ALL_FAILURE = 'INVOICES_GET_ALL_FAILURE';
 export const INVOICES_GET_ALL_SUCCESS = 'INVOICES_GET_ALL_SUCCESS';
 import { showMessage, typesMessages } from './showMessage';
-import Invoice from './../model/invoice';
+import Invoice from '../model/specialForm';
 
 export const defaultPayload = {
     invoicesObject: null,

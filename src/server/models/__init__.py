@@ -33,13 +33,14 @@ class BaseModel(ABC):
 
     def read(self, keys: dict):
         self._cursor.execute(self.__select_query, keys)
-        row = dict(self._cursor.fetchone())
-        return row
+        row = self._cursor.fetchone()
+        return dict(row) if row is not None else row
 
     def read_all(self):
         self._cursor.execute(self.__select_all_query)
-        row = dict(self._cursor.fetchone())
-        return row
+
+        rows = [dict(x) for x in self._cursor.fetchall()]
+        return rows
 
     def amount(self):
         self._cursor.execute(self.__count_query)
