@@ -13,7 +13,7 @@ import ModalDialog from '../../components/partials/modals/ModalDialog';
 import $ from 'jquery';
 import Input from '../../components/partials/form_elements/Input';
 
-class RegistersTable extends Component {
+class SpecialFormTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -139,7 +139,7 @@ class RegistersTable extends Component {
         return (
             <React.Fragment>
                 <div>
-                    <p>
+                    {/* <p>
                         Фільтрувати дані можна за такими полями:
                     </p>
                     <div className="form-group form-inline ">
@@ -156,16 +156,16 @@ class RegistersTable extends Component {
                             value={this.state.name}
                             required
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="table-responsive p-3">
                     <table className="mx-auto mb-4 styled mr-3" id="registers">
                         <thead>
                             <tr>
-                                <th>Username</th>
-                                <th>Повне ім&#39;я</th>
-                                <th>Дата реєстрації</th>
-                                <th>Дата оновлення</th>
+                                <th>Серія</th>
+                                <th>Номер</th>
+                                <th>Код витрачання</th>
+                                <th>Дата витрачання</th>
                                 <th>Статус</th>
                                 <th>Дії</th>
                             </tr>
@@ -180,9 +180,9 @@ class RegistersTable extends Component {
     }
 }
 
-RegistersTable.propTypes = {
+SpecialFormTable.propTypes = {
     registers: PropTypes.object.isRequired,
     getAllRegisters: PropTypes.func.isRequired  
 };
 
-export default withRouter(connect(RegistersTable.mapStateToProps, RegistersTable.mapDispatchToProps)(RegistersTable));
+export default withRouter(connect(SpecialFormTable.mapStateToProps, SpecialFormTable.mapDispatchToProps)(SpecialFormTable));

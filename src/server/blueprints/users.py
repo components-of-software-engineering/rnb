@@ -1,4 +1,5 @@
 import uuid
+import hashlib
 from datetime import date
 
 from flask import Blueprint, request, jsonify
@@ -39,10 +40,10 @@ def get():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
-    id = request.json['id']
+    username = request.json['username']
     try:
         returned_data = users_model.read({
-            "id": id
+            "username": username
         })
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
@@ -83,9 +84,17 @@ def update():
 
     arguments_to_update = request.json['arguments_to_update']
     primary_keys = request.json['primary_keys']
+    if "password" in arguments_to_update:
+        arguments_to_update["pwd_salt"] = uuid.uuid4().hex
+        arguments_to_update["pwd_hash"] = hashlib.sha512((arguments_to_update["password"] + arguments_to_update["pwd_salt"]).encode('utf-8')).hexdigest()
+        del arguments_to_update["password"]
+        del arguments_to_update["old_password"]
+        del arguments_to_update["confirm_password"]
     try:
         users_model.update(arguments_to_update, primary_keys)
     except Exception as e:
+        print("!!!")
+        print(str(e))
         return jsonify({"msg": str(e)}), 400
 
     return jsonify({"msg": "usages of register was updated"}), 201

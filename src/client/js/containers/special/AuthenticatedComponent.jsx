@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Forbidden from '../../components/special/Forbidden';
+import Disactivated from '../../components/special/Disactivated';
 import NotAuthorized from '../../components/special/NotAuthorized';
 import { updateInfoAboutMe } from '../../actions/user';
 
@@ -15,6 +16,9 @@ export default function requireAuthentication(Component, rolesHaveAcess, customC
             }
         }
         showComponent(user) {
+            if (user.userObject && user.userObject.status === false) {
+                return <Disactivated />;
+            }
             if (!user.isLogined) {
                 return <NotAuthorized />;
             } else if (user.isLogined && user.userObject) {

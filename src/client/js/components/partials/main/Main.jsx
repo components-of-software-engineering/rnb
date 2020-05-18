@@ -12,6 +12,7 @@ import AuthenticatedComponent from '../../../containers/special/AuthenticatedCom
 import MyUserPage from '../../../containers/user/MyUserPage';
 import UserPage from '../../../containers/user/UserPage';
 import EditUserPage from '../../../containers/user/EditUserPage';
+import UpdateUserPage from '../../../containers/user/UpdateUserPage';
 import RegistriesTable from '../../../containers/registries/RegistriesTable';
 import { isAdministrator, isRegister } from '../../../utils/service';
 import RegistryPage from '../../../containers/registry/RegistryPage';
@@ -23,6 +24,8 @@ import NewInvoice from '../../../containers/invoice/NewInvoice';
 import EditInvoice from '../../../containers/invoice/EditInvoice';
 import DeveloperPage from '../../developer/DeveloperPage';
 import CheckFormPage from '../../../containers/checkForm/CheckFormPage';
+import SpecialFormsPage from '../../../containers/forms/SpecialFormsPage';
+import NewForm from '../../../containers/forms/NewForm';
 
 class Main extends Component {
   render() {
@@ -34,7 +37,13 @@ class Main extends Component {
                     <Route exact path='/' component={HomePage}/>
                         <Route path='/about' component={AboutPage}/>
                         <Route exact path='/registers' component={AuthenticatedComponent(UsersPage, [isAdministrator])}/>
-                            <Route exact path='/users/me' component={AuthenticatedComponent(MyUserPage, false)}/>
+                            <Route path='/registers/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
+                            <Route path='/registers/edit/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(EditUserPage, [isAdministrator])}/>
+                            <Route path='/registers/update/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(UpdateUserPage, [isAdministrator])}/>
+                        <Route exact path='/forms' component={AuthenticatedComponent(SpecialFormsPage, [isRegister])}/>
+                        <Route exact path='/forms/add' component={AuthenticatedComponent(NewForm, [isRegister])}/>
+
+                        <Route exact path='/users/me' component={AuthenticatedComponent(MyUserPage, false)}/>
                                 <Route path='/users/me/edit' component={AuthenticatedComponent(EditUserPage, false)} />
                             <Route path='/users/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(UserPage, [isAdministrator])}/>
                         <Route exact path='/registries/' component={AuthenticatedComponent(RegistriesTable, [isAdministrator, isRegister])}/>
@@ -46,8 +55,7 @@ class Main extends Component {
                                 <Route path='/invoices/:number(\d{6})/edit' component={AuthenticatedComponent(EditInvoice, [isAdministrator, isRegister])}/>
                             <Route path='/invoices/new' component={AuthenticatedComponent(NewInvoice, [isAdministrator, isRegister])}/>
                         <Route path='/login' component={LoginPage} />
-                        <Route path='/registers/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
-                        <Route path='/check' component={CheckFormPage} />
+                                               <Route path='/check' component={CheckFormPage} />
                         <Route component={PageNotFound}/>
                 </Switch>
             </ErrorBoundary>

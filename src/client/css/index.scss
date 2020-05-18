@@ -569,6 +569,10 @@ table.styled tbody > tr:hover td {
     background-color: #afbbffd0;
 }
 
+#notarius_id_field {
+    margin-left: 0 !important;
+}
+
 table.styled tbody tr:last-child td:last-child {
     border-radius: 0 0 15px 0;
 }
@@ -929,3 +933,16 @@ h2.api:first-of-type {
 }
 
 /* END PAGINATION */
+
+
+#register-form-blank div.form-inline label {
+    min-width: 25% !important;
+}
+
+#register-form-blank input {
+    margin-left: 0 !important;
+}
+
+#register-form-blank select {
+    margin-left: 0 !important;
+}

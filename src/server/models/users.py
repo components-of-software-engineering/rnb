@@ -9,7 +9,7 @@ class UsersModel(BaseModel):
                             "date_last_update, status) VALUES ( %(name)s, %(role)s, %(date_registration)s,"
                             "%(username)s, %(pwd_hash)s, %(pwd_salt)s, %(date_last_update)s, %(status)s) RETURNING id",
             "select_query": "SELECT * FROM users WHERE username = %(username)s",
-            "update_query": "UPDATE users SET {} WHERE id = %(id)s",
+            "update_query": "UPDATE users SET {} WHERE username = %(username)s",
             "delete_query": "DELETE FROM users WHERE id = %(id)s",
             "select_all_query": "SELECT * FROM users ORDER BY id",
             "count_query": "SELECT COUNT(*) FROM users",

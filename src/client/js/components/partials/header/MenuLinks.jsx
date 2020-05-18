@@ -31,7 +31,7 @@ class MenuLinks extends Component {
         );
         const linkPanelRregitser = (
             <li className="nav-item">
-                <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/hmm'>Hmmm</NavLink>
+                <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/forms'>Витрачання бланків</NavLink>
             </li>
         );
         if (role < 0) return null;

@@ -75,6 +75,7 @@ function userReducer(state = initialState, action) {
         case ANOTHER_USER_SUCCESS: {
             return {
                 ...state, 
+                disabling: data.disabling, 
                 requestedUserObject: data.requestedUserObject,
                 requestedUserIsFetching: data.requestedUserIsFetching, 
             };
@@ -89,14 +90,15 @@ function userReducer(state = initialState, action) {
         case USER_CHANGE_PROFILE_SUCCESS: {
             return {
                 ...state, 
-                isFetching: data.isFetching,
-                userObject: data.userObject
+                // isFetching: data.isFetching,
+                // userObject: data.userObject
             };
         }
         case USER_CHANGE_PROFILE_FAILURE:
         case USER_CHANGE_PROFILE_REQUEST: {
             return {
                 ...state, 
+                disabling: data.disabling, 
                 isFetching: data.isFetching
             };
         }
