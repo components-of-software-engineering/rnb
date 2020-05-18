@@ -59,7 +59,6 @@ def get():
 def get_for_utilizer():
     if roles_required(["utilizer"]) == 400:
         return jsonify({"msg": "no access"}), 400
-
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
