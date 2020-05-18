@@ -17,6 +17,7 @@ def create():
     request_json = request.json
     try:
         returned_data = verifications_register_model.create({
+
             "num_blank": request_json['num_blank'],
             "series_blank": request_json['series_blank'],
             "user_id": request_json['user_id'],

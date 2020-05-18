@@ -18,6 +18,7 @@ def create():
     request_json = request.json
     try:
         returned_data = users_model.create({
+
             "name": request_json["name"],
             "role": request_json["role"],
             "date_registration": date.today(),

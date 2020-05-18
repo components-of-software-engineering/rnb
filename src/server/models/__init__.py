@@ -38,7 +38,6 @@ class BaseModel(ABC):
 
     def read_all(self):
         self._cursor.execute(self.__select_all_query)
-
         rows = [dict(x) for x in self._cursor.fetchall()]
         return rows
 

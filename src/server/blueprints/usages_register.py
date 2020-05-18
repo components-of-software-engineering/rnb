@@ -15,6 +15,7 @@ def create():
     request_json = request.json
     try:
         returned_data = usages_register_model.create({
+
             "num_blank": request_json["num_blank"],
             "series_blank": request_json["series_blank"],
             "date_usage": request_json["date_usage"],
