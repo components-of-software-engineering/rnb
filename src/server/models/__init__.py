@@ -68,9 +68,16 @@ class BaseModel(ABC):
         self._cursor.execute(self.__delete_query, primary_keys)
         self._connection.commit()
 
+    def custom_query(self, query):
+        self._cursor.execute(query)
+        self._connection.commit()
+        row = self._cursor.fetchone()
+        return dict(row) if row is not None else row
+
     def _is_valid_parameters(self, verifiable: dict, compare_with: list) -> bool:
         return all([column in compare_with for column in verifiable])
 
     def _arguments_to_str(self, item: dict):
         return ", ".join("%s = %s" % (key, "\'" + value + "\'" if isinstance(value, str) else value)
                          for (key, value) in item.items())
+

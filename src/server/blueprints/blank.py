@@ -46,8 +46,8 @@ def get():
     return jsonify({"blank": returned_data}), 200
 
 
-@blank.route('/get_part', methods=['POST'])
-def get_part():
+@blank.route('/getfu', methods=['POST'])
+def get_for_utilizer():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -59,12 +59,27 @@ def get_part():
             "num": num,
             "series": series
         })
-        # todo
+
+        from models.usages_register import UsagesRegisterModel
+        usages_register_model = UsagesRegisterModel(PostgresConnection().get_connection())
+        usages_register = usages_register_model.custom_query("SELECT * FROM usages_register "
+                                                             "WHERE num_blank = %s "
+                                                             "AND series_blank = \'%s\'" % (num, series))
+
+        from models.code_usages_blank import CodeUsagesBlankModel
+        code_usages_blank_model = CodeUsagesBlankModel(PostgresConnection().get_connection())
+        code_usages_blank = code_usages_blank_model.custom_query("SELECT * FROM code_usages_blank "
+                                                                 "WHERE code = %s" % (usages_register['code_usage']))
+
 
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"blank": returned_data}), 200
+    return jsonify({
+        "statusCode": usages_register['code_usage'],
+        "statusPhrase": code_usages_blank['text_representation'],
+        "dateUsing": usages_register['date_usage']
+    }), 200
 
 
 @blank.route('/get_all', methods=['POST'])

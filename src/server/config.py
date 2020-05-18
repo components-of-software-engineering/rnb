@@ -6,7 +6,7 @@ config_db = {
     'port': os.getenv("DB_PORT") or "5432",
     'database': os.getenv("DB_DBNAME") or "rnb",
     'user': os.getenv("DB_USER") or "postgres",
-    'password': os.getenv("DB_PASS") or "reRhsybrcs1038"
+    'password': os.getenv("DB_PASS") or ""
 }
 
 # config_db = {
