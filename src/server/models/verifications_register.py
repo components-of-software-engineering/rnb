@@ -9,6 +9,7 @@ class VerificationsRegisterModel(BaseModel):
             "select_query": "SELECT * FROM verifications_register WHERE id = %(id)s",
             "update_query": "UPDATE verifications_register SET {} WHERE id = %(id)s",
             "delete_query": "DELETE FROM verifications_register WHERE id = %(id)s",
+            "delete_all_query": "TRUNCATE TABLE verifications_register CASCADE",
             "select_all_query": "SELECT * FROM verifications_register ORDER BY id",
             "count_query": "SELECT COUNT(*) FROM verifications_register",
         }

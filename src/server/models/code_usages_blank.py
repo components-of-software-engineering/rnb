@@ -2,13 +2,6 @@ from abc import ABC
 
 from models import BaseModel
 
-
-# class CodeUsagesBlank(object):
-#     def __init__(self, code, text_representation):
-#         self.code = code
-#         self.text_representation = text_representation
-
-
 class CodeUsagesBlankModel(BaseModel):
     def __init__(self, connection):
         queries = {
@@ -17,6 +10,7 @@ class CodeUsagesBlankModel(BaseModel):
             "select_query": "SELECT * FROM code_usages_blank WHERE code = %(code)s",
             "update_query": "UPDATE code_usages_blank SET {} WHERE code = %(code)s",
             "delete_query": "DELETE FROM code_usages_blank WHERE code = %(code)s",
+            "delete_all_query": "TRUNCATE TABLE code_usages_blank CASCADE",
             "select_all_query": "SELECT * FROM code_usages_blank ORDER BY code",
             "count_query": "SELECT COUNT(*) FROM code_usages_blank",
         }

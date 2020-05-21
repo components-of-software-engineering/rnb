@@ -90,6 +90,20 @@ def delete():
 
     return jsonify({"msg": "notarius was deleted"}), 201
 
+
+@jwt_required
+@notarius.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        notarius_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "notaries was deleted"}), 201
+
 @jwt_required
 @notarius.route('/update', methods=['POST'])
 def update():

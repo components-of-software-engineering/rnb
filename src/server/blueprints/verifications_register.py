@@ -80,6 +80,20 @@ def delete():
 
     return jsonify({"msg": "verification was deleted"}), 201
 
+
+@jwt_required
+@verifications_register.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        verifications_register_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "verifications was deleted"}), 201
+
 @jwt_required
 @verifications_register.route('/update', methods=['POST'])
 def update():

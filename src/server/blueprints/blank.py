@@ -123,6 +123,21 @@ def delete():
 
     return jsonify({"msg": "Blank was deleted"}), 201
 
+
+@jwt_required
+@blank.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        blank_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "Blanks was deleted"}), 201
+
+
 @jwt_required
 @blank.route('/update', methods=['POST'])
 def update():
