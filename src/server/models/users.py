@@ -11,6 +11,7 @@ class UsersModel(BaseModel):
             "select_query": "SELECT * FROM users WHERE username = %(username)s",
             "update_query": "UPDATE users SET {} WHERE username = %(username)s",
             "delete_query": "DELETE FROM users WHERE id = %(id)s",
+            "delete_all_query": "TRUNCATE TABLE users CASCADE",
             "select_all_query": "SELECT * FROM users ORDER BY id",
             "count_query": "SELECT COUNT(*) FROM users",
         }

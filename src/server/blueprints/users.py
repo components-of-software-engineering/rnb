@@ -84,7 +84,21 @@ def delete():
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"msg": "usages of register was deleted"}), 201
+    return jsonify({"msg": "user was deleted"}), 201
+
+
+@jwt_required
+@users.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        users_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "users was deleted"}), 201
 
 @jwt_required
 @users.route('/update', methods=['POST'])

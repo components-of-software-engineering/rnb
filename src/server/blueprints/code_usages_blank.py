@@ -75,6 +75,21 @@ def delete():
 
     return jsonify({"msg": "Code of blank's usages was deleted"}), 201
 
+
+@jwt_required
+@code_usages_blank.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        code_usages_blank_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "Codes of blank's usages was deleted"}), 201
+
+
 @jwt_required
 @code_usages_blank.route('/update', methods=['POST'])
 def update():

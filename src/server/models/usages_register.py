@@ -10,6 +10,7 @@ class UsagesRegisterModel(BaseModel):
             "select_query": "SELECT * FROM usages_register WHERE id = %(id)s",
             "update_query": "UPDATE usages_register SET {} WHERE id = %(id)s",
             "delete_query": "DELETE FROM usages_register WHERE id = %(id)s",
+            "delete_all_query": "TRUNCATE TABLE usages_register CASCADE",
             "select_all_query": "SELECT * FROM usages_register ORDER BY id",
             "count_query": "SELECT COUNT(*) FROM usages_register",
         }

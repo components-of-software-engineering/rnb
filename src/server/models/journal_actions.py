@@ -10,6 +10,7 @@ class JournalActionsModel(BaseModel):
             "select_query": "SELECT * FROM journal_actions WHERE id = %(id)s",
             "update_query": "UPDATE journal_actions SET {} WHERE id = %(id)s",
             "delete_query": "DELETE FROM journal_actions WHERE id = %(id)s",
+            "delete_all_query": "TRUNCATE TABLE journal_actions CASCADE",
             "select_all_query": "SELECT * FROM journal_actions ORDER BY id",
             "count_query": "SELECT COUNT(*) FROM journal_actions",
         }

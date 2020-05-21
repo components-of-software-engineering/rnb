@@ -83,6 +83,21 @@ def delete():
 
     return jsonify({"msg": "journal action was deleted"}), 201
 
+
+@jwt_required
+@journal_actions.route('/delete_all', methods=['POST'])
+def delete():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    try:
+        journal_actions_model.delete_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "journal actions was deleted"}), 201
+
+
 @jwt_required
 @journal_actions.route('/update', methods=['POST'])
 def update():

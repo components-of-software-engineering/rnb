@@ -9,6 +9,7 @@ class BlankModel(BaseModel):
             "select_query": "SELECT * FROM blank WHERE num = %(num)s AND series = %(series)s",
             "update_query": "UPDATE blank SET {} WHERE num = %(num)s AND series = %(series)s",
             "delete_query": "DELETE FROM blank WHERE num = %(num)s AND series = %(series)s",
+            "delete_all_query": "TRUNCATE TABLE blank CASCADE",
             "select_all_query": "SELECT * FROM blank ORDER BY num",
             "count_query": "SELECT COUNT(*) FROM blank",
         }

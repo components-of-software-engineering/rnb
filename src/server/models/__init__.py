@@ -4,7 +4,7 @@ from psycopg2.extras import DictCursor
 
 class BaseModel(ABC):
     def __init__(self, connection, columns: list, primary_key_names: list, insert_query, select_query,
-                 update_query, delete_query, select_all_query, count_query):
+                 update_query, __delete_all_query, delete_query, select_all_query, count_query):
         self._connection = connection
         self._cursor = connection.cursor(cursor_factory=DictCursor)
         self._connection.autocommit = True
@@ -13,6 +13,7 @@ class BaseModel(ABC):
         self.__select_query = select_query
         self.__update_query = update_query
         self.__delete_query = delete_query
+        self.__delete_all_query = __delete_all_query
         self.__select_all_query = select_all_query
         self.__count_query = count_query
 
@@ -66,6 +67,10 @@ class BaseModel(ABC):
 
     def delete(self, primary_keys: dict):
         self._cursor.execute(self.__delete_query, primary_keys)
+        self._connection.commit()
+
+    def delete_all(self):
+        self._cursor.execute(self.__delete_all_query)
         self._connection.commit()
 
     def custom_query(self, query):
