@@ -4,6 +4,7 @@ from datetime import date
 from models import BaseModel
 from random_data_generators import *
 
+
 class CodeUsagesBlankModel(BaseModel):
     def __init__(self, connection):
         queries = {
