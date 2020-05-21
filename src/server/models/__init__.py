@@ -4,7 +4,7 @@ from psycopg2.extras import DictCursor
 
 class BaseModel(ABC):
     def __init__(self, connection, columns: list, primary_key_names: list, insert_query, select_query,
-                 update_query, __delete_all_query, delete_query, select_all_query, count_query):
+                 update_query, delete_all_query, delete_query, select_all_query, count_query):
         self._connection = connection
         self._cursor = connection.cursor(cursor_factory=DictCursor)
         self._connection.autocommit = True
@@ -13,7 +13,7 @@ class BaseModel(ABC):
         self.__select_query = select_query
         self.__update_query = update_query
         self.__delete_query = delete_query
-        self.__delete_all_query = __delete_all_query
+        self.__delete_all_query = delete_all_query
         self.__select_all_query = select_all_query
         self.__count_query = count_query
 
@@ -79,10 +79,15 @@ class BaseModel(ABC):
         row = self._cursor.fetchone()
         return dict(row) if row is not None else row
 
+    def generate_data(self, num: int):
+        pass
+
     def _is_valid_parameters(self, verifiable: dict, compare_with: list) -> bool:
         return all([column in compare_with for column in verifiable])
 
     def _arguments_to_str(self, item: dict):
         return ", ".join("%s = %s" % (key, "\'" + value + "\'" if isinstance(value, str) else value)
                          for (key, value) in item.items())
+
+
 

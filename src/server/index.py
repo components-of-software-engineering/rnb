@@ -5,9 +5,13 @@ from dotenv import load_dotenv, find_dotenv
 from waitress import serve
 
 from blueprints.auth import auth
-from blueprints.notarius import notarius
 from blueprints.blank import blank
+from blueprints.code_usages_blank import code_usages_blank
+from blueprints.journal_actions import journal_actions
+from blueprints.notarius import notarius
+from blueprints.usages_register import usages_register
 from blueprints.users import users
+from blueprints.verifications_register import verifications_register
 
 from config import config_jwt
 from controller import Controller
@@ -26,9 +30,13 @@ app.config['JWT_SECRET_KEY'] = config_jwt['JWT_SECRET_KEY']
 jwt.init_app(app)
 
 app.register_blueprint(auth, url_prefix='/auth')
-app.register_blueprint(notarius, url_prefix='/notarius')
 app.register_blueprint(blank, url_prefix='/blank')
+app.register_blueprint(code_usages_blank, url_prefix='/code_usages_blank')
+app.register_blueprint(journal_actions, url_prefix='/journal_actions')
+app.register_blueprint(notarius, url_prefix='/notarius')
+app.register_blueprint(usages_register, url_prefix='/usages_register')
 app.register_blueprint(users, url_prefix='/users')
+app.register_blueprint(verifications_register, url_prefix='/verifications_register')
 
 @app.route('/dist/<path:path>')
 def serve_dist(path):

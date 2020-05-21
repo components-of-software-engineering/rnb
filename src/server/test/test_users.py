@@ -6,7 +6,7 @@ from datetime import date
 from connection import PostgresConnection
 from models.users import UsersModel
 from models.notarius import NotariusModel
-from test.random_data_generators import (random_int, random_string)
+from random_data_generators import (random_int, random_string)
 
 notarius_model = NotariusModel(PostgresConnection().get_connection())
 notary_returned_data = {'id': 0}
