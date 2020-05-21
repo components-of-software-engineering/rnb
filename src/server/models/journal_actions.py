@@ -1,4 +1,8 @@
+from datetime import date
+
 from models import BaseModel
+from random_data_generators import *
+from models.users import UsersModel
 
 
 class JournalActionsModel(BaseModel):
@@ -19,3 +23,20 @@ class JournalActionsModel(BaseModel):
         primary_key_names = ["id"]
         super().__init__(connection, columns, primary_key_names, **queries)
 
+    def generate_data(self, num: int):
+        try:
+            auxiliary_model = UsersModel(self._connection)
+            auxiliary_list = auxiliary_model.read_all()
+            length = len(auxiliary_list)
+            for i in range(0, num):
+                self.create({
+                    "user_id": auxiliary_list[random_int_to_num(length)]['id'],
+                    "action_date": date.today(),
+                    "action_type": random_int(),
+                    "row_affected": random_string(),
+                    "old_value": random_string(),
+                    "new_value": random_string()
+                })
+
+        except Exception as e:
+            return str(e)

@@ -1,6 +1,8 @@
 from abc import ABC
+from datetime import date
 
 from models import BaseModel
+from random_data_generators import *
 
 class CodeUsagesBlankModel(BaseModel):
     def __init__(self, connection):
@@ -19,3 +21,13 @@ class CodeUsagesBlankModel(BaseModel):
         primary_key_names = ["code"]
         super().__init__(connection, columns, primary_key_names, **queries)
 
+    def generate_data(self, num: int):
+        try:
+            for i in range(0, num):
+                self.create({
+                    "code": random_int_to_num(21),
+                    "text_representation": random_string
+                })
+
+        except Exception as e:
+            return str(e)

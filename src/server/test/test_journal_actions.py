@@ -6,7 +6,7 @@ from datetime import date
 from connection import PostgresConnection
 from models.journal_actions import JournalActionsModel
 from models.users import UsersModel
-from test.random_data_generators import (random_int, random_string)
+from random_data_generators import (random_int, random_string)
 
 users_model = UsersModel(PostgresConnection().get_connection())
 users_returned_data = {'id': 0}

@@ -1,4 +1,8 @@
+from datetime import date
+
 from models import BaseModel
+from models.notarius import NotariusModel
+from random_data_generators import *
 
 
 class VerificationsRegisterModel(BaseModel):
@@ -17,3 +21,20 @@ class VerificationsRegisterModel(BaseModel):
         columns = ["id", "num_blank", "series_blank", "user_id", "date_verification"]
         primary_key_names = ["id"]
         super().__init__(connection, columns, primary_key_names, **queries)
+
+
+    def generate_data(self, num: int):
+        try:
+            auxiliary_model = NotariusModel(self._connection)
+            auxiliary_list = auxiliary_model.read_all()
+            length = len(auxiliary_list)
+            for i in range(0, num):
+                self.create({
+                    "num_blank": random_int(),
+                    "series_blank": random_string(),
+                    "user_id": auxiliary_list[random_int_to_num(length)]['id'],
+                    "date_verification": date.today()
+                })
+
+        except Exception as e:
+            return str(e)

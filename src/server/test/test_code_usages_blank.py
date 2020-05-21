@@ -4,7 +4,7 @@ from datetime import date
 
 from connection import PostgresConnection
 from models.code_usages_blank import CodeUsagesBlankModel
-from test.random_data_generators import (random_int, random_string)
+from random_data_generators import (random_int, random_string)
 
 
 class TestCodeUsagesBlank(unittest.TestCase):

@@ -1,4 +1,8 @@
+from datetime import date
+
 from models import BaseModel
+from models.code_usages_blank import CodeUsagesBlankModel
+from random_data_generators import *
 
 
 class UsagesRegisterModel(BaseModel):
@@ -18,3 +22,20 @@ class UsagesRegisterModel(BaseModel):
         columns = ["id", "num_blank", "series_blank", "date_usage", "code_usage", "additional_info"]
         primary_key_names = ["id"]
         super().__init__(connection, columns, primary_key_names, **queries)
+
+    def generate_data(self, num: int):
+        try:
+            auxiliary_model = CodeUsagesBlankModel(self._connection)
+            auxiliary_list = auxiliary_model.read_all()
+            length = len(auxiliary_list)
+            for i in range(0, num):
+                self.create({
+                    "num_blank": random_int(),
+                    "series_blank": random_string(2),
+                    "date_usage": date.today(),
+                    "code_usage":  auxiliary_list[random_int_to_num(length)]['code'],
+                    "additional_info": random_string()
+                })
+
+        except Exception as e:
+            return str(e)

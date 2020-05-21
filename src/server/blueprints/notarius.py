@@ -93,7 +93,7 @@ def delete():
 
 @jwt_required
 @notarius.route('/delete_all', methods=['POST'])
-def delete():
+def delete_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
 

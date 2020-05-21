@@ -26,16 +26,8 @@ class Controller(object):
         self._users_model = UsersModel(self._connection)
         self._journal_actions_model = JournalActionsModel(self._connection)
         self._verifications_register_model = VerificationsRegisterModel(self._connection)
-        res = self._code_usages_blank_model.create({"code": 1, "text_representation": "2"})
-        print(res)
 
-        res = self._verifications_register_model.create({
-            "num_blank": 1,
-            "series_blank": 'series_blank',
-            "user_id": 4,
-            "date_verification": "2000-01-01"
-        })
-        print(res)
+        self._users_model.generate_data(100)
 
     @property
     def connection(self):

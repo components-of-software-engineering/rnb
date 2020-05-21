@@ -4,7 +4,7 @@ from datetime import date
 
 from connection import PostgresConnection
 from models.notarius import NotariusModel
-from test.random_data_generators import (random_int, random_string)
+from random_data_generators import (random_int, random_string)
 
 
 class TestNotarius(unittest.TestCase):
