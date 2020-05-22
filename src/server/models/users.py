@@ -34,7 +34,7 @@ class UsersModel(BaseModel):
             for i in range(0, num):
                 self.create({
                     "name": random_string(),
-                    "role": random_int_to_num(3),
+                    "role": random_int_from_zero_to_num(3),
                     "date_registration": date.today(),
                     "username": random_string(),
                     "pwd_hash": random_string(),

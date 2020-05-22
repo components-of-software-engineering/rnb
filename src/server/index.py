@@ -1,9 +1,11 @@
 import sys
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify, request
 from dotenv import load_dotenv, find_dotenv
+from flask_jwt_extended import jwt_required
 from waitress import serve
 
+from blueprints.annotations.roles_required import roles_required
 from blueprints.auth import auth
 from blueprints.blank import blank
 from blueprints.code_usages_blank import code_usages_blank
@@ -12,6 +14,15 @@ from blueprints.notarius import notarius
 from blueprints.usages_register import usages_register
 from blueprints.users import users
 from blueprints.verifications_register import verifications_register
+from connection import PostgresConnection
+
+from models.code_usages_blank import CodeUsagesBlankModel
+from models.notarius import NotariusModel
+from models.blank import BlankModel
+from models.usages_register import UsagesRegisterModel
+from models.users import UsersModel
+from models.journal_actions import JournalActionsModel
+from models.verifications_register import VerificationsRegisterModel
 
 from config import config_jwt
 from controller import Controller
@@ -57,6 +68,41 @@ def serve_favicon():
 @app.route('/<path:path>')
 def index(path):
     return send_from_directory('dist', 'index.html')
+
+
+@app.route('/generate', methods=['POST'])
+@jwt_required
+def generate():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+    try:
+
+        num = request.json['number']
+
+        users_model = UsersModel(PostgresConnection().get_connection())
+        notarius_model = NotariusModel(PostgresConnection().get_connection())
+        blank_model = BlankModel(PostgresConnection().get_connection())
+        usages_register_model = UsagesRegisterModel(PostgresConnection().get_connection())
+        journal_actions_model = JournalActionsModel(PostgresConnection().get_connection())
+        verifications_register_model = VerificationsRegisterModel(PostgresConnection().get_connection())
+        code_usages_blank_model = CodeUsagesBlankModel(PostgresConnection().get_connection())
+
+        users_model.generate_data(num)
+        notarius_model.generate_data(num)
+        blank_model.generate_data(num)
+        usages_register_model.generate_data(num)
+        journal_actions_model.generate_data(num)
+        verifications_register_model.generate_data(num)
+        code_usages_blank_model.generate_data(num)
+
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "data generated"}), 200
+
 
 
 def create_db_connection():
