@@ -70,9 +70,11 @@ class RegistersTable extends Component {
     handleDisable(e) {
         if (!this.props.registers.isFetching) {
             e.preventDefault();
-            $(`#modalDialog-${e.currentTarget.username.value}`).modal('toggle');
             this.props.disableRegister(e.currentTarget.username.value, e.currentTarget.status.value === "true", e.currentTarget.name.value);
-            this.props.getAllRegisters();
+            setTimeout((n, fn) => {
+                $(`#modalDialog-${n}`).modal('toggle');
+                fn();
+            }, 350, e.currentTarget.username.value, this.props.getAllRegisters);
         }   
     }
 

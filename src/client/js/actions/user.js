@@ -177,6 +177,7 @@ export function disableRegister(id, status = false, name = '') {
             payload: { ...defaultPayload, disabling: { isFetching: true } }
         });
         const jwt = localStorage.getItem('jwt');
+        await new Promise(r => setTimeout(r, 300));
         const response = await Register.disactivate(jwt, id, status);
         if (response.error !== null || response.statusCode != 201) {
             showMessage("Трапилась помилка", typesMessages.error)(dispatch);
