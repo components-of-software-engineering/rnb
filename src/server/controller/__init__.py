@@ -27,7 +27,7 @@ class Controller(object):
         self._journal_actions_model = JournalActionsModel(self._connection)
         self._verifications_register_model = VerificationsRegisterModel(self._connection)
 
-        self._users_model.generate_data(100)
+        # self._users_model.generate_data(100)
 
     @property
     def connection(self):

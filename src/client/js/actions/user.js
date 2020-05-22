@@ -132,7 +132,6 @@ export function getUserFromJWT() {
                 payload: { ...defaultPayload, error: { statusCode: response.statusCode } }
             });
         } 
-        console.log(response.respBody);
         const userObject = response.respBody.user;
         dispatch({
             type: USER_AUTHENTICATE_SUCCESS,
@@ -163,7 +162,7 @@ export function register(formData) {
             type: CURRENT_PATH_REDIRECT,
             payload: {
                 method: 'push', 
-                path: '/'
+                path: '/registers'
             }
         });
         showMessage("Успішно зареєстровано", typesMessages.success)(dispatch);
@@ -171,14 +170,14 @@ export function register(formData) {
 }
 
 
-export function disableRegister(username, status = false) {
+export function disableRegister(id, status = false, name = '') {
     return async function(dispatch) { 
         dispatch({ 
             type: ANOTHER_USER_CHANGE_ROLE_REQUEST,
             payload: { ...defaultPayload, disabling: { isFetching: true } }
         });
         const jwt = localStorage.getItem('jwt');
-        const response = await Register.disactivate(jwt, username, status);
+        const response = await Register.disactivate(jwt, id, status);
         if (response.error !== null || response.statusCode != 201) {
             showMessage("Трапилась помилка", typesMessages.error)(dispatch);
             return dispatch({
@@ -186,7 +185,7 @@ export function disableRegister(username, status = false) {
                 payload: { ...defaultPayload, registration: { error: response.error.message || "error ocurred" } }
             });
         }
-        showMessage(`Користувача ${username} ${status ? "": "де"}активовано`, typesMessages.success)(dispatch);
+        showMessage(`Користувача ${name} ${status ? "": "де"}активовано`, typesMessages.success)(dispatch);
         dispatch({
             type: ANOTHER_USER_CHANGE_ROLE_SUCCESS,
             payload: { ...defaultPayload },
@@ -275,8 +274,6 @@ export function getInfoAboutUser(username) {
             });
         }
         const userObject = response.respBody.code_usages_blank;
-        console.log("!!!!!!!!!!!!!!!!!");
-        console.log(userObject);
         dispatch({
             type: ANOTHER_USER_SUCCESS,
             payload: { ...defaultPayload, requestedUserObject: userObject },

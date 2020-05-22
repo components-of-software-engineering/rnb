@@ -9,19 +9,11 @@ config_db = {
     'password': os.getenv("DB_PASS") or ""
 }
 
-# config_db = {
-#     'host': "localhost",
-#     'port': "5432",
-#     'database': "rnb",
-#     'user': "postgres",
-#     'password': "reRhsybrcs1038"
-# }
-
 
 config_jwt = {
     'JWT_SECRET_KEY': os.getenv("JWT_SECRET"),
     'JWT_REFRESH_COOKIE_PATH': '/api/refresh',
-    'JWT_TOKEN_LOCATION': ['cookies']
+    'JWT_TOKEN_LOCATION': ['headers']
 }
 
 other_configs = {

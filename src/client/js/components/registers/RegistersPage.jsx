@@ -15,7 +15,10 @@ class RegistersPage extends Component {
                 <div className="container mb-2 text-center">
                     <Link className={`btn btn-primary my-1 btn-md ml-auto`} to="/registers/signup" role="button">Зареєструвати реєстратора</Link>
                 </div>
-                <p>Нижче в <i>таблиці</i> наведені всі реєстратори даного реєстру:</p>
+                <p>
+                    Нижче в <i>таблиці</i> наведені всі реєстратори даного реєстру. Кнопка <b>редагувати</b> означає внести зміни до профілю реєстратора,
+                    кнопка <b>оновити</b> означає надавання нових ідентифікаторів реєстратору.
+                </p>
                 <RegistersTable />
             </React.Fragment>
         );

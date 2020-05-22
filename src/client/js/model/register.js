@@ -104,7 +104,7 @@ class Register {
                 ...object
             },
             "primary_keys": {
-                username: login
+                id: login
             }
         });
         let response, respBody, statusCode;
@@ -117,7 +117,6 @@ class Register {
         } catch (e) {
             error = e;
         }
-        console.log(respBody);
         return new Response(statusCode, respBody, error);
     }
 
@@ -136,7 +135,6 @@ class Register {
         } catch (e) {
             error = e;
         }
-        console.log(respBody);
         return new Response(statusCode, respBody, error);
     }
 
@@ -149,7 +147,7 @@ class Register {
                 "status": status
             },
             "primary_keys": {
-                username
+                id: username
             }
         });
         let response, respBody, statusCode;
@@ -162,7 +160,6 @@ class Register {
         } catch (e) {
             error = e;
         }
-        console.log(respBody);
         return new Response(statusCode, respBody, error);
     }
 }
