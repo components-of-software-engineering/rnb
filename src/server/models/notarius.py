@@ -30,11 +30,11 @@ class NotariusModel(BaseModel):
         try:
             for i in range(0, num):
                 self.create({
-                    "type": bool(random_int_to_num(1)),
+                    "type": bool(random_int_from_zero_to_num(1)),
                     "status": random_string(),
                     "date_status_update": date.today(),
                     "num_certificate": random_string(),
-                    "num_card": random_int(),
+                    "num_card": random_int_from_zero_to_num(),
                     "name": random_string(),
                     "name_organization": random_string(),
                     "region": random_string(),

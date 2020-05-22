@@ -28,9 +28,9 @@ class BlankModel(BaseModel):
             length = len(auxiliary_list)
             for i in range(0, num):
                 self.create({
-                    "num": random_int(),
+                    "num": random_int_from_zero_to_num(),
                     "series": random_string(2),
-                    "notarius_id": auxiliary_list[random_int_to_num(length)]['id'],
+                    "notarius_id": auxiliary_list[random_int_from_zero_to_num(length)]['id'],
                     "date_receiving": date.today(),
                 })
 

@@ -30,10 +30,10 @@ class UsagesRegisterModel(BaseModel):
             length = len(auxiliary_list)
             for i in range(0, num):
                 self.create({
-                    "num_blank": random_int(),
+                    "num_blank": random_int_from_zero_to_num(),
                     "series_blank": random_string(2),
                     "date_usage": date.today(),
-                    "code_usage":  auxiliary_list[random_int_to_num(length)]['code'],
+                    "code_usage":  auxiliary_list[random_int_from_zero_to_num(length)]['code'],
                     "additional_info": random_string()
                 })
 

@@ -30,9 +30,9 @@ class JournalActionsModel(BaseModel):
             length = len(auxiliary_list)
             for i in range(0, num):
                 self.create({
-                    "user_id": auxiliary_list[random_int_to_num(length)]['id'],
+                    "user_id": auxiliary_list[random_int_from_zero_to_num(length)]['id'],
                     "action_date": date.today(),
-                    "action_type": random_int(),
+                    "action_type": random_int_from_zero_to_num(),
                     "row_affected": random_string(),
                     "old_value": random_string(),
                     "new_value": random_string()

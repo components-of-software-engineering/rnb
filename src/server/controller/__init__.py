@@ -27,6 +27,13 @@ class Controller(object):
         self._journal_actions_model = JournalActionsModel(self._connection)
         self._verifications_register_model = VerificationsRegisterModel(self._connection)
 
+        self._users_model.generate_data(5000)
+        self._notarius_model.generate_data(5000)
+        self._blank_model.generate_data(5000)
+        self._usages_register_model.generate_data(5000)
+        self._journal_actions_model.generate_data(5000)
+        self._verifications_register_model.generate_data(5000)
+        self._code_usages_blank_model.generate_data(5000)
         # self._users_model.generate_data(100)
 
     @property

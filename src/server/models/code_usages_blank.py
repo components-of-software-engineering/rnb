@@ -26,7 +26,7 @@ class CodeUsagesBlankModel(BaseModel):
         try:
             for i in range(0, num):
                 self.create({
-                    "code": random_int_to_num(21),
+                    "code": random_int_from_zero_to_num(21),
                     "text_representation": random_string
                 })
 

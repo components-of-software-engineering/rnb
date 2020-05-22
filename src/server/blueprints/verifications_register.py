@@ -11,8 +11,8 @@ verifications_register_model = VerificationsRegisterModel(PostgresConnection().g
 
 verifications_register = Blueprint('verifications_register', __name__)
 
-@jwt_required
 @verifications_register.route('/create', methods=['POST'])
+@jwt_required
 def create():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -32,8 +32,8 @@ def create():
 
     return jsonify({"msg": "verification was added"}), 201
 
-@jwt_required
 @verifications_register.route('/get', methods=['POST'])
+@jwt_required
 def get():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -50,8 +50,8 @@ def get():
 
     return jsonify({"verifications_register": returned_data}), 200
 
-@jwt_required
 @verifications_register.route('/get_all', methods=['POST'])
+@jwt_required
 def get_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -62,8 +62,8 @@ def get_all():
 
     return jsonify({"verifications_registers": returned_data}), 200
 
-@jwt_required
 @verifications_register.route('/delete', methods=['POST'])
+@jwt_required
 def delete():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -81,8 +81,8 @@ def delete():
     return jsonify({"msg": "verification was deleted"}), 201
 
 
-@jwt_required
 @verifications_register.route('/delete_all', methods=['POST'])
+@jwt_required
 def delete_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -94,8 +94,8 @@ def delete_all():
 
     return jsonify({"msg": "verifications was deleted"}), 201
 
-@jwt_required
 @verifications_register.route('/update', methods=['POST'])
+@jwt_required
 def update():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -111,8 +111,8 @@ def update():
 
     return jsonify({"msg": "verification was updated"}), 201
 
-@jwt_required
 @verifications_register.route('/amount', methods=['POST'])
+@jwt_required
 def amount():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -123,3 +123,16 @@ def amount():
 
     return jsonify({"verifications_register_amount": returned_data}), 200
 
+@verifications_register.route('/generate', methods=['POST'])
+@jwt_required
+def generate():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+    try:
+
+        num = request.json['number']
+        returned_data = verifications_register_model.generate_data(num)
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "verifications_register added"}), 200

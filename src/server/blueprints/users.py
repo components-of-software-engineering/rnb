@@ -142,3 +142,16 @@ def amount():
 
     return jsonify({"usages_registers_amount": returned_data}), 200
 
+@users.route('/generate', methods=['POST'])
+@jwt_required
+def generate():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+    try:
+
+        num = request.json['number']
+        returned_data = users_model.generate_data(num)
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "users added"}), 200

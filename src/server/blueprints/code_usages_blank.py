@@ -9,8 +9,8 @@ code_usages_blank_model = CodeUsagesBlankModel(PostgresConnection().get_connecti
 
 code_usages_blank = Blueprint('code_usages_blank', __name__)
 
-@jwt_required
 @code_usages_blank.route('/create', methods=['POST'])
+@jwt_required
 def create():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -27,8 +27,8 @@ def create():
 
     return jsonify({"msg": "Code of blank's usages was added"}), 201
 
-@jwt_required
 @code_usages_blank.route('/get', methods=['POST'])
+@jwt_required
 def get():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -45,8 +45,8 @@ def get():
 
     return jsonify({"code_usages_blank": returned_data}), 200
 
-@jwt_required
 @code_usages_blank.route('/get_all', methods=['POST'])
+@jwt_required
 def get_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -57,8 +57,8 @@ def get_all():
 
     return jsonify({"codes_usages_blank": returned_data}), 200
 
-@jwt_required
 @code_usages_blank.route('/delete', methods=['POST'])
+@jwt_required
 def delete():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -76,8 +76,8 @@ def delete():
     return jsonify({"msg": "Code of blank's usages was deleted"}), 201
 
 
-@jwt_required
 @code_usages_blank.route('/delete_all', methods=['POST'])
+@jwt_required
 def delete_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -90,8 +90,8 @@ def delete_all():
     return jsonify({"msg": "Codes of blank's usages was deleted"}), 201
 
 
-@jwt_required
 @code_usages_blank.route('/update', methods=['POST'])
+@jwt_required
 def update():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -107,8 +107,8 @@ def update():
 
     return jsonify({"msg": "Code of blank's usages was updated"}), 201
 
-@jwt_required
 @code_usages_blank.route('/amount', methods=['POST'])
+@jwt_required
 def amount():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
@@ -119,3 +119,17 @@ def amount():
 
     return jsonify({"code_usages_blank_amount": returned_data}), 200
 
+
+@code_usages_blank.route('/generate', methods=['POST'])
+@jwt_required
+def generate():
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+    try:
+
+        num = request.json['number']
+        returned_data = code_usages_blank_model.generate_data(num)
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 400
+
+    return jsonify({"msg": "code_usages_blanks added"}), 200
