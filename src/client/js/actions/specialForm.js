@@ -45,7 +45,6 @@ export function getMinimalInfoAboutSpecialForm(serial, number) {
             );
         }
         const specialForm = response.respBody;
-        console.log(specialForm);
         dispatch({
             type: SPECIAL_FORM_GET_MIN_SUCCESS,
             payload: { ...defaultPayload, isFound: true, specialFormObject: specialForm },

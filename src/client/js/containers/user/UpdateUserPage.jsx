@@ -26,7 +26,7 @@ class UpdateUserPage extends Component {
     }
 
     componentDidMount() {
-        onMountedForm();
+        setTimeout(() => onMountedForm(), 1000);
     }
 
     formOnSubmit(e) { 
@@ -34,7 +34,8 @@ class UpdateUserPage extends Component {
             e.preventDefault();
             const form = this.refForm.current;
             const formData = new FormData(form);
-            this.props.changeUserPasword(this.props.match.params.username, formData);
+            const username = this.props.user.requestedUserObject.id;
+            this.props.changeUserPasword(username, formData);
         }       
     }
 
@@ -86,7 +87,7 @@ class UpdateUserPage extends Component {
     paswInput(e) {
         this.setState({ password: e.currentTarget.value || ''});
         if (this.state.confirm_password !== '') {
-            const pasw_confirm_input = document.getElementById("confirm_pasw_field");
+            const pasw_confirm_input = document.getElementById("confirm_password_field");
             if (this.state.confirm_password !== e.currentTarget.value) {
                 pasw_confirm_input.setCustomValidity("Passwords don't match");
             } else {
@@ -101,21 +102,32 @@ class UpdateUserPage extends Component {
                 name: this.props.user.requestedUserObject ?  this.props.user.requestedUserObject.name : '',
             });
         }
-        if (!this.props.user.userObject) return <h1>Loading...</h1>;
+        if (!this.props.user.userObject || !this.props.user.requestedUserObject) return <h1>Loading...</h1>;
         return (
             <React.Fragment>
                 <h1>Оновлення ідентифікаторів реєстратора</h1>
-                <form id="edit-profile" ref={this.refForm} className="needs-validation mx-auto form-default my-4 p-4" encType="multipart/form-data" method="POST" onSubmit={this.formOnSubmit} noValidate>
-                <div className="form-group form-inline">
-                    <Input 
-                        type="password"
-                        name="old_password"
-                        label="Cтарий пароль"
-                        minLength={8}
-                        maxLength={30}
-                        invalidFeedback="Введіть правильний пароль"
-                        valueOnChage={this.paswInput}
-                        required
+                <form id="edit-profile" ref={this.refForm} className="needs-validation mx-auto form-default my-4 p-4" encType="multipart/form-data" method="POST" onSubmit={this.formOnSubmit} noValidate>  
+                    <div className="form-group form-inline">
+                        <Input 
+                            type="text"
+                            name="name"
+                            label="Username"
+                            value={this.props.user.requestedUserObject.username}
+                            readOnly={true}
+                        />
+                    </div>
+                    <input name="check_pass_hash" value={this.props.user.requestedUserObject.pwd_hash} type="hidden" />
+                    <input name="check_salt_hash" value={this.props.user.requestedUserObject.pwd_salt} type="hidden" />
+                    <div className="form-group form-inline">
+                        <Input 
+                            type="password"
+                            name="old_password"
+                            label="Cтарий пароль"
+                            minLength={8}
+                            maxLength={30}
+                            invalidFeedback="Введіть правильний пароль"
+                            valueOnChage={this.handleFieldChange}
+                            required
                         />
                     </div>
                     <div className="form-row">
@@ -133,7 +145,6 @@ class UpdateUserPage extends Component {
                         </div>
                         <div className="col-md-6 mb-1 form-group">
                             <Input 
-                                id="confirm_pasw_field"
                                 type="password"
                                 name="confirm_password"
                                 label="Підтвердження нового паролю"

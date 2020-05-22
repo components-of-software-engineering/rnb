@@ -46,7 +46,6 @@ def register():
             "date_last_update": date_last_update,
             "status": True
         })
-        print(returned_data)
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
@@ -55,7 +54,6 @@ def register():
 
 @auth.route('/login', methods=['POST'])
 def login():
-    print(get_jwt_identity())
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -67,7 +65,11 @@ def login():
         return jsonify({"msg": "Missing password parameter"}), 400
 
     row = user_model.read({"username": username})
-    password_with_salt = password + row["pwd_salt"]
+
+    if row is None:
+        return jsonify({"msg": "No such user"}), 401
+
+    password_with_salt = password + row.get("pwd_salt", "")
     if row["pwd_hash"] == hashlib.sha512(password_with_salt.encode('utf-8')).hexdigest():
 
         access_token = create_access_token(identity=row)
@@ -76,8 +78,6 @@ def login():
             'token': access_token,
             'user': row
         })
-        set_access_cookies(resp, access_token)
-        set_refresh_cookies(resp, refresh_token)
         return resp, 200
     else:
         return jsonify({"msg": "Wrong password"}), 401

@@ -12,6 +12,7 @@ class EditUserPage extends Component {
         super(props);
         this.state = {
             name: '',
+            loaded: false
         };
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.photoInputOnChange = this.photoInputOnChange.bind(this);
@@ -30,7 +31,8 @@ class EditUserPage extends Component {
             e.preventDefault();
             const form = this.refForm.current;
             const formData = new FormData(form);
-            this.props.changeRegisterPersonalInfo(this.props.match.params.username, formData);
+            const username = this.props.user.requestedUserObject.id;
+            this.props.changeRegisterPersonalInfo(username, formData);
         }       
     }
 
@@ -71,16 +73,26 @@ class EditUserPage extends Component {
     }
 
     render() {
-        if (this.state.name === '' && this.props.user.requestedUserObject && this.props.user.requestedUserObject.name != "") {
+        if (this.state.loaded === false && this.state.name === '' && this.props.user.requestedUserObject && this.props.user.requestedUserObject.name != "") {
             this.setState({
+                loaded: true,
                 name: this.props.user.requestedUserObject ?  this.props.user.requestedUserObject.name : '',
             });
         }
-        if (!this.props.user.userObject) return <h1>Loading...</h1>;
+        if (!this.props.user.userObject || !this.props.user.requestedUserObject) return <h1>Loading...</h1>;
         return (
             <React.Fragment>
                 <h1>Редагування даних реєстратора</h1>
                 <form id="edit-profile" ref={this.refForm} className="needs-validation mx-auto form-default my-4 p-4" encType="multipart/form-data" method="POST" onSubmit={this.formOnSubmit} noValidate>
+                    <div className="form-group form-inline">
+                        <Input 
+                            type="text"
+                            name="username"
+                            label="Username"
+                            value={this.props.user.requestedUserObject.username}
+                            readOnly={true}
+                        />
+                    </div>
                     <div className="form-group form-inline ">
                         <Input 
                             type="text"
@@ -98,7 +110,7 @@ class EditUserPage extends Component {
                     </div>
                     <div className="col d-inline-flex">
                         <button className="btn btn-primary ml-auto mr-4" type="submit" disabled={this.props.user.isFetching}>Оновити</button>
-                        <button className="btn btn-secondary mr-auto" onClick={this.props.goBack}>Відмінити</button>
+                        <button className="btn btn-secondary mr-auto" type="reset" onClick={this.props.goBack}>Відмінити</button>
                     </div>
                 </form>
             </React.Fragment>

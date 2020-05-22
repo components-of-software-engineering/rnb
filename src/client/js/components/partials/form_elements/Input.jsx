@@ -91,6 +91,7 @@ class Input extends Component {
                 step={props.stepVal || null}
                 min={props.minVal || null}
                 required={props.required}
+                readOnly={props.readOnly || false}
             />
         );
     }
@@ -142,7 +143,8 @@ Input.propTypes = {
     accept: PropTypes.string,
     rows: PropTypes.number,
     stepVal: PropTypes.number,
-    minVal: PropTypes.any
+    minVal: PropTypes.any,
+    readOnly: PropTypes.bool
 };
 
 export default Input;
