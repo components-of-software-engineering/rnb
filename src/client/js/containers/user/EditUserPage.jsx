@@ -11,7 +11,7 @@ class EditUserPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            name: null,
             loaded: false
         };
         this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -73,12 +73,6 @@ class EditUserPage extends Component {
     }
 
     render() {
-        if (this.state.loaded === false && this.state.name === '' && this.props.user.requestedUserObject && this.props.user.requestedUserObject.name != "") {
-            this.setState({
-                loaded: true,
-                name: this.props.user.requestedUserObject ?  this.props.user.requestedUserObject.name : '',
-            });
-        }
         if (!this.props.user.userObject || !this.props.user.requestedUserObject) return <h1>Loading...</h1>;
         return (
             <React.Fragment>
@@ -104,7 +98,7 @@ class EditUserPage extends Component {
                             helpInfo="Ім'я повинно мати довжину від 3 до 30 символів включно"
                             valueOnChage={this.handleFieldChange("name")}
                             formInline
-                            value={this.state.name}
+                            value={this.state.name === null ? this.props.user.requestedUserObject.name : this.state.name}
                             required
                         />
                     </div>
