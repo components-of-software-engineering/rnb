@@ -26,6 +26,9 @@ import DeveloperPage from '../../developer/DeveloperPage';
 import CheckFormPage from '../../../containers/checkForm/CheckFormPage';
 import SpecialFormsPage from '../../../containers/forms/SpecialFormsPage';
 import NewForm from '../../../containers/forms/NewForm';
+import FormsPage from '../../../containers/forms/FormsPage';
+import NotariesPage from '../../../containers/notaries/NotariesPage';
+import NotariesInfo from '../../../containers/notaries/NotariesInfo';
 
 class Main extends Component {
   render() {
@@ -35,11 +38,14 @@ class Main extends Component {
             <ErrorBoundary>
                 <Switch>
                     <Route exact path='/' component={HomePage}/>
-                        <Route path='/about' component={AboutPage}/>
                         <Route exact path='/registers' component={AuthenticatedComponent(UsersPage, [isAdministrator])}/>
                             <Route path='/registers/signup' component={AuthenticatedComponent(RegisterPage, [isAdministrator])}/>
                             <Route path='/registers/edit/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(EditUserPage, [isAdministrator])}/>
                             <Route path='/registers/update/:username([A-Za-z_0-9]{5,20})' component={AuthenticatedComponent(UpdateUserPage, [isAdministrator])}/>
+                        <Route exact path='/specialForms' component={AuthenticatedComponent(FormsPage, [isAdministrator])}/>
+                        <Route exact path='/notaries' component={AuthenticatedComponent(NotariesPage, [isAdministrator, isRegister])}/>
+                            <Route path='/notaries/:id(\d{1,1000})' component={AuthenticatedComponent(NotariesInfo, [isAdministrator, isRegister])}/>
+
                         <Route exact path='/forms' component={AuthenticatedComponent(SpecialFormsPage, [isRegister])}/>
                         <Route exact path='/forms/add' component={AuthenticatedComponent(NewForm, [isRegister])}/>
 

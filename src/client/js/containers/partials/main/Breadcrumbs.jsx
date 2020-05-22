@@ -18,10 +18,15 @@ UserBreadcrumb.propTypes = {
 };
 // define some custom breadcrumbs for certain routes (optional)
 const routes = [
-    { path: '/users/:userId', breadcrumb: UserBreadcrumb },
+    { path: '/registers/edit/:userId', breadcrumb: UserBreadcrumb },
     { path: '/check', breadcrumb: () => <span>Перевірка бланку</span> },
     { path: '/registers/signup', breadcrumb: () => <span>Реєстрація реєстратора</span> },
     { path: '/registers', breadcrumb: () => <span>Реєстратори</span> },
+    { path: '/registers/edit', breadcrumb: () => <span>Редагування даних</span> },
+    { path: '/registers/update', breadcrumb: () => <span>Оновлення ідентифікаторів</span> },
+    { path: '/registers/update/:userId', breadcrumb: UserBreadcrumb },
+    { path: '/specialForms', breadcrumb: () => <span>Бланки</span> },
+    { path: '/notaries', breadcrumb: () => <span>Нотаріуси</span> },
     { path: '/s', breadcrumb: null },
 ];
 /////////////////////////////////////////////////////////////////////////////////

@@ -84,8 +84,8 @@ class RegistersTable extends Component {
                 <tr key={regitser.username}>
                     <td><Link className="link-style text-nowrap" to={`#`}>{regitser.username}</Link></td>
                     <td><Link className="link-style text-nowrap" to={`#`}>{regitser.name}</Link></td>
-                    <td className="text-nowrap">{toFormatedString(regitser.date_last_update)}</td>
                     <td className="text-nowrap">{toFormatedString(regitser.date_registration)}</td>
+                    <td className="text-nowrap">{toFormatedString(regitser.date_last_update)}</td>
                     <td className="text-nowrap">{regitser.status ? "Активований" : "Деактивований"}</td>
                     <td className="text-nowrap">
                         <form className="mx-auto" style={{display: regitser.status ? "inline-flex " : "flex"}} onSubmit={this.handleDisable} >
