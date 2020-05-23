@@ -21,6 +21,15 @@ class BlankModel(BaseModel):
         primary_key_names = ["num", "series"]
         super().__init__(connection, columns, primary_key_names, **queries)
 
+    def create(self, item: dict):
+        user_id = item["user_id"]
+        num = item["num"]
+        series = item["series"]
+        del item["user_id"]
+        res = super().create(item)
+        super().custom_query("UPDATE blank SET user_id = %s WHERE num = %s AND series = '%s'" % (user_id, num, series), False)
+        return res
+
     def generate_data(self, num: int):
         try:
             auxiliary_model = NotariusModel(self._connection)

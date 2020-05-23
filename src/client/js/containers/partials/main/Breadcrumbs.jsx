@@ -27,6 +27,8 @@ const routes = [
     { path: '/registers/update/:userId', breadcrumb: UserBreadcrumb },
     { path: '/specialForms', breadcrumb: () => <span>Бланки</span> },
     { path: '/notaries', breadcrumb: () => <span>Нотаріуси</span> },
+    { path: '/forms', breadcrumb: () => <span>Витрачання бланків</span> },
+    { path: '/forms/add', breadcrumb: () => <span>Додати</span> },
     { path: '/s', breadcrumb: null },
 ];
 /////////////////////////////////////////////////////////////////////////////////
