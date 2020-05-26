@@ -27,15 +27,15 @@ class MenuLinks extends Component {
                 <li className="nav-item">
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/registers'>Реєстратори</NavLink>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/specialForms'>Бланки</NavLink>
-                </li>
+                </li> */}
                 <li className="nav-item">
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/notaries'>Нотаріуси</NavLink>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/checkForm'>Перевірити бланк</NavLink>
-                </li>
+                </li> */}
             </>
         );
         const linkPanelRregitser = (
