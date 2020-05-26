@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { getAllRegisters } from '../../actions/registers';
+import { updateInfoAboutMe } from '../../actions/user';
 import { disableRegister } from '../../actions/user';
 import { toFormatedString } from '../../utils/dateConversion';
 import { isAdministrator, isRegister } from '../../utils/service';
@@ -12,16 +13,20 @@ import { faStar, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import ModalDialog from '../../components/partials/modals/ModalDialog';
 import $ from 'jquery';
 import Input from '../../components/partials/form_elements/Input';
+import url from 'url';
+import { authorizationHeaders, formDataToJson } from './../../utils/service';
 
 class SpecialFormTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: ""
+            name: "",
+            blanksArr: null
         };
         this.showRowsOfUsers = this.showRowsOfUsers.bind(this);
         this.handleClickNavigation = this.handleClickNavigation.bind(this);
         this.handleDisable = this.handleDisable.bind(this);
+        props.updateInfoAboutMe();
     }
 
     viewIcon(role) {
@@ -46,20 +51,65 @@ class SpecialFormTable extends Component {
     }
 
     static mapStateToProps(store) {
-        return { registers: store.registers };
+        return { registers: store.registers, user: store.user };
     }
 
     static mapDispatchToProps(dispatch) {
         return { 
+            updateInfoAboutMe: () => dispatch(updateInfoAboutMe()),
             getAllRegisters: () => dispatch(getAllRegisters()),
             disableRegister: (username, status = false) => dispatch(disableRegister(username, status))
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.props.registers.isFetching) {
             this.props.getAllRegisters();
         }
+        const jwt = localStorage.getItem('jwt');
+        const reqOptions = authorizationHeaders(jwt);
+        reqOptions.method = 'POST';
+        reqOptions.headers['Content-Type'] = 'application/json';
+        reqOptions.body = JSON.stringify({ });
+        let response, respBody, statusCode;
+        let error = null;
+        try {
+            response = await fetch(`/blank/get_all`, reqOptions);
+            statusCode = response.status;
+            if (!response.ok) throw new Error(response.statusText);
+            respBody = await response.json();
+        } catch (e) {
+            error = e;
+        }
+        console.log(respBody);
+        console.log(this.props.user.userObject.id);
+
+
+        const reqOptions1 = authorizationHeaders(jwt);
+        reqOptions1.method = 'POST';
+        reqOptions1.headers['Content-Type'] = 'application/json';
+        reqOptions1.body = JSON.stringify({ });
+        let response1, respBody1, statusCode1;
+        let error1 = null;
+        try {
+            response1 = await fetch(`/usages_register/get_all`, reqOptions1);
+            statusCode1 = response.status;
+            if (!response1.ok) throw new Error(response1.statusText);
+            respBody1 = await response1.json();
+        } catch (e) {
+            error1 = e;
+        }
+        console.log(respBody1);
+        const rrrr = respBody.blanks.filter(x => x.user_id === this.props.user.userObject.id);
+        rrrr.forEach(x => {
+            const code_usage = respBody1.usages_registers.filter(x => x.id)[0].code_usage;
+            x.code_usage = code_usage
+        });
+        console.log(rrrr);
+        this.setState({
+            blanksArr: rrrr
+        })
+        //
     }
 
     handleDisable(e) {
@@ -72,14 +122,19 @@ class SpecialFormTable extends Component {
     }
 
     registerRow(registers) {
-        return registers.map(regitser => {
+        console.log(registers);
+        return registers.map(regitser1 => {
+            console.log("!!!!!!!!!");
+            console.log(regitser1);
+            const hmmm = regitser1;
             return (
-                <tr key={regitser.username}>
-                    <td><Link className="link-style text-nowrap" to={`#`}>{regitser.username}</Link></td>
-                    <td><Link className="link-style text-nowrap" to={`#`}>{regitser.name}</Link></td>
-                    <td className="text-nowrap">{toFormatedString(regitser.date_last_update)}</td>
-                    <td className="text-nowrap">{toFormatedString(regitser.date_registration)}</td>
-                    <td className="text-nowrap">{regitser.status ? "Активований" : "Деактивований"}</td>
+                <tr key={hmmm.id}>
+                    <td><Link className="link-style text-nowrap" to={`#`}>{hmmm.series}</Link></td>
+                    <td><Link className="link-style text-nowrap" to={`#`}>{hmmm.num}</Link></td>
+                    <td>{hmmm.code_usage}</td>
+                    <td className="text-nowrap">{toFormatedString(hmmm.date_receiving)}</td>
+                    <td className="text-nowrap">{hmmm.notarius_id}</td>
+                    {/* <td className="text-nowrap">{regitser.status ? "Активований" : "Деактивований"}</td>
                     <td className="text-nowrap">
                         <form className="mx-auto" style={{display: regitser.status ? "inline-flex " : "flex"}} onSubmit={this.handleDisable} >
                             <input name="username" value={regitser.username} type="hidden"/>
@@ -93,7 +148,7 @@ class SpecialFormTable extends Component {
                                 <Link className={`btn btn-outline-primary my-1 mx-1 btn-sm`} to={`/registers/update/${regitser.username}`} role="button">Оновити</Link>
                             </>
                         }
-                    </td>
+                    </td> */}
                 </tr>
             );
         });
@@ -110,14 +165,14 @@ class SpecialFormTable extends Component {
     }
 
     showRowsOfUsers() {
-        if (this.props.registers.registersObject === null && !this.props.registers.error) {
+        if (this.state.blanksArr === null && !this.props.registers.error) {
             return this.singleRowInfo("Завантаження даних");
         } else if (this.props.registers.error) {
             return this.singleRowInfo("Сталася помилка під час завантаження");
-        } else if (Array.isArray(this.props.registers.registersObject) && this.props.registers.registersObject.length === 0) {
+        } else if (Array.isArray(this.state.blanksArr) && this.state.blanksArr.length === 0) {
             return this.singleRowInfo("В реєстрі немає жодного користувача");
-        } else if (Array.isArray(this.props.registers.registersObject) && this.props.registers.registersObject.length > 0) {
-            let registers = this.props.registers.registersObject;
+        } else if (Array.isArray(this.state.blanksArr) && this.state.blanksArr.length > 0) {
+            let registers = this.state.blanksArr;
             if (this.state.name.length > 2) {
                 registers = registers.filter(x => x.name.toLowerCase().includes(this.state.name.toLowerCase()));
             }
@@ -166,8 +221,7 @@ class SpecialFormTable extends Component {
                                 <th>Номер</th>
                                 <th>Код витрачання</th>
                                 <th>Дата витрачання</th>
-                                <th>Статус</th>
-                                <th>Дії</th>
+                                <th>Нотаріус</th>
                             </tr>
                         </thead>
                         <tbody>

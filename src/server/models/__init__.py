@@ -73,11 +73,12 @@ class BaseModel(ABC):
         self._cursor.execute(self.__delete_all_query)
         self._connection.commit()
 
-    def custom_query(self, query):
+    def custom_query(self, query, fetch=True):
         self._cursor.execute(query)
         self._connection.commit()
-        row = self._cursor.fetchone()
-        return dict(row) if row is not None else row
+        if fetch:
+            row = self._cursor.fetchone()
+            return dict(row) if row is not None else row
 
     def generate_data(self, num: int):
         pass

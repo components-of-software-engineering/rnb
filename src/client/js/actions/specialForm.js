@@ -19,7 +19,7 @@ import SpecialForm from '../model/specialForm';
 import { CURRENT_PATH_REDIRECT } from './redirect';
 
 export const defaultPayload = {
-    invoiceObject: null,
+    specialFormObject: null,
     isFetching: false,
     error: ''
 };
@@ -52,6 +52,43 @@ export function getMinimalInfoAboutSpecialForm(serial, number) {
     };
 }
 
+export function createSpecialForm(formData) {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt === null) {
+        return {
+            type: 'JWT_NOT_FOUND',
+            payload: {}
+        };
+    }
+    return async function(dispatch) { 
+        dispatch({ 
+            type: SPECIAL_FORM_CREATE_REQUEST,
+            payload: { ...defaultPayload, isFetching: true }
+        });
+        const response = await SpecialForm.create(jwt, formData);
+        if (response.error !== null) {
+            showMessage(`Трапилась поимлка ${response.error.message}`, typesMessages.error)(dispatch);
+            return dispatch({
+                type: SPECIAL_FORM_CREATE_FAILURE,
+                payload: { ...defaultPayload, error: response.error.message } }
+            );
+        }
+        dispatch({
+            type: SPECIAL_FORM_CREATE_SUCCESS,
+            payload: { ...defaultPayload },
+        });
+        dispatch({
+            type: CURRENT_PATH_REDIRECT,
+            payload: {
+                method: 'push', 
+                path: '/forms'
+            }
+        });
+        showMessage("Успішно додано звіт витрачання", typesMessages.success)(dispatch);
+
+    };
+}
+
 export function getInvoiceByNum(number) {
     const jwt = localStorage.getItem('jwt');
     return async function(dispatch) { 
@@ -59,7 +96,7 @@ export function getInvoiceByNum(number) {
             type: SPECIAL_FORM_GET_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await SpecialForm.getByNumber(jwt, number);
+        const response = null;// await SpecialForm.getByNumber(jwt, number);
         if (response.statusCode === 404) {
             dispatch({
                 type: CURRENT_PATH_REDIRECT,
@@ -126,7 +163,7 @@ export function updateInvoice(number, formData) {
             type: SPECIAL_FORM_UPDATE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await SpecialForm.update(jwt, number, formData);
+        const response = null; // await SpecialForm.update(jwt, number, formData);
         if (response.error !== null) {
             showMessage("Не вдалося оновити. Перевірте правильність даних", typesMessages.error)(dispatch);
             return dispatch({
@@ -157,7 +194,7 @@ export function deleteInvoiceByNum(number) {
             type: SPECIAL_FORM_DELETE_REQUEST,
             payload: { ...defaultPayload, isFetching: true }
         });
-        const response = await SpecialForm.deleteByNumber(jwt, number);
+        const response = null; // await SpecialForm.deleteByNumber(jwt, number);
         if (response.statusCode === 204) {
             dispatch({
                 type: SPECIAL_FORM_DELETE_SUCCESS,

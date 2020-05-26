@@ -2,7 +2,7 @@ from flask_jwt_extended import get_jwt_identity
 
 roles_with_id = {
     "admin": 1,
-    "registrar": 2,
+    "registrar": 0,
     "utilizer": 3
 }
 

@@ -27,12 +27,26 @@ class MenuLinks extends Component {
                 <li className="nav-item">
                     <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/registers'>Реєстратори</NavLink>
                 </li>
+                {/* <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/specialForms'>Бланки</NavLink>
+                </li> */}
+                <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/notaries'>Нотаріуси</NavLink>
+                </li>
+                {/* <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/checkForm'>Перевірити бланк</NavLink>
+                </li> */}
             </>
         );
         const linkPanelRregitser = (
-            <li className="nav-item">
-                <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/forms'>Витрачання бланків</NavLink>
-            </li>
+            <>
+                <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/forms'>Витрачання бланків</NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink className="nav-link text-nowrap pl-2 pl-md-auto" activeClassName="active" to='/checkForm'>Перевірити бланк</NavLink>
+                </li>
+            </>
         );
         if (role < 0) return null;
         return ( 

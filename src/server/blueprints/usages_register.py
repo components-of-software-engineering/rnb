@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
+from datetime import date
 
 from blueprints.annotations.roles_required import roles_required
 from models.usages_register import UsagesRegisterModel
@@ -19,14 +20,14 @@ def create():
     request_json = request.json
     try:
         returned_data = usages_register_model.create({
-
-            "num_blank": request_json["num_blank"],
-            "series_blank": request_json["series_blank"],
-            "date_usage": request_json["date_usage"],
+            "num_blank": request_json.get("num", request_json.get("num_blank", None)),
+            "series_blank": request_json.get("series", request_json.get("series_blank", None)),
+            "date_usage": request_json.get("date_usage", date.today()),
             "code_usage": request_json["code_usage"],
             "additional_info": request_json["additional_info"]
         })
     except Exception as e:
+        print(e)
         return jsonify({"msg": str(e)}), 400
 
     return jsonify({"msg": "register's usages was added"}), 201

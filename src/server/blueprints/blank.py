@@ -26,8 +26,10 @@ def create():
             "series": request_json["series"],
             "notarius_id": request_json["notarius_id"],
             "date_receiving": date.today(),
+            "user_id": request_json.get("user_id", None)
         })
     except Exception as e:
+        print(str(e))
         return jsonify({"msg": str(e)}), 400
 
     return jsonify({"msg": "Blank was added"}), 201
