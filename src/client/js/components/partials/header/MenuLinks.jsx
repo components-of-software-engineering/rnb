@@ -73,7 +73,7 @@ class MenuLinks extends Component {
             activeClassName="active"
             to="/checkForm"
           >
-            Перевірити бланк
+            Перевірити довіреність
           </NavLink>
         </li>
       </>
@@ -113,7 +113,7 @@ class MenuLinks extends Component {
               activeClassName="active"
               to="/check"
             >
-              Перевірити бланк
+              Перевірити довіреність  
             </NavLink>
           </li>
         )}
