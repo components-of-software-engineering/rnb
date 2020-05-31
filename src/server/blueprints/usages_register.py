@@ -5,7 +5,9 @@ from datetime import date
 from blueprints.annotations.roles_required import roles_required
 from models.usages_register import UsagesRegisterModel
 from connection import PostgresConnection
+from models.blank import BlankModel
 
+blank_model = BlankModel(PostgresConnection().get_connection())
 usages_register_model = UsagesRegisterModel(PostgresConnection().get_connection())
 
 usages_register = Blueprint('usages_register', __name__)
@@ -56,11 +58,11 @@ def get_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
     try:
-        returned_data = usages_register_model.read_all()
+        returned_data = blank_model.read_all()
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
-    return jsonify({"usages_registers": returned_data}), 200
+    return jsonify({"blanks": returned_data}), 200
 
 @usages_register.route('/delete', methods=['POST'])
 @jwt_required

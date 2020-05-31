@@ -15,8 +15,13 @@ class NewForm extends Component {
       serial: "",
       number: "",
       additional_info: "",
-      username: "",
+      fullname: "",
+      date_receiving: "",
+      type: "",
+      code_usage: "",
+      notarius_id: "",
     };
+    console.log(this.state);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.formOnSubmit = this.formOnSubmit.bind(this);
     this.refLoginInput = React.createRef();
@@ -47,6 +52,7 @@ class NewForm extends Component {
     if (onSubmitFormValidation(e) && !this.props.specialForm.isFetching) {
       e.preventDefault();
       const form = document.getElementById("register-form-blank");
+      console.log(form);
       const formData = new FormData(form);
       this.props.createSpecialForm(formData);
     }
@@ -70,7 +76,7 @@ class NewForm extends Component {
     }
     return (
       <React.Fragment>
-        <h1>Реєстрація нового звіту витрачання бланка</h1>
+        <h1>Реєстрація нової довіреності</h1>
         <p>Усі поля форми, наведеної нижче, є необхідними для заповнення:</p>
         <form
           id="register-form-blank"
@@ -97,88 +103,78 @@ class NewForm extends Component {
               type="text"
               name="num"
               label="Номер"
-              minLength={6}
-              maxLength={7}
-              pattern="[0-9]{6,7}"
+              minLength={8}
+              maxLength={8}
+              pattern="[0-9]{8,8}"
               invalidFeedback="Введіть правильний номер"
               valueOnChage={this.handleFieldChange("number")}
               value={this.state.number}
               required
             />
           </div>
-          <div className="form-group form-inline ">
+
+          <div className="form-group form-inline">
             <Input
-              type={"select"}
-              name="notarius_id"
-              label="Нотаріус"
-              invalidFeedback="виберіть нотаріус"
-              valueOnChage={this.handleFieldChange("notarius_id")}
-              refAction={this.registrySelect}
-              formInline
-              value={this.state.registryNum}
-              optionNotSelectedText={"виберіть нотаріус"}
-              options={this.props.notarius?.notariusObjectAll?.map((x) => ({
-                selectValue: x.id,
-                name: `#${x.id} ${x.type ? x.name_organization : x.name}`,
-              }))}
+              type="text"
+              name="fullname"
+              label="Кому видана"
+              minLength={3}
+              maxLength={20}
+              invalidFeedback="Введіть ім'я"
+              valueOnChage={this.handleFieldChange("fullname")}
               required
             />
           </div>
           <div className="form-group form-inline">
             <Input
               type="text"
-              name="username"
-              label="Повне ім'я"
-              minLength={3}
-              maxLength={20}
-              invalidFeedback="Введіть ім'я"
-              valueOnChage={this.handleFieldChange("username")}
-              value={this.state.number}
+              name="date_receiving"
+              label="Дійсна до "
+              minLength={10}
+              maxLength={10}
+              pattern="^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$"
+              valueOnChage={this.handleFieldChange("date_receiving")}
+              refAction={this.refLoginInput}
+              required
+            />
+          </div>
+          <div className="form-group form-inline " hidden>
+            <Input
+              type={"test"}
+              name="notarius_id"
+              label="Нотаріус"
+              invalidFeedback="виберіть код"
+              valueOnChage={this.handleFieldChange("notarius_id")}
+              refAction={this.registrySelect}
+              formInline
+              value={this.props.user.userObject.id}
               required
             />
           </div>
           <div className="form-group form-inline ">
             <Input
               type={"select"}
-              name="code_usage"
+              name="type"
               label="Код використання"
               invalidFeedback="виберіть код"
-              valueOnChage={this.handleFieldChange("code_usage")}
+              valueOnChage={this.handleFieldChange("type")}
               refAction={this.registrySelect}
               formInline
               value={this.state.registryNum}
               optionNotSelectedText={"виберіть код"}
               options={[
                 {
-                  selectValue: 1,
-                  name: "1 - договір про відчуження нерухомого майна",
+                  selectValue: "Загальна (генеральна) довіреність",
+                  name: "Загальна (генеральна) довіреність",
                 },
                 {
-                  selectValue: 2,
-                  name: "2 - договір про відчуження транспортного засобу",
+                  selectValue: "Спеціальна довіреність",
+                  name: "Спеціальна довіреність",
                 },
                 {
-                  selectValue: 15,
-                  name: "15 - договір про відчуження земельної ділянки",
+                  selectValue: "Разова довіреність",
+                  name: "Разова довіреність",
                 },
-                { selectValue: 12, name: "12 - шлюбний договір" },
-                { selectValue: 14, name: "14 - установчий договір" },
-                { selectValue: 3, name: "3 - інші договори" },
-                { selectValue: 4, name: "4 - заповіт" },
-                { selectValue: 5, name: "5 - свідоцтво про право на спадщину" },
-                { selectValue: 6, name: "6 - свідоцтво про право власності" },
-                { selectValue: 7, name: "7 - довіреність" },
-                { selectValue: 8, name: "8 - заява" },
-                { selectValue: 10, name: "10 - переклад" },
-                { selectValue: 11, name: "11 - дублікат" },
-                { selectValue: 13, name: "13 - інші дії" },
-                { selectValue: 16, name: "16 - протест векселя" },
-                { selectValue: 21, name: "21 - зіпсований бланк" },
-                { selectValue: 22, name: "22 - анульований бланк" },
-                { selectValue: 23, name: "23 - дефектний бланк" },
-                { selectValue: 24, name: "24 - відсутній бланк" },
-                { selectValue: 25, name: "25 - викрадений бланк" },
-                { selectValue: 26, name: "26 - втрачений бланк" },
               ]}
               required
             />
@@ -222,7 +218,6 @@ class NewForm extends Component {
 NewForm.propTypes = {
   user: PropTypes.object.isRequired,
   registerUser: PropTypes.func.isRequired,
-  checkUsername: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 

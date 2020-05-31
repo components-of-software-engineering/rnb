@@ -66,15 +66,13 @@ def get():
 @notarius.route('/get_all', methods=['POST'])
 @jwt_required
 def get_all():
-    def get_all():
-        if roles_required(["admin", "registrar"]) == 400:
-            return jsonify({"msg": "no access"}), 400
-        try:
-            returned_data = users_model.read_all()
-        except Exception as e:
-            return jsonify({"msg": str(e)}), 500
-
-        return jsonify({"usages_registers": returned_data}), 200
+    if roles_required(["admin", "registrar"]) == 400:
+        return jsonify({"msg": "no access"}), 400
+    try:
+        returned_data = users_model.read_all()
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 500
+    return jsonify({"notaries": returned_data}), 200
 
 @notarius.route('/delete', methods=['POST'])
 @jwt_required
