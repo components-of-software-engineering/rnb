@@ -8,7 +8,7 @@ class Header extends Component {
             <header className="navbar">
                 <nav className="navbar navbar-expand-md navbar-light fixed-top bg-light">
                     <Link className="navbar-brand mx-auto ml-md-0 mr-md-3" to="/">
-                        <img src="/assets/images/logo.png" height="50" className="d-inline-block align-top mr-1" alt="RNB"/>
+                       
                     </Link>
                     <NavBar />
                 </nav>
