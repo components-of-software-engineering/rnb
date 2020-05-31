@@ -69,7 +69,7 @@ def register():
             "date_issue_certificate": date_issue_certificate,
             "date_issue_card": date_issue_card,
             "location": location,
-            "date_status_update": date_status_update
+            "date_status_update": date.today()
         })
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
