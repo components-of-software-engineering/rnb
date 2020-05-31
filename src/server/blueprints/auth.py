@@ -34,7 +34,20 @@ def register():
     password = request.json.get('password', "")
     date_last_update = date_registration
     salt = uuid.uuid4().hex
-
+    status = request.json.get('status')
+    num_certificate = request.json.get('num_certificate')
+    num_card = request.json.get('num_card')
+    name_organization = request.json.get('name_organization')
+    region = request.json.get('region')
+    notarius_region = request.json.get('notarius_region')
+    additional_info = request.json.get('additional_info')
+    contacts = request.json.get('contacts')
+    type = request.json.get('type')
+    date_issue_certificate = request.json.get('date_issue_certificate')
+    date_issue_card = request.json.get('date_issue_card')
+    location = request.json.get('location')
+    date_status_update = request.json.get('date_status_update')
+    
     try:
         returned_data = user_model.create({
             "name": name,
@@ -44,7 +57,19 @@ def register():
             "pwd_hash": password,
             "pwd_salt": salt,
             "date_last_update": date_last_update,
-            "status": True
+            "status": True,
+            "num_certificate": num_certificate,
+            "num_card": num_card,
+            "name_organization": name_organization,
+            "region": region,
+            "notarius_region": notarius_region,
+            "additional_info": additional_info,
+            "contacts": contacts,
+            "type": type,
+            "date_issue_certificate": date_issue_certificate,
+            "date_issue_card": date_issue_card,
+            "location": location,
+            "date_status_update": date_status_update
         })
     except Exception as e:
         return jsonify({"msg": str(e)}), 400

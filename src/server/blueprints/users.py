@@ -61,7 +61,7 @@ def get():
 def get_all():
     if roles_required(["admin", "registrar"]) == 400:
         return jsonify({"msg": "no access"}), 400
-    try:
+    try
         returned_data = users_model.read_all()
     except Exception as e:
         return jsonify({"msg": str(e)}), 500
@@ -109,6 +109,7 @@ def update():
         return jsonify({"msg": "Missing JSON in request"}), 400
 
     arguments_to_update = request.json['arguments_to_update']
+    print(arguments_to_update)
     primary_keys = request.json['primary_keys']
     arguments_to_update["date_last_update"] = str(date.today())
     if "password" in arguments_to_update:
