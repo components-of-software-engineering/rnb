@@ -11,11 +11,10 @@ config_db = {
 
 
 config_jwt = {
-    'JWT_SECRET_KEY': os.getenv("JWT_SECRET"),
+    'JWT_SECRET_KEY': os.getenv("JWT_SECRET") or "grechaOtsosiMoiHui",
     'JWT_REFRESH_COOKIE_PATH': '/api/refresh',
     'JWT_TOKEN_LOCATION': ['headers']
 }
-
 other_configs = {
     "pwd_salt": os.getenv("PWD_SALT")
 }
