@@ -10,7 +10,7 @@ cp -r src/client/assets/ src/server
 echo "Frontend started. Sleep for 60 sec to bootstrap front";
 PID_LIST+=" $pid";
 
-sleep 60
+sleep 30
 
 cd src/server/
 /bin/bash run.sh --hot-reload & pid=$!

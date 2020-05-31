@@ -15,7 +15,6 @@ config_jwt = {
     'JWT_REFRESH_COOKIE_PATH': '/api/refresh',
     'JWT_TOKEN_LOCATION': ['headers']
 }
-
 other_configs = {
     "pwd_salt": os.getenv("PWD_SALT")
 }
