@@ -4,7 +4,7 @@ PWD=$(pwd)
 
 cd "$(dirname "$0")" && \
 
-npm ci && \
+# npm ci && \
 npm run watch && \
 
 cd $PWD
