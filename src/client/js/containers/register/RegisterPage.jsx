@@ -203,8 +203,7 @@ class RegisterPage extends Component {
               label="Ім'я організації"
               minLength={5}
               maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9 "
-              pattern="[A-Za-z0-9]{5,20}"
+              helpInfo="від 5 до 20 символів "
               valueOnChage={this.handleFieldChange("name_organization")}
               formInline
               refAction={this.refLoginInput}
@@ -218,29 +217,14 @@ class RegisterPage extends Component {
               label="Ноторіальний регіон"
               minLength={5}
               maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9"
-              pattern="[A-Za-z0-9]{5,20}"
+              helpInfo="від 5 до 20 символів"
               valueOnChage={this.handleFieldChange("notarius_region")}
               formInline
               refAction={this.refLoginInput}
               required
             />
           </div>
-          <div className="form-group form-inline">
-            <Input
-              type="text"
-              name="additional_info"
-              label="Додаткова інформація"
-              minLength={5}
-              maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9"
-              pattern="[A-Za-z0-9]{5,20}"
-              valueOnChage={this.handleFieldChange("additional_info")}
-              formInline
-              refAction={this.refLoginInput}
-              required
-            />
-          </div>
+
           <div className="form-group form-inline">
             <Input
               type="text"
@@ -308,8 +292,7 @@ class RegisterPage extends Component {
               label="Mісцезнаходження"
               minLength={5}
               maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z"
-              pattern="[A-Za-z]{5,20}"
+              helpInfo="від 5 до 20 символів"
               valueOnChage={this.handleFieldChange("location")}
               formInline
               refAction={this.refLoginInput}
@@ -323,8 +306,7 @@ class RegisterPage extends Component {
               label="Регіон"
               minLength={5}
               maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z"
-              pattern="[A-Za-z]{5,20}"
+              helpInfo="від 5 до 20 символів"
               valueOnChage={this.handleFieldChange("region")}
               formInline
               refAction={this.refLoginInput}
@@ -344,6 +326,18 @@ class RegisterPage extends Component {
               formInline
               refAction={this.refLoginInput}
               required
+            />
+          </div>
+          <div className="form-group form-inline">
+            <Input
+              name="additional_info"
+              label="Додаткова інформація"
+              valueOnChage={this.handleFieldChange("additional_info")}
+              value={this.state.additional_info}
+              type="textarea"
+              maxLength={1000}
+              rows={3}
+              formInline
             />
           </div>
           <div className="form-row">
