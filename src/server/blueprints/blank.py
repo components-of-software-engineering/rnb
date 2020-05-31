@@ -26,7 +26,10 @@ def create():
             "series": request_json["series"],
             "notarius_id": request_json["notarius_id"],
             "date_receiving": date.today(),
-            "user_id": request_json.get("user_id", None)
+            "user_id": request_json.get("user_id", None),
+            "fullname": request_json["fullname"],
+            "type" : request_json["type"] ,
+            "additional_info": request_json["additional_info"]
         })
     except Exception as e:
         print(str(e))

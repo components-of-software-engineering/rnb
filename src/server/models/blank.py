@@ -8,8 +8,8 @@ from random_data_generators import *
 class BlankModel(BaseModel):
     def __init__(self, connection):
         queries = {
-            "insert_query": "INSERT INTO blank (num, series, notarius_id, date_receiving) VALUES (%(num)s,"
-                            "%(series)s, %(notarius_id)s, %(date_receiving)s) RETURNING num, series",
+            "insert_query": "INSERT INTO blank (num, series, notarius_id, date_receiving, fullname, type, additional_info) VALUES (%(num)s,"
+                            "%(series)s, %(notarius_id)s, %(date_receiving)s, %(fullname)s, %(type)s, %(additional_info)s) RETURNING num, series",
             "select_query": "SELECT * FROM blank WHERE num = %(num)s AND series = %(series)s",
             "update_query": "UPDATE blank SET {} WHERE num = %(num)s AND series = %(series)s",
             "delete_query": "DELETE FROM blank WHERE num = %(num)s AND series = %(series)s",
@@ -17,18 +17,12 @@ class BlankModel(BaseModel):
             "select_all_query": "SELECT * FROM blank ORDER BY num",
             "count_query": "SELECT COUNT(*) FROM blank",
         }
-        columns = ["num", "series", "notarius_id", "date_receiving"]
+        columns = ["num", "series", "notarius_id", "date_receiving", "fullname", "type", "additional_info"]
         primary_key_names = ["num", "series"]
         super().__init__(connection, columns, primary_key_names, **queries)
 
     def create(self, item: dict):
-        user_id = item["user_id"]
-        num = item["num"]
-        series = item["series"]
-        del item["user_id"]
-        res = super().create(item)
-        super().custom_query("UPDATE blank SET user_id = %s WHERE num = %s AND series = '%s'" % (user_id, num, series), False)
-        return res
+       return super().create(item)
 
     def generate_data(self, num: int):
         try:
@@ -41,6 +35,9 @@ class BlankModel(BaseModel):
                     "series": random_string(2),
                     "notarius_id": auxiliary_list[random_int_from_zero_to_num(length)]['id'],
                     "date_receiving": date.today(),
+                    "fullname":random_string(),
+                    "type":random_string(),
+                    "additional_info": random.string()
                 })
 
         except Exception as e:
