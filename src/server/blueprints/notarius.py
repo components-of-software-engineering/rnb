@@ -5,12 +5,15 @@ from flask_jwt_extended import jwt_required
 
 from blueprints.annotations.roles_required import roles_required
 from models.notarius import NotariusModel
+from models.users import UsersModel
 from connection import PostgresConnection
 
 notarius_model = NotariusModel(PostgresConnection().get_connection())
 
 notarius = Blueprint('notarius', __name__)
+users_model = UsersModel(PostgresConnection().get_connection())
 
+users = Blueprint('users', __name__)
 @notarius.route('/create', methods=['POST'])
 @jwt_required
 def create():
@@ -63,14 +66,15 @@ def get():
 @notarius.route('/get_all', methods=['POST'])
 @jwt_required
 def get_all():
-    if roles_required(["admin", "registrar"]) == 400:
-        return jsonify({"msg": "no access"}), 400
-    try:
-        returned_data = notarius_model.read_all()
-    except Exception as e:
-        return jsonify({"msg": str(e)}), 400
+    def get_all():
+        if roles_required(["admin", "registrar"]) == 400:
+            return jsonify({"msg": "no access"}), 400
+        try:
+            returned_data = users_model.read_all()
+        except Exception as e:
+            return jsonify({"msg": str(e)}), 500
 
-    return jsonify({"notaries": returned_data}), 200
+        return jsonify({"usages_registers": returned_data}), 200
 
 @notarius.route('/delete', methods=['POST'])
 @jwt_required
