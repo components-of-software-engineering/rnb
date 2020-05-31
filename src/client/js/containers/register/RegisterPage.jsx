@@ -139,11 +139,11 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="name"
-              label="Повне ім'я"
+              label="Повне ім'я                          "
               minLength={3}
               maxLength={30}
               invalidFeedback="Введіть правильне ім'я"
-              helpInfo="Ім'я повинно мати довжину від 3 до 30 символів включно"
+              helpInfo=" від 3 до 30 символів включно"
               valueOnChage={this.handleFieldChange("name")}
               formInline
               required
@@ -153,10 +153,10 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="username"
-              label="Логін"
+              label="Логін                               "
               minLength={5}
               maxLength={20}
-              helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9 та _"
+              helpInfo="від 5 до 20 символів"
               invalidFeedback={this.state.loginErrorMessage}
               pattern="[A-Za-z_0-9]{5,20}"
               valueOnChage={this.loginInput}
@@ -170,10 +170,10 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="num_certificate"
-              label="Номер сертифікату"
+              label="Номер сертифікату                   "
               minLength={5}
               maxLength={20}
-              helpInfo="8 символів, складається 0-9 "
+              helpInfo="8 символів"
               pattern="[0-9]{8}"
               valueOnChage={this.handleFieldChange("num_certificate")}
               formInline
@@ -185,10 +185,10 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="num_card"
-              label="Номер карти"
+              label="Номер карти                         "
               minLength={8}
               maxLength={8}
-              helpInfo="8 символів, складається  0-9"
+              helpInfo="8 символів"
               pattern="[0-9]{8}"
               valueOnChage={this.handleFieldChange("num_card")}
               formInline
@@ -200,7 +200,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="name_organization"
-              label="Ім'я організації"
+              label="Ім'я організації                    "
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів "
@@ -214,7 +214,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="notarius_region"
-              label="Ноторіальний регіон"
+              label="Ноторіальний регіон                 "
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів"
@@ -229,10 +229,10 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="contacts"
-              label="Номер телефону"
+              label="Номер телефону                      "
               minLength={12}
               maxLength={12}
-              helpInfo="12 символів, складається з 0-9"
+              helpInfo="12 символів"
               pattern="[0-9]{12}"
               valueOnChage={this.handleFieldChange("contacts")}
               formInline
@@ -244,7 +244,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="date_issue_certificate"
-              label="Дата видачі свідоцтва"
+              label="Дата видачі свідоцтва               "
               minLength={10}
               maxLength={10}
               helpInfo="dd/mm/yyyy"
@@ -259,7 +259,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="date_issue_card"
-              label="Дата видачі посвідчення"
+              label="Дата видачі посвідчення             "
               minLength={10}
               maxLength={10}
               helpInfo="dd/mm/yyyy"
@@ -289,7 +289,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="location"
-              label="Mісцезнаходження"
+              label="Mісцезнаходження                    "
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів"
@@ -303,7 +303,7 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="region"
-              label="Регіон"
+              label="Регіон                              "
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів"
@@ -317,7 +317,7 @@ class RegisterPage extends Component {
             <Input
               type="select"
               name="type"
-              label="Тип"
+              label="Тип                                 "
               options={[
                 { name: "Державний", selectValue: true },
                 { name: "Приватний", selectValue: false },
@@ -331,7 +331,7 @@ class RegisterPage extends Component {
           <div className="form-group form-inline">
             <Input
               name="additional_info"
-              label="Додаткова інформація"
+              label="Додаткова інформація                "
               valueOnChage={this.handleFieldChange("additional_info")}
               value={this.state.additional_info}
               type="textarea"

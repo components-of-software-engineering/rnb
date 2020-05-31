@@ -9,6 +9,17 @@ body {
     display: block !important;
 }
 
+.text-muted {
+
+    color: #b1b93c !important;
+
+
+}
+
+.text-center {
+    text-align: right !important;
+}
+
 button.navbar-toggler {
     margin-left: -56px;
     width      : 56px !important;
@@ -26,18 +37,16 @@ a.link-style:hover {
     text-decoration: none;
 }
 
-footer {
-    border-top: 3px solid #1a0bc6;
-}
+footer {}
 
 
 
 .bg-light {
-    background-color: #e0fbe3 !important;
+    background-color: #004fd4 !important;
 }
 
 .breadcrumb {
-    background-color: #cfd6ff !important;
+    background-color: #004fd4 !important;
 }
 
 .breadcrumb a {
@@ -49,7 +58,7 @@ footer {
 }
 
 nav li.nav-item a.nav-link {
-    color: rgba(0, 2, 121, 0.9) !important;
+    color: white !important;
 }
 
 #navbarCollapse.loading::after {
@@ -101,6 +110,10 @@ form#insert-invoice input#photo_field {
     form#insert-invoice.form-default div.form-inline label {
         min-width: 30% !important;
     }
+}
+
+.form-inline {
+    justify-content: start !important;
 }
 
 @media (min-width: 992px) {
@@ -236,7 +249,7 @@ footer {
 
 nav li.nav-item a.nav-link.active {
     font-weight: bold;
-    color      : #000 !important;
+    color      : rgb(177, 185, 60) !important;
 }
 
 nav a:focus {
@@ -259,7 +272,7 @@ nav li.nav-item a.nav-link {
 }
 
 .jumbotron {
-    background-color: #b5b6fc;
+    background-color: #004fd4;
 }
 
 div.errorPage img {
@@ -430,8 +443,7 @@ select#type-search::placeholder {
 }
 
 .btn-primary {
-    background-color: #100bcc !important;
-    border-color    : #030f4f !important;
+    background-color: #004fd4 !important;
 }
 
 .btn-primary:hover {
@@ -450,8 +462,7 @@ select#type-search::placeholder {
 
 .btn-outline-primary:hover {
     color           : #fff !important;
-    background-color: #140368 !important;
-    border-color    : #090031 !important;
+    background-color: rgb(177, 185, 60) !important;
 }
 
 .btn-outline-primary.focus,
@@ -575,9 +586,7 @@ div.user-info span.small {
 table.styled {
     border-collapse : collapse;
     /* border       : 2px solid #932300; */
-    border-radius   : 15px;
     background-color: #fff;
-    box-shadow      : 0 0 15px 1px #020c6981;
 }
 
 table.styled tbody>tr:hover td {
@@ -598,9 +607,8 @@ table.styled tbody tr:last-child td:first-child {
 
 table.styled td {
     /* border-right: 1px solid#932300; */
-    border-bottom: 1px dashed #0f0093;
-    padding      : 10px;
-    text-align   : left;
+    padding   : 10px;
+    text-align: center;
 }
 
 table.styled td:last-child,
@@ -614,19 +622,12 @@ table.styled tr:last-child td {
 
 table.styled th {
     padding         : 15px;
-    text-align      : left;
-    /* border-right : 1px solid#932300; */
-    border-bottom   : 2px solid #004793;
-    background-color: #c7ddfb;
+    text-align      : center;
+    background-color: #004fd4;
+    color           : white !important;
 }
 
-table.styled th:first-child {
-    border-radius: 15px 0 0 0;
-}
 
-table.styled th:last-child {
-    border-radius: 0 15px 0 0;
-}
 
 table.styled caption {
     padding         : 15px;
@@ -687,6 +688,12 @@ h2.api:first-of-type {
     margin-bottom: 20px;
 }
 
+.labelPre {
+
+    color: white;
+
+}
+
 .api-table pre {
     color           : #c7254e;
     background-color: #e9dee1;
@@ -713,7 +720,7 @@ h2.api:first-of-type {
 
 .form-default {
     max-width       : 50rem;
-    background-color: #c9caf9;
+    background-color: #004fd4 !important;
     border-radius   : 0.5rem;
 }
 
