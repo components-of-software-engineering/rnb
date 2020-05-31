@@ -17,6 +17,7 @@ class RegisterPage extends Component {
       name_organization: "",
       notarius_region: "",
       additional_info: "",
+      contacts: "",
       date_issue_certificate: "",
       date_issue_card: "",
       date_reg_region: "",
@@ -24,6 +25,7 @@ class RegisterPage extends Component {
       region: "",
       pasw: "",
       confirm_pasw: "",
+      type: "",
       loginErrorMessage: "Введіть правильний логін",
     };
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -172,7 +174,6 @@ class RegisterPage extends Component {
               minLength={5}
               maxLength={20}
               helpInfo="8 символів, складається 0-9 "
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[0-9]{8}"
               valueOnChage={this.handleFieldChange("num_certificate")}
               formInline
@@ -188,7 +189,6 @@ class RegisterPage extends Component {
               minLength={8}
               maxLength={8}
               helpInfo="8 символів, складається  0-9"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[0-9]{8}"
               valueOnChage={this.handleFieldChange("num_card")}
               formInline
@@ -204,7 +204,6 @@ class RegisterPage extends Component {
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9 "
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[A-Za-z0-9]{5,20}"
               valueOnChage={this.handleFieldChange("name_organization")}
               formInline
@@ -220,7 +219,6 @@ class RegisterPage extends Component {
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[A-Za-z0-9]{5,20}"
               valueOnChage={this.handleFieldChange("notarius_region")}
               formInline
@@ -232,13 +230,27 @@ class RegisterPage extends Component {
             <Input
               type="text"
               name="additional_info"
+              label="Додаткова інформація"
+              minLength={5}
+              maxLength={20}
+              helpInfo="від 5 до 20 символів, складається з A-Z, a-z, 0-9"
+              pattern="[A-Za-z0-9]{5,20}"
+              valueOnChage={this.handleFieldChange("additional_info")}
+              formInline
+              refAction={this.refLoginInput}
+              required
+            />
+          </div>
+          <div className="form-group form-inline">
+            <Input
+              type="text"
+              name="contacts"
               label="Номер телефону"
               minLength={12}
               maxLength={12}
               helpInfo="12 символів, складається з 0-9"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[0-9]{12}"
-              valueOnChage={this.handleFieldChange("additional_info")}
+              valueOnChage={this.handleFieldChange("contacts")}
               formInline
               refAction={this.refLoginInput}
               required
@@ -252,7 +264,6 @@ class RegisterPage extends Component {
               minLength={10}
               maxLength={10}
               helpInfo="dd/mm/yyyy"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$"
               valueOnChage={this.handleFieldChange("date_issue_certificate")}
               formInline
@@ -268,7 +279,6 @@ class RegisterPage extends Component {
               minLength={10}
               maxLength={10}
               helpInfo="dd/mm/yyyy"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$"
               valueOnChage={this.handleFieldChange("date_issue_card")}
               formInline
@@ -284,7 +294,6 @@ class RegisterPage extends Component {
               minLength={10}
               maxLength={10}
               helpInfo="dd/mm/yyyy"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$"
               valueOnChage={this.handleFieldChange("date_reg_region")}
               formInline
@@ -300,7 +309,6 @@ class RegisterPage extends Component {
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів, складається з A-Z, a-z"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[A-Za-z]{5,20}"
               valueOnChage={this.handleFieldChange("location")}
               formInline
@@ -316,9 +324,23 @@ class RegisterPage extends Component {
               minLength={5}
               maxLength={20}
               helpInfo="від 5 до 20 символів, складається з A-Z, a-z"
-              invalidFeedback={this.state.loginErrorMessage}
               pattern="[A-Za-z]{5,20}"
               valueOnChage={this.handleFieldChange("region")}
+              formInline
+              refAction={this.refLoginInput}
+              required
+            />
+          </div>
+          <div className="form-group form-inline">
+            <Input
+              type="select"
+              name="type"
+              label="Тип"
+              options={[
+                { name: "Державний", selectValue: true },
+                { name: "Приватний", selectValue: false },
+              ]}
+              valueOnChage={this.handleFieldChange("type")}
               formInline
               refAction={this.refLoginInput}
               required
