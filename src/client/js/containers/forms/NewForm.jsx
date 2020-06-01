@@ -20,6 +20,7 @@ class NewForm extends Component {
       type: "",
       code_usage: "",
       notarius_id: "",
+      tax_num: "",
     };
     console.log(this.state);
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -55,6 +56,7 @@ class NewForm extends Component {
       console.log(form);
       const formData = new FormData(form);
       this.props.createSpecialForm(formData);
+      this.props.history.push("/forms");
     }
   }
 
@@ -101,6 +103,20 @@ class NewForm extends Component {
           <div className="form-group form-inline">
             <Input
               type="text"
+              name="tax_number"
+              label="Ідентифікаційний номер"
+              minLength={10}
+              maxLength={10}
+              pattern="[0-9]{10}"
+              invalidFeedback="Введіть ідентифікаційний номер"
+              valueOnChage={this.handleFieldChange("tax_number")}
+              value={this.state.tax_number}
+              required
+            />
+          </div>
+          <div className="form-group form-inline">
+            <Input
+              type="text"
               name="num"
               label="Номер"
               minLength={8}
@@ -112,7 +128,6 @@ class NewForm extends Component {
               required
             />
           </div>
-
           <div className="form-group form-inline">
             <Input
               type="text"
@@ -122,6 +137,7 @@ class NewForm extends Component {
               maxLength={20}
               invalidFeedback="Введіть ім'я"
               valueOnChage={this.handleFieldChange("fullname")}
+              value={this.state.fullname}
               required
             />
           </div>
@@ -135,6 +151,7 @@ class NewForm extends Component {
               pattern="^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$"
               valueOnChage={this.handleFieldChange("date_receiving")}
               refAction={this.refLoginInput}
+              value={this.state.date_receiving}
               required
             />
           </div>

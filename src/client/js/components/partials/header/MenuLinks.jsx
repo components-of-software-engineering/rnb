@@ -64,14 +64,14 @@ class MenuLinks extends Component {
             activeClassName="active"
             to="/forms"
           >
-            Витрачання бланків
+            Довіреності
           </NavLink>
         </li>
         <li className="nav-item">
           <NavLink
             className="nav-link text-nowrap pl-2 pl-md-auto"
             activeClassName="active"
-            to="/checkForm"
+            to="/check"
           >
             Перевірити довіреність
           </NavLink>
@@ -113,7 +113,7 @@ class MenuLinks extends Component {
               activeClassName="active"
               to="/check"
             >
-              Перевірити довіреність  
+              Перевірити довіреність
             </NavLink>
           </li>
         )}

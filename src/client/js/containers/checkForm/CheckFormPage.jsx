@@ -37,12 +37,13 @@ class CheckFormPage extends Component {
     onMountedForm();
   }
 
-  formOnSubmit(e) {
+  async formOnSubmit(e) {
     if (onSubmitFormValidation(e) && !this.props.specialForm.isFetching) {
       this.props.getMinimalInfoAboutSpecialForm(
         this.state.serial,
         this.state.number
       );
+      const dovirenist = await fetch("").then((res) => res.json());
       this.setState({
         lastSerial: this.state.serial,
         lastNumber: this.state.number,

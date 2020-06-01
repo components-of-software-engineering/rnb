@@ -152,7 +152,6 @@ class SpecialFormTable extends Component {
           </td>
           <td>{hmmm.fullname}</td>
           <td>{format(new Date(hmmm.date_receiving), "dd/MM/yyyy")}</td>
-          <td className="text-nowrap">{hmmm.notarius_id}</td>
           {/* <td className="text-nowrap">{regitser.status ? "Активований" : "Деактивований"}</td>
                     <td className="text-nowrap">
                         <form className="mx-auto" style={{display: regitser.status ? "inline-flex " : "flex"}} onSubmit={this.handleDisable} >
@@ -248,7 +247,6 @@ class SpecialFormTable extends Component {
                 <th>Номер</th>
                 <th>Кому видана</th>
                 <th>Дійсна до</th>
-                <th>Нотаріус</th>
               </tr>
             </thead>
             <tbody>
