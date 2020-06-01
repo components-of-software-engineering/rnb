@@ -185,8 +185,8 @@ class NewForm extends Component {
             <Input
               type={"select"}
               name="type"
-              label="Код використання"
-              invalidFeedback="виберіть код"
+              label="Тип довіреності"
+              invalidFeedback="виберіть тип довіреності"
               valueOnChage={this.handleFieldChange("type")}
               refAction={this.registrySelect}
               formInline

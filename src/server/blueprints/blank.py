@@ -1,12 +1,12 @@
 from datetime import date
-
+from models.users import UsersModel
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
 from blueprints.annotations.roles_required import roles_required
 from models.blank import BlankModel
 from connection import PostgresConnection
-
+users_model = UsersModel(PostgresConnection().get_connection())
 blank_model = BlankModel(PostgresConnection().get_connection())
 
 blank = Blueprint('blank', __name__)
@@ -50,9 +50,13 @@ def get():
             "series": series
         })
     except Exception as e:
-        return jsonify({"msg": str(e)}), 400
-
-    return jsonify({"blank": returned_data}), 200
+        return jsonify({"msg": str(e)}), 400 
+    if  returned_data:
+        user_res = users_model.custom_query("SELECT * FROM users "
+                                                         "WHERE id = %s "'' % (returned_data["notarius_id"]))
+        return jsonify({"blank": returned_data}, {"not_name":user_res['name']}), 200
+    return jsonify({"blank": returned_data}, {"not_name":'null'}), 200
+    
 
 
 @blank.route('/getfu', methods=['POST'])

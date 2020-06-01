@@ -246,25 +246,8 @@ class SpecialFormTable extends Component {
   render() {
     return (
       <React.Fragment>
-        <div>
-          {/* <p>
-                        Фільтрувати дані можна за такими полями:
-                    </p>
-                    <div className="form-group form-inline ">
-                        <Input 
-                            type="text"
-                            name="name"
-                            label="Повне ім'я"
-                            minLength={3}
-                            maxLength={30}
-                            invalidFeedback="Введіть правильне ім'я"
-                            helpInfo="Ім'я повинно мати довжину від 3 до 30 символів включно"
-                            valueOnChage={this.handleFieldChange("name")}
-                            formInline
-                            value={this.state.name}
-                            required
-                        />
-                    </div> */}
+        <div style={{ textAlign: "center " }}>
+          <p>Таблиця довіреностей виданих Вами</p>
         </div>
         <div className="table-responsive p-3">
           <table className="mx-auto mb-4 styled mr-3" id="registers">

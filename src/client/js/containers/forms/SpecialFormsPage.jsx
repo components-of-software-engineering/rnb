@@ -17,7 +17,7 @@ class SpecialFormsPage extends Component {
             Створити довіреність
           </Link>
         </div>
-
+      
         <SpecialFormTable />
       </React.Fragment>
     );

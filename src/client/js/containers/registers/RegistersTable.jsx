@@ -150,7 +150,7 @@ class RegistersTable extends Component {
                 }активації`}
                 textModal={`Ви впевнені, що хочете ${
                   regitser.status ? "де" : ""
-                }активувати реєстратора ${regitser.username}?`}
+                }активувати нотаріуса ${regitser.username}?`}
                 actionModal={`${regitser.status ? "Деа" : "А"}ктивувати`}
               />
             </form>
@@ -258,7 +258,10 @@ class RegistersTable extends Component {
       <React.Fragment>
         <div>
           <p>Фільтрувати дані можна за такими полями:</p>
-          <div className="form-group form-inline ">
+          <div
+            className="form-group form-inline "
+            style={{ color: "black !important" }}
+          >
             <Input
               type="text"
               name="name"

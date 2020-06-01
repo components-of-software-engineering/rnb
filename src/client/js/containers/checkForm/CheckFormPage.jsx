@@ -6,7 +6,7 @@ import Input from "../../components/partials/form_elements/Input";
 import { getMinimalInfoAboutSpecialForm } from "../../actions/specialForm";
 import { onSubmitFormValidation, onMountedForm } from "../../utils/validtion";
 import { toFormatedString } from "../../utils/dateConversion";
-
+import { format } from "date-fns";
 class CheckFormPage extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +40,8 @@ class CheckFormPage extends Component {
 
   async formOnSubmit(e) {
     e.preventDefault();
-    if (onSubmitFormValidation(e) && !this.props.specialForm.isFetching) {
+
+    if (onSubmitFormValidation(e)) {
       const dovirenist = await fetch("/blank/get", {
         method: "POST",
         headers: {
@@ -53,7 +54,8 @@ class CheckFormPage extends Component {
       }).then((res) => res.json());
       console.log(dovirenist);
       this.setState({
-        blank: dovirenist.blank,
+        blank: dovirenist[0].blank,
+        name: dovirenist[1].not_name,
         FetchedDovirenist: true,
         dateCheck: new Date(),
       });
@@ -73,8 +75,8 @@ class CheckFormPage extends Component {
       <React.Fragment>
         <h1>Перевірка довіреності</h1>
         <p>
-          Щоби дізнатися інформацію про довіреності, введіть його серію та номер
-          у форму нижче:
+          Щоби дізнатися інформацію про довіреності, введіть її серію та номер у
+          форму нижче:
         </p>
         <form
           id="checkFormRegular"
@@ -91,8 +93,8 @@ class CheckFormPage extends Component {
                 name="serial"
                 label="Серія"
                 minLength={2}
-                maxLength={3}
-                pattern="[АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЮЯІЇҐЄабвгдежзийклмнопрстуфхцчшщьюяіїґє]{2,3}"
+                maxLength={2}
+                pattern="[АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЮЯІЇҐЄабвгдежзийклмнопрстуфхцчшщьюяіїґє]{2}"
                 invalidFeedback="Введіть правильну серію"
                 valueOnChage={this.handleSerialChange}
                 required
@@ -114,9 +116,9 @@ class CheckFormPage extends Component {
             <small id="_helpBlock" className="form-text text-muted ml-1 mb-3">
               Серія повинна містити лише літери кирилиці.
               <br />
-              Кількість літер повинна бути від 2 до 3.
+              Кількість літер повинна бути 2.
               <br />
-              Номер довіреності повинен містити 6 або 7 цифр.
+              Номер довіреності повинен містити 8 цифр.
             </small>
           </div>
           <div className="d-flex">
@@ -130,8 +132,16 @@ class CheckFormPage extends Component {
           </div>
         </form>
         {this.state.FetchedDovirenist && (
-          <div className="content-bottom col-md-8 mx-auto my-3">
-            <h3 className="text-center mb-4">Результат останньої перевірки:</h3>
+          <div
+            className="content-bottom col-md-8 mx-auto my-3"
+            style={{ backgroundColor: "#004fd4 ", color: "white" }}
+          >
+            <h3
+              className="text-center mb-4"
+              style={{ color: "white !important" }}
+            >
+              Результат останньої перевірки:
+            </h3>
 
             <p>
               <b>Дата та час перевірки довіреності</b>:{" "}
@@ -145,6 +155,19 @@ class CheckFormPage extends Component {
                 <p>
                   <b>Номер</b>: {this.state.blank.num}
                 </p>
+                <p>
+                  <b>Ким видана</b>: {this.state.name}
+                </p>
+                <p>
+                  <b>Дійсна до</b>:{" "}
+                  {format(
+                    new Date(this.state.blank.date_receiving),
+                    "dd/MM/yyyy"
+                  )}
+                </p>
+                <p>
+                  <b>Активна </b>: {this.state.blank.is_active ? "Так" : "Ні"}
+                </p>
               </>
             ) : (
               <p>
@@ -153,6 +176,7 @@ class CheckFormPage extends Component {
             )}
           </div>
         )}
+        
       </React.Fragment>
     );
   }
