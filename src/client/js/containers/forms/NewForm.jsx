@@ -168,6 +168,19 @@ class NewForm extends Component {
               required
             />
           </div>
+          <div className="form-group form-inline " hidden>
+            <Input
+              type={"test"}
+              name="is_active"
+              label="Нотаріус"
+              invalidFeedback="виберіть код"
+              valueOnChage={this.handleFieldChange("is_active")}
+              refAction={this.registrySelect}
+              formInline
+              value={true}
+              required
+            />
+          </div>
           <div className="form-group form-inline ">
             <Input
               type={"select"}

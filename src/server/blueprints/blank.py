@@ -41,13 +41,7 @@ def create():
 
 
 @blank.route('/get', methods=['POST'])
-@jwt_required
 def get():
-    if roles_required(["admin", "registrar"]) == 400:
-        return jsonify({"msg": "no access"}), 400
-    if not request.is_json:
-        return jsonify({"msg": "Missing JSON in request"}), 400
-
     num = request.json['num']
     series = request.json['series']
     try:
@@ -147,15 +141,15 @@ def delete_all():
 
 
 @blank.route('/update', methods=['POST'])
-@jwt_required
 def update():
-    if roles_required(["admin", "registrar"]) == 400:
-        return jsonify({"msg": "no access"}), 400
+ 
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
     arguments_to_update = request.json['arguments_to_update']
     primary_keys = request.json['primary_keys']
+    print(primary_keys)
+    print(arguments_to_update)
     try:
         blank_model.update(arguments_to_update, primary_keys)
     except Exception as e:

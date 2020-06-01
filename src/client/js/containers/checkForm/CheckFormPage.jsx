@@ -16,6 +16,7 @@ class CheckFormPage extends Component {
       lastSerial: "",
       lastNumber: "",
       dateCheck: new Date(),
+      FetchedDovirenist: false,
     };
     this.handleSerialChange = this.handleSerialChange.bind(this);
     this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -38,18 +39,24 @@ class CheckFormPage extends Component {
   }
 
   async formOnSubmit(e) {
+    e.preventDefault();
     if (onSubmitFormValidation(e) && !this.props.specialForm.isFetching) {
-      this.props.getMinimalInfoAboutSpecialForm(
-        this.state.serial,
-        this.state.number
-      );
-      const dovirenist = await fetch("").then((res) => res.json());
+      const dovirenist = await fetch("/blank/get", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          series: this.state.serial,
+          num: this.state.number,
+        }),
+      }).then((res) => res.json());
+      console.log(dovirenist);
       this.setState({
-        lastSerial: this.state.serial,
-        lastNumber: this.state.number,
+        blank: dovirenist.blank,
+        FetchedDovirenist: true,
         dateCheck: new Date(),
       });
-      e.preventDefault();
     }
   }
 
@@ -72,6 +79,7 @@ class CheckFormPage extends Component {
         <form
           id="checkFormRegular"
           className="needs-validation mx-auto form-default mb-4 p-4"
+          action="/blank/get"
           method="POST"
           onSubmit={this.formOnSubmit}
           style={{ maxWidth: "25rem" }}
@@ -96,9 +104,9 @@ class CheckFormPage extends Component {
                 type="text"
                 name="number"
                 label="Номер"
-                minLength={6}
-                maxLength={7}
-                pattern="[0-9]{6,7}"
+                minLength={8}
+                maxLength={8}
+                pattern="[0-9]{8}"
                 invalidFeedback="Введіть правильний номер"
                 valueOnChage={this.handleNumberChange}
                 required
@@ -122,29 +130,21 @@ class CheckFormPage extends Component {
             </button>
           </div>
         </form>
-        {this.props.specialForm.specialFormObject && (
+        {this.state.FetchedDovirenist && (
           <div className="content-bottom col-md-8 mx-auto my-3">
             <h3 className="text-center mb-4">Результат останньої перевірки:</h3>
-            <p>
-              <b>Номер та серія довіреності</b>: {this.state.lastSerial}{" "}
-              {this.state.lastNumber}
-            </p>
+
             <p>
               <b>Дата та час перевірки довіреності</b>:{" "}
               {toFormatedString(this.state.dateCheck)}
             </p>
-            {this.props.specialForm.isFound ? (
+            {this.state.blank ? (
               <>
                 <p>
-                  <b>Код витрачання бланка</b>:{" "}
-                  {this.props.specialForm.specialFormObject.statusCode} -{" "}
-                  {this.props.specialForm.specialFormObject.statusPhrase}
+                  <b>Серія</b>: {this.state.blank.series}
                 </p>
                 <p>
-                  <b>Дата витрачання бланка</b>:{" "}
-                  {toFormatedString(
-                    this.props.specialForm.specialFormObject.dateUsing
-                  )}
+                  <b>Номер</b>: {this.state.blank.num}
                 </p>
               </>
             ) : (

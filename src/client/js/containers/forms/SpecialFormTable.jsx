@@ -131,7 +131,6 @@ class SpecialFormTable extends Component {
       this.props.getAllRegisters();
     }
   }
-
   registerRow(registers) {
     console.log(registers);
     return registers.map((regitser1) => {
@@ -151,7 +150,35 @@ class SpecialFormTable extends Component {
             </Link>
           </td>
           <td>{hmmm.fullname}</td>
+          <td>{hmmm.tax_number}</td>
           <td>{format(new Date(hmmm.date_receiving), "dd/MM/yyyy")}</td>
+          {hmmm.is_active ? (
+            <td>
+              <button
+                onClick={() => {
+                  fetch("/blank/update", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      arguments_to_update: {
+                        is_active: false,
+                      },
+                      primary_keys: {
+                        series: hmmm.series,
+                        num: hmmm.num,
+                      },
+                    }),
+                  }).then((res) => res.json());
+                }}
+              >
+                Скасувати
+              </button>
+            </td>
+          ) : (
+            <td>Скасовано</td>
+          )}
           {/* <td className="text-nowrap">{regitser.status ? "Активований" : "Деактивований"}</td>
                     <td className="text-nowrap">
                         <form className="mx-auto" style={{display: regitser.status ? "inline-flex " : "flex"}} onSubmit={this.handleDisable} >
@@ -246,7 +273,9 @@ class SpecialFormTable extends Component {
                 <th>Серія</th>
                 <th>Номер</th>
                 <th>Кому видана</th>
+                <th>ІПН отримувача</th>
                 <th>Дійсна до</th>
+                <th>Дії</th>
               </tr>
             </thead>
             <tbody>
