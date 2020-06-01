@@ -5,9 +5,7 @@ class Footer extends Component {
     return (
       <footer className="footer">
         <div className="container py-4">
-          <div className="col mx-auto text-center">
-            <span className="text-monospace">All rights reserved.</span>
-          </div>
+          <div className="col mx-auto text-center"></div>
         </div>
       </footer>
     );

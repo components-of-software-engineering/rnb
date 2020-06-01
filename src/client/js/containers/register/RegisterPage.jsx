@@ -381,9 +381,6 @@ class RegisterPage extends Component {
             >
               Зареєструватися
             </button>
-            <button className="btn btn-secondary mr-auto" type="reset">
-              Скинути
-            </button>
           </div>
         </form>
       </React.Fragment>

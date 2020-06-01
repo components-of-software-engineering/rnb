@@ -161,8 +161,8 @@ class Input extends Component {
     const { type, name, label, invalidFeedback, helpInfo } = this.props;
     return (
       <React.Fragment>
-        <label htmlFor={`${name}_field`} className="labelPre">
-          <pre>{label}</pre>:
+        <label htmlFor={`${name}_field`}>
+          <pre className="labelPre">{label}</pre>
         </label>
         {this.renderInput(type, this.props)}
         {helpInfo && (

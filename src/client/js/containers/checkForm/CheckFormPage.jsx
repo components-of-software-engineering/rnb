@@ -78,11 +78,10 @@ class CheckFormPage extends Component {
         </p>
         <form
           id="checkFormRegular"
-          className="needs-validation mx-auto form-default mb-4 p-4"
+          className="needs-validation mx-auto form-default mb-2 p-4"
           action="/blank/get"
           method="POST"
           onSubmit={this.formOnSubmit}
-          style={{ maxWidth: "25rem" }}
           noValidate
         >
           <div className="form-row">

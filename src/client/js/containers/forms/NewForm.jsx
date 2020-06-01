@@ -233,10 +233,7 @@ class NewForm extends Component {
               type="submit"
               disabled={this.props.specialForm.isFetching}
             >
-              Зареєструвати витрачання
-            </button>
-            <button className="btn btn-secondary mr-auto" type="reset">
-              Скинути
+              Зареєструвати довіреність
             </button>
           </div>
         </form>
